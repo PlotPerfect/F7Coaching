@@ -1596,6 +1596,8 @@ button:disabled {
 
       .menu-logo-icon {
         width: 80px;
+        display: block;
+        margin: -550px -110px 30px 30px; /* top, horizontal center, bottom */
       }
 
       /* Menu */
