@@ -1603,6 +1603,24 @@ button:disabled {
         width: 50px;
       }
 
+      .menu-overlay {
+        top: -100vh; /* ensures it's fully out of view */
+        height: 100vh;
+        overflow: hidden;
+      }
+    
+      .menu-overlay.show {
+        top: 0;
+      }
+    
+      .menu-overlay:not(.show) .menu-content {
+        display: none;
+      }
+
+      .menu-overlay.show .menu-content {
+        display: flex; /* or block */
+      }
+
       .menu-link {
         font-size: 12px;
         padding: 8px 16px;
@@ -1686,7 +1704,6 @@ button:disabled {
       }
 
       .about-text {
-        margin-top: 0;
         font-size: 14px;
       }
 
