@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Portal - F7 Coaching</title>
+  <link rel="stylesheet" href="styles/adminStyles.css">
+  <link rel="icon" href="images/faviconV2.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: sans-serif; padding: 20px; background: #111; color: #fff; }
+    .panel { display: none; }
+    .visible { display: block; }
+    input, button { margin: 10px 0; padding: 10px; font-size: 1rem; width: 100%; max-width: 400px; }
+    button { background: limegreen; border: none; color: black; cursor: pointer; }
+    h2 { color: limegreen; }
+  </style>
+</head>
+<body>
+
+  <!-- Login Panel -->
+  <div id="loginPanel" class="panel visible">
+    <h2>Admin Login</h2>
+    <form id="loginForm">
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button type="submit">Login</button>
+    </form>
+  </div>
+
+  <!-- Admin Panel -->
+  <div id="adminPanel" class="panel">
+    <h2>Welcome, Admin</h2>
+    <p>You are now logged in. More admin tools will go here.</p>
+
+    <h3>Edit Schedule</h3>
+    <div id="scheduleEditor"></div>
+<!-- Seed Schedule Button -->
+<button id="seedBtn">Seed Schedule</button>
+<button class="delete" onclick="deleteSchedule('${key}')">🗑️ Delete</button>
+
+
+<!-- Add New Group Form -->
+<h3>Add New Group</h3>
+<form id="addGroupForm">
+  <input type="text" id="newGroupName" placeholder="Group Name" required />
+  <input type="text" id="newGroupTime" placeholder="Day & Time" required />
+  <input type="text" id="newGroupLocation" placeholder="Location" required />
+  <button type="submit">Add Group</button>
+</form>
+
+
+    <button id="logoutBtn">Logout</button>
+  </div>
+
+  <!-- Import auth.js and run logic -->
+  <script type="module">
+    import { getDatabase, ref, onValue, update, set, push, remove } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
+    import { loginUser, logoutUser, onUserChange } from '../auth.js';
+  
+    const db = getDatabase();
+    const loginPanel = document.getElementById("loginPanel");
+    const adminPanel = document.getElementById("adminPanel");
+  
+    const seedData = {
+      U9_U10: {
+        groupName: "U9/U10 Academy Group",
+        time: "Tuesdays at 5:30pm - 6:45pm",
+        location: "Trent Park 5's, N14 4UW"
+      },
+      U11_U12: {
+        groupName: "U11/U12 Academy Group",
+        time: "Fridays at 5:15pm - 6:30pm",
+        location: "Mill Hill Powerleague, NW7 2BB"
+      },
+      U13_U15: {
+        groupName: "U13-U15 Academy Group",
+        time: "Fridays at 6:30pm - 8:00pm",
+        location: "Mill Hill Powerleague, NW7 2BB"
+      },
+      U10_U12: {
+        groupName: "U10-U12 Academy Group",
+        time: "Saturdays at 9:15am - 10:30am",
+        location: "Mill Hill Powerleague, NW7 2BB"
+      },
+      U7_U8: {
+        groupName: "U7/U8 Academy Group",
+        time: "Sundays at 2:00pm - 3:15pm",
+        location: "Trent Park 5's, N14 4UW"
+      },
+      U9_U11_Advanced: {
+        groupName: "U9-U11 Advanced Group (Coming Soon)",
+        time: "Sundays at 3:15pm - 4:30pm",
+        location: "Trent Park 5's, N14 4UW"
+      },
+      U12_U15_Advanced: {
+        groupName: "U12-U15 Advanced Group (Coming Soon)",
+        time: "Sundays at 4:30pm - 5:45pm",
+        location: "Trent Park 5's, N14 4UW"
+      }
+    };
+  
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const email = document.getElementById("email").value;
+        const pass = document.getElementById("password").value;
+        try {
+            await loginUser(email, pass);
+            alert("✅ Logged in!");
+        } catch (err) {
+            alert("❌ Login failed: " + err.message);
+        }
+        });
+
+
+    // Handle login/logout state
+    onUserChange((user) => {
+      if (user) {
+        console.log("✅ Logged in as:", user.uid);
+        loginPanel.classList.remove("visible");
+        adminPanel.classList.add("visible");
+        loadScheduleEditor();
+      } else {
+        console.warn("❌ No user logged in");
+        adminPanel.classList.remove("visible");
+        loginPanel.classList.add("visible");
+      }
+    });
+  
+    // Load all existing groups
+    function loadScheduleEditor() {
+      const container = document.getElementById("scheduleEditor");
+      const scheduleRef = ref(db, "schedule");
+  
+      onValue(scheduleRef, (snapshot) => {
+        const data = snapshot.val();
+        container.innerHTML = ""; // Clear editor
+  
+        if (!data) {
+          container.innerHTML = "<p>No groups found. Use the 'Seed Schedule' button to begin.</p>";
+          return;
+        }
+  
+        Object.entries(data).forEach(([key, item]) => {
+          const div = document.createElement("div");
+          div.style.marginBottom = "20px";
+  
+          div.innerHTML = `
+                <h4>${item.groupName}</h4>
+                <label>Day & Time:</label><br>
+                <input type="text" id="${key}-time" value="${item.time}" /><br>
+                <label>Location:</label><br>
+                <input type="text" id="${key}-location" value="${item.location}" /><br>
+                <button onclick="saveSchedule('${key}')">💾 Save</button>
+                <button onclick="deleteSchedule('${key}')" style="background: crimson; color: white;">🗑️ Delete</button>
+                <hr />
+              `;
+          container.appendChild(div);
+        });
+      });
+    }
+  
+    // Save changes to an existing group
+    window.saveSchedule = function (key) {
+      const time = document.getElementById(`${key}-time`).value;
+      const location = document.getElementById(`${key}-location`).value;
+  
+      update(ref(db, `schedule/${key}`), {
+        time: time,
+        location: location
+      })
+      .then(() => alert(`✅ ${key} updated!`))
+      .catch((err) => alert("❌ Error: " + err.message));
+    };
+
+    window.deleteSchedule = function (key) {
+  if (confirm(`Are you sure you want to delete "${key}"? This cannot be undone.`)) {
+    remove(ref(db, `schedule/${key}`))
+      .then(() => alert(`🗑️ ${key} deleted.`))
+      .catch((err) => alert("❌ Error deleting group: " + err.message));
+  }
+};
+  
+    // Seed button logic
+    document.getElementById("seedBtn").addEventListener("click", () => {
+      set(ref(db, 'schedule'), seedData)
+        .then(() => {
+          alert("✅ Schedule seeded successfully!");
+        })
+        .catch(err => {
+          alert("❌ Error seeding schedule: " + err.message);
+        });
+    });
+  
+    // Add new group
+    document.getElementById("addGroupForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = document.getElementById("newGroupName").value;
+      const time = document.getElementById("newGroupTime").value;
+      const location = document.getElementById("newGroupLocation").value;
+  
+      const key = name.replace(/[^a-zA-Z0-9]/g, "_"); // Safe key
+      const newGroupRef = ref(db, `schedule/${key}`);
+  
+      set(newGroupRef, {
+        groupName: name,
+        time: time,
+        location: location
+      })
+      .then(() => {
+        alert("✅ New group added!");
+        document.getElementById("addGroupForm").reset();
+      })
+      .catch(err => alert("❌ Failed to add group: " + err.message));
+    });
+  
+    // Logout
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      try {
+        await logoutUser();
+        window.location.href = "index.html";
+      } catch (err) {
+        alert("Error logging out: " + err.message);
+      }
+    });
+  </script>
+  
+
+</body>
+</html>

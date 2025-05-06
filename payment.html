@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Complete Your Payment</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://js.stripe.com/v3/"></script>
+  <style>
+    body {
+      background-color: #0b0b0b;
+      color: white;
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: #111;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 15px #00ff00;
+    }
+
+    button {
+      background: lime;
+      color: black;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 2rem;
+    }
+
+    button:hover {
+      background: #00cc00;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Confirm Your Booking</h2>
+    <p id="summary">Loading booking info...</p>
+    <button id="payButton">Proceed to Payment</button>
+  </div>
+
+  <script>
+    const booking = JSON.parse(localStorage.getItem("pendingBooking"));
+    const summary = document.getElementById("summary");
+
+    if (!booking) {
+      summary.innerHTML = "❌ No booking data found. Please go back and book again.";
+      document.getElementById("payButton").style.display = "none";
+    } else {
+      summary.innerHTML = `
+        <strong>${booking.playerName}</strong><br>
+        ${booking.groupKey.replace(/_/g, " ")}<br>
+        ${booking.date} at ${booking.time}<br><br>
+        <em>Price: £10.00</em>
+      `;
+    }
+
+    const stripe = Stripe("pk_test_51RGLN4FaOneohxrMu6fW8KjnuUeZsQHDu67oNC96fVt7HfA2g1LHHTt0NjrWQa0aLum8enVTa1m9gPCoc2lZ3MEw005Cd3cwuk"); // Replace with your actual public key
+
+    document.getElementById("payButton").addEventListener("click", async () => {
+      // Normally you'd create a checkout session on the server
+      // For testing, simulate redirection
+      try {
+        const response = await fetch("/create-checkout-session", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(booking)
+        });
+
+        const session = await response.json();
+
+        const result = await stripe.redirectToCheckout({
+          sessionId: session.id
+        });
+
+        if (result.error) {
+          alert(result.error.message);
+        }
+      } catch (err) {
+        console.error("❌ Payment failed", err);
+        alert("An error occurred. Please try again.");
+      }
+    });
+  </script>
+</body>
+</html>

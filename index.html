@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F7 Coaching | Football Coaching for Kids</title>
+    <link rel="stylesheet" href="styles/indexStyles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="F7 Coaching | Football Coaching for Kids">
+    <meta property="og:description" content="F7 Coaching offers elite football coaching for young players. Join us to develop skills, confidence, and teamwork.">
+    <meta property="og:image" content="https://www.f7coaching.com/images/og-image.png">
+    <meta property="og:url" content="https://www.f7coaching.com">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="F7 Coaching | Football Coaching for Kids">
+    <meta name="twitter:description" content="F7 Coaching offers elite football coaching for young players. Join us to develop skills, confidence, and teamwork.">
+    <meta name="twitter:image" content="https://www.f7coaching.com/images/twitter-card-image.png">
+    <meta name="twitter:site" content="@F7Coaching">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.f7coaching.com">
+
+    <!-- Instagram Meta Tags -->
+    <meta property="og:site_name" content="F7 Coaching">
+    <meta property="og:locale" content="en_US">
+    <meta name="instagram:site" content="https://www.instagram.com/f7_coaching/">
+    <meta name="instagram:title" content="F7 Coaching | Football Coaching for Kids">
+    <meta name="instagram:description" content="Elite football coaching for young players. Follow us for updates, tips, and more!">
+    <meta name="instagram:image" content="https://www.f7coaching.com/images/instagram-preview.png">
+
+    <link rel="icon" href="images/faviconV2.png" type="image/png">
+
+        <meta name="description" content="F7 Coaching offers elite football coaching for young players. Join us to develop skills, confidence, and teamwork.">
+        <meta name="keywords" content="football coaching, youth football, F7 Coaching, kids football training, modern football program">
+        <meta name="Plot Perfect Studios Ltd" content="F7 Coaching">
+            
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script>
+        emailjs.init("JLEKSvv3grHxLF2B4");
+      </script>
+
+<!-- Floating Menu Button -->
+<div class="menu-container">
+    <button class="menu-button" id="menuBtn">
+        <img src="Images/menuIconClosed.svg" alt="Menu Button" class="menu-icon" id="menuIcon">
+    </button>
+</div>
+
+<div class="logo-container">
+        <img src="Images/F7LogoLarge.svg" alt="Logo Image" class="logo-icon">
+</div>
+
+<!-- Fullscreen Overlay Menu -->
+<div id="menuOverlay" class="menu-overlay">
+    <div class="menu-content">
+        <img src="Images/F7Logo.svg" alt="Logo Image" class="menu-logo-icon">
+        <ul>
+            <li><a href="#home" class="menu-link">Home</a></li>
+            <li><a href="#bookings" class="menu-link">Bookings</a></li>
+            <li><a href="#" class="menu-link" onclick="openAboutUsFromMenu()">About Me</a></li>
+            <li><a href="#" class="menu-link" onclick="openServicesFromMenu()">Services</a></li>
+            <li><a href="#" class="menu-link" onclick="openFrameworkFromMenu()">Framework</a></li>
+            <li><a href="#" class="menu-link" onclick="openScheduleFromMenu()">Schedule</a></li>
+            <li><a href="#coaches" class="menu-link">Coaches</a></li>
+            <li><a href="#testimonials" class="menu-link">Testimonials</a></li>
+            <li><a href="#" class="menu-link" onclick="openContactFromMenu()">Contact</a></li>
+            <li><a href="adminportal.html" class="menu-link" onclick="closeMenuOverlay()">Admin Portal</a></li>
+        </ul>
+    </div>
+</div>
+
+<!-- Sections -->
+<section id="home">
+    <video autoplay muted loop playsinline class="bg-video">
+      <source src="Videos/HomePageWelcomeVideo.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  
+    <div class="scroll-down-indicator" onclick="document.getElementById('sectionCarousel').scrollIntoView({behavior: 'smooth'})">
+        <h1>Click Here to Book Now</h1>
+        <div class="arrow-down"></div>
+      </div>
+      
+  </section>
+
+  <div class="section-divider animated-glow"></div>
+    
+  <section id="sectionCarousel">
+    <button class="carousel-nav left" id="carouselPrev">&#8592;</button>
+  
+    <div class="carousel-track" id="carouselTrack">
+      <!-- Card 1 -->
+      <div class="carousel-card active" style="background-image: url('Images/templateimg2.svg');">
+        <h1>Bookings</h1>
+        <div class="card-overlay">
+          <button class="card-button" onclick="openBookingOverlay()">Book Now</button>
+        </div>
+      </div>
+  
+    <!-- Card 2 -->
+    <div class="carousel-card" style="background-image: url('Images/templateimg1.svg');">
+      <h1>About Us</h1>
+      <div class="card-overlay">
+        <button onclick="openAboutUsOverlay()">Learn More</button>
+      </div>
+    </div>
+
+      <!-- Card 3 -->
+      <div class="carousel-card" style="background-image: url('Images/templateimg3.svg');">
+        <h1>Framework</h1>
+        <div class="card-overlay">
+          <button onclick="openFrameworkOverlay()">Learn More</button>
+        </div>
+      </div>
+  
+      <!-- Card 4 -->
+      <div class="carousel-card" style="background-image: url('Images/templateimg4.svg');">
+        <h1>Services</h1>
+        <div class="card-overlay">
+          <button onclick="openServicesOverlay()">Learn More</button>
+        </div>
+      </div>
+
+            <!-- Card 5 -->
+            <div class="carousel-card" style="background-image: url('Images/templateimg5.svg');">
+                <h1>Schedule</h1>
+                <div class="card-overlay">
+                  <button onclick="openScheduleOverlay()">Learn More</button>
+                </div>
+              </div>
+
+                          <!-- Card 6 -->
+            <div class="carousel-card" style="background-image: url('Images/templateimg6.svg');">
+                <h1>Get in Touch</h1>
+                <div class="card-overlay">
+                  <button onclick="openContactOverlay()">Get in Touch</button>
+                </div>
+              </div>
+  
+      <!-- Add more cards here -->
+    </div>
+  
+    <button class="carousel-nav right" id="carouselNext">&#8594;</button>
+
+    <div class="scroll-down-indicator" onclick="document.getElementById('coaches').scrollIntoView({behavior: 'smooth'})">
+        <h1>Meet the Coaches</h1>
+        <div class="arrow-down"></div>
+      </div>
+  </section>
+
+  <div class="section-divider animated-glow"></div>
+  
+  <section id="coaches">
+    <div class="coach-profile-container">
+        <div class="coach-profile-card horizontal">
+            <div class="coach-image">
+              <img src="Images/templatecoach1.svg" alt="Finley Fletcher">
+            </div>
+            <div class="coach-info">
+              <div class="coach-name">FINLEY FLETCHER</div>
+              <h2>Head Coach</h2>
+              <p>
+                Hey! I'm Finley – the founder of F7 Coaching and a UEFA C Licensed coach.
+                With a rich background in professional football and elite academy systems, I bring a deep understanding of the game both on and off the pitch. My passion lies in helping young athletes unlock their full potential by focusing not just on technical ability, but also on mental resilience, confidence, and personal growth.
+              </p>
+            </div>
+          </div>
+  </section>
+
+  <div class="section-divider animated-glow"></div>
+
+
+<section id="testimonials">
+    <h1>Testimonials</h1>
+    <div class="carousel-containerT">
+        <button id="prevTestimonial" class="nav-button">&#8592;</button>
+
+        <div class="carouselT">
+            <div class="testimonial-card active">
+                <img src="Images/user1.svg" alt="User Image" class="testimonial-img">
+                <p class="testimonial-text">“F7 Coaching has transformed my child's football skills. The coaches are truly dedicated and have helped build confidence on and off the field.”</p>
+                <h4 class="testimonial-author">Emma L.</h4>
+                <p class="testimonial-subtext">Parent - Academy Player</p>
+            </div>
+
+            <div class="testimonial-card">
+                <img src="Images/user1.svg" alt="User Image" class="testimonial-img">
+                <p class="testimonial-text">“The training sessions are top-notch! My son has gained technical skills and tactical awareness beyond what I imagined.”</p>
+                <h4 class="testimonial-author">Michael S.</h4>
+                <p class="testimonial-subtext">Father of U12 Player</p>
+            </div>
+
+            <div class="testimonial-card">
+                <img src="Images/user1.svg" alt="User Image" class="testimonial-img">
+                <p class="testimonial-text">“F7 Coaching has given my daughter the confidence to compete at the highest level. The progress has been incredible!”</p>
+                <h4 class="testimonial-author">Sarah K.</h4>
+                <p class="testimonial-subtext">Parent of Future Star</p>
+            </div>
+        </div>
+
+        <button id="nextTestimonial" class="nav-button">&#8594;</button>
+    </div>
+</section>
+
+  <div id="bookingOverlay" class="booking-overlay" style="display:none;">
+    <button class="close-booking" onclick="closeBookingOverlay()">✖</button>
+    <div class="booking-content">
+      <h2>📅 Book a Session</h2>
+      <form id="bookingForm">
+      <input type="text" id="playerName" placeholder="Player's Name" required>
+      <input type="email" id="parentEmail" placeholder="Parent's Email" required>
+  
+      <select id="sessionType" required>
+        <option value="">Select Session Type</option>
+      </select>
+  
+      <input type="text" id="sessionDate" placeholder="Choose a Date" required>
+      <input type="text" id="sessionTime" placeholder="Choose a Time" required>
+  
+      <button type="submit">Submit Booking</button>
+    </form>
+    <p id="bookingMessage"></p>
+    </div>
+  </div>
+
+  <!-- About Us Overlay Panel -->
+<div id="aboutUsOverlay" class="overlay-panel" style="display: none;">
+  <div class="overlay-content">
+    <button class="close-btn" onclick="closeAboutUsOverlay()">✖</button>
+    <section id="about">
+      <div class="about-container">
+        <div class="about-image">
+          <img src="Images/f7IMG1.jpg" alt="F7 Coaching Training">
+        </div>
+        <div class="about-text">
+          <h1 style="text-decoration: underline;">About Me</h1>
+          <p>Hey guys, I'm <strong>Finley</strong>, the founder and one of the coaches here at <strong>F7 Coaching</strong>. I’m an outgoing, confident, and approachable individual with a passion for football and personal development.</p>
+          <p>Throughout my journey in professional football, I’ve developed a strong work ethic, resilience, and a can-do attitude that allows me to overcome challenges and continuously improve. From the age of five, I’ve been immersed in elite football environments, playing for professional clubs and gaining invaluable experience.</p>
+          <p>This background has shaped me into a dedicated and hardworking individual who thrives on learning new skills and helping others reach their full potential. As a qualified <strong>UEFA C Licensed coach</strong>, I am committed to developing young athletes not just in their technical abilities but also in their mindset and confidence.</p>
+          <p>My coaching philosophy focuses on nurturing talent, fostering a love for the game, and instilling discipline and perseverance in every player I work with.</p>
+
+          <h2>Playing & Coaching Experience</h2>
+          <ul style="color: #00ff00;">
+            <li><strong>Arsenal FC</strong> – Youth Team Player (March 2019 - January 2020)</li>
+            <li><strong>Southampton FC</strong> – Youth Team Player (March 2019 - January 2020)</li>
+            <li><strong>Fulham FC</strong> – Youth Team Player (June 2020 - July 2022)</li>
+            <li><strong>Grimsby Town FC</strong> – Scholarship Player (August 2022 - March 2024)</li>
+          </ul>
+
+          <h2>Coaching & Scouting</h2>
+          <ul style="color: #00ff00;">
+            <li><strong>Current Club</strong> – Football Coach & Scout (February 2024 - Present)</li>
+          </ul>
+
+          <p>With my background as both a player and coach, I bring a unique perspective to player development, ensuring that young athletes receive high-quality coaching that prepares them for the demands of the game.</p>
+          <p>My aim is to create an engaging, challenging, and supportive environment where every player can grow in confidence and ability.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+  
+  <!-- Framework Overlay Panel -->
+<div id="frameworkOverlay" class="overlay-panel" style="display: none;">
+  <div class="overlay-content">
+    <button class="close-btn" onclick="closeFrameworkOverlay()">✖</button>
+    <section id="framework">
+      <div class="framework-container">
+
+        <div class="framework-item">
+          <h3>Ball Mastery</h3>
+          <p>This is the foundation of all great footballers. It is all about developing close control, first touch and the ability to manipulate the ball in tight spaces. The more comfortable players are with the ball at thier feet, the more confident they become in making decisions under pressure. Ball mastery drills teach players to use all parts of their feet-inside, outside and sole whilst also improving balance, co-ordination and touch. Whether it is dribbling, passing or receiving, the more skillful a player is in these situations, the better they'll perform during matches.</p>
+        </div>
+
+        <div class="framework-item">
+          <h3>1v1 Duels</h3>
+          <p>These duels are a vital aspect of individual battles on the field. Whether defending or attacking, these duels test a players ability to outplay or outsmart their opponent in direct confrontations. In attack, it is about using skill, pace and creativity to beat a defender and create scoring oppertunities. In defence it is about positioning, timing and making key tackles to regain possession. 1V1 duels help players develop mental toughness and resilience, making them more comfortable when isolated in crucial moments during a game.</p>
+        </div>
+
+        <div class="framework-item">
+          <h3>Game Related Practices</h3>
+          <p>These practices bridge the gap between training and match situations. These drills mimic the flow of a real game and focus on decision-making, transitions and tactical awareness. By replicating the intensityand scenarios found in matches, players learn how to apply their technical skills and tactical understanding in dynamic real-world situations. Game related practices hlep players improve their ability to read the game, communicate with team mates and adapt to the changing circumstances on the pitch.</p>
+        </div>
+
+        <div class="framework-item">
+          <h3>Small Sided Games</h3>
+          <p>These games are essential for player development as they maximise touches on the ball, increase decision-making oppertunities and enchance tactical awareness. With fewer players on the field, each individual has more involvement and responsability, which accelerates learning. SSGs promote quick thinking, spatial awareness and the ability to make fast decisions under pressure. They also help players improve their fitness, adaptability and teamwork as they experience more oppertunities to engage in both attacking and defending.</p>
+        </div>
+
+        <div class="framework-item">
+          <h3>Cognitive Training</h3>
+          <p>This training in football is all about enchancing a players mental sharpness. It involves developing the brain's ability to process information quickly and accurately under pressure, which is essential during high-intensity moments of a match. This type of training focuses on improving the players vision, reaction times, decision-making and ability to anticipate the opponents next move. Cognative training drills often include tasks that require multitasking, pattern recognition and mental focus. A player who excels mentaly on the pitch can better read the game, make intelligent decisions and stay composed during critical moments.</p>
+        </div>
+
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- Services Overlay Panel -->
+<div id="servicesOverlay" class="overlay-panel" style="display: none;">
+  <div class="overlay-content">
+    <button class="close-btn" onclick="closeServicesOverlay()">✖</button>
+    <section id="services">
+      <div class="service-container">
+
+        <!-- Small Group Training -->
+        <div class="service-box">
+          <div class="service-image">
+            <img src="Images/templateimg1.svg" alt="Small Group Training">
+          </div>
+          <div class="service-text">
+            <h3>Small Group Training (3–7 Players)</h3>
+            <p>These sessions strike the perfect balance between individual attention and the energy of working with others...</p>
+            <ul>
+              <li><strong>Personalised Coaching:</strong> More time with the coach means targeted feedback and faster progress.</li>
+              <li><strong>Peer Learning:</strong> Players grow together—learning from one another while building teamwork and communication.</li>
+              <li><strong>Motivation Boost:</strong> A small group creates healthy competition that drives players to improve.</li>
+              <li><strong>Individual Focus:</strong> Each player’s strengths and areas for development are addressed directly.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Group Sessions -->
+        <div class="service-box">
+          <div class="service-image">
+            <img src="Images/templateimg2.svg" alt="Group Sessions">
+          </div>
+          <div class="service-text">
+            <h3>Group Sessions (8+ Players)</h3>
+            <p>Larger group sessions focus on team-based training and match-related scenarios...</p>
+            <ul>
+              <li><strong>Teamwork Development:</strong> Ideal for improving communication, positioning, and on-pitch awareness.</li>
+              <li><strong>Diverse Drills:</strong> Engaging practices that cover all aspects of the game, from passing patterns to positional play.</li>
+              <li><strong>Game Realism:</strong> Players experience competitive, match-like situations to build confidence and composure under pressure.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 1-to-1 Coaching -->
+        <div class="service-box">
+          <div class="service-image">
+            <img src="Images/templateimg3.svg" alt="1-to-1 Coaching">
+          </div>
+          <div class="service-text">
+            <h3>1-to-1 Coaching</h3>
+            <p>The most focused training option, 1-to-1 sessions are completely tailored to the individual player’s needs...</p>
+            <ul>
+              <li><strong>Bespoke Training:</strong> Every drill is designed around the player’s specific goals...</li>
+              <li><strong>Accelerated Progress:</strong> With direct, immediate feedback, players improve faster and more efficiently.</li>
+              <li><strong>Targeted Development:</strong> Time to work on areas like shooting, dribbling, or positional play in detail.</li>
+              <li><strong>Confidence Building:</strong> Individual attention helps players grow belief in their ability and take that confidence into matches.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- Schedule Overlay Panel -->
+<div id="scheduleOverlay" class="overlay-panel" style="display: none;">
+  <div class="overlay-content">
+    <button class="close-btn" onclick="closeScheduleOverlay()">✖</button>
+    <section id="schedule">
+      <div class="schedule-container">
+
+        <div class="schedule-item">
+          <h3>U9/U10 Academy Group</h3>
+          <p>Tuesdays at 5:30pm – 6:45pm / Trent Park 5's, N14 4UW</p>
+        </div>
+
+        <div class="schedule-item">
+          <h3>U11/U12 Academy Group</h3>
+          <p>Fridays at 5:15pm – 6:30pm / Mill Hill Powerleague, NW7 2BB</p>
+        </div>
+
+        <div class="schedule-item">
+          <h3>U13–U15 Academy Group</h3>
+          <p>Fridays at 6:30pm – 8:00pm / Mill Hill Powerleague, NW7 2BB</p>
+        </div>
+
+        <div class="schedule-item">
+          <h3>U10–U12 Academy Group</h3>
+          <p>Saturdays at 9:15am – 10:30am / Mill Hill Powerleague, NW7 2BB</p>
+        </div>
+
+        <div class="schedule-item">
+          <h3>U7/U8 Academy Group</h3>
+          <p>Sundays at 2:00pm – 3:15pm / Trent Park 5's, N14 4UW</p>
+        </div>
+
+        <div class="schedule-item">
+          <h3>U9–U11 Advanced Group <span class="coming-soon">(Coming Soon)</span></h3>
+          <p>Sundays at 3:15pm – 4:30pm / Trent Park 5's, N14 4UW</p>
+        </div>
+
+        <div class="schedule-item">
+          <h3>U12–U15 Advanced Group <span class="coming-soon">(Coming Soon)</span></h3>
+          <p>Sundays at 4:30pm – 5:45pm / Trent Park 5's, N14 4UW</p>
+        </div>
+
+      </div>
+    </section>
+  </div>
+</div>
+
+
+<!-- Contact Us Overlay Panel -->
+<div id="contactOverlay" class="contact-overlay-panel" style="display: none;">
+  <div class="contact-overlay-content">
+    <button class="contact-close-btn" onclick="closeContactOverlay()">✖</button>
+    <section class="contact-overlay-section">
+      <h2>Contact Us</h2>
+      <form id="contactFormOverlay">
+        <input type="text" id="contactName" placeholder="Your Name" required>
+        <input type="email" id="contactEmail" placeholder="Your Email" required>
+        <textarea id="contactMessage" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+      <p id="contactFormMessage"></p>
+    </section>
+  </div>
+</div>
+
+
+
+
+  
+
+<!-- Flatpickr (Date/Time Picker) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script type="module" src="Scripts/index.js"></script>
+<script type="module" src="Scripts/booking.js"></script>
+
+    
+
+</body>
+<div class="section-divider animated-glow"></div>
+<footer class="footer">
+    <div class="footer-content">
+      <!-- T&C & Privacy -->
+      <div class="footer-links">
+        <button class="footer-btn" id="tcBtn">T&C's</button>
+        <button class="footer-btn" id="privacyBtn">Privacy Policy</button>
+      </div>
+  
+      <!-- Logo -->
+      <div class="footer-logo">
+        <img src="Images/F7Logo.svg" alt="F7 Coaching Logo">
+      </div>
+  
+      <!-- Social Icons -->
+      <div class="footer-social">
+        <a href="https://www.instagram.com/f7_coaching/" class="social-icon"><img src="Images/instagram.svg" alt="Instagram"></a>
+        <a href="https://www.tiktok.com/@f7coaching" class="social-icon"><img src="Images/tiktok.svg" alt="TikTok"></a>
+      </div>
+  
+      <!-- Text & Credit -->
+      <div class="footer-text">
+        &copy; 2025 F7 Coaching, ALL RIGHTS RESERVED  
+        <br>
+        <a href="https://www.plotperfectstudios.co.uk" target="_blank" class="developer-link">
+          Website Designed & Developed by Plot Perfect Studios Ltd.
+        </a>
+      </div>
+    </div>
+  </footer>
+  
+
+<!-- Terms & Conditions Panel -->
+<div id="tcPanel" class="info-panel">
+    <div class="panel-content">
+        <span class="terms-btn" onclick="closePanel('tcPanel')">&times;</span>
+        <h2>Terms & Conditions</h2>
+        <p>By using our services, you agree to the following terms and conditions:</p>
+        <ul>
+            <li>All coaching sessions must be booked in advance through our official booking system.</li>
+            <li>Fees for coaching sessions are non-refundable unless otherwise stated or agreed upon in writing.</li>
+            <li>Players are required to adhere to the F7 Coaching code of conduct, which includes respect for coaches, fellow players, and equipment.</li>
+            <li>F7 Coaching reserves the right to modify session schedules, including dates, times, and locations, with prior notice to participants.</li>
+            <li>In the event of adverse weather conditions or unforeseen circumstances, sessions may be rescheduled or canceled at the discretion of F7 Coaching.</li>
+            <li>Parents or guardians are responsible for ensuring that players arrive on time and are picked up promptly after sessions.</li>
+            <li>F7 Coaching is not liable for any personal injuries or loss of personal belongings during sessions. Players are encouraged to bring only essential items.</li>
+            <li>All personal information collected during the booking process will be handled in accordance with our Privacy Policy.</li>
+            <li>By participating in F7 Coaching sessions, you consent to the use of photographs or videos for promotional purposes unless you explicitly opt out in writing.</li>
+            <li>F7 Coaching reserves the right to refuse service to individuals who fail to comply with these terms and conditions.</li>
+        </ul>
+    </div>
+</div>
+
+<!-- Privacy Policy Panel -->
+<div id="privacyPanel" class="info-panel">
+    <div class="panel-content">
+        <span class="privacy-btn" onclick="closePanel('privacyPanel')">&times;</span>
+        <h2>Privacy Policy</h2>
+        <p>At F7 Coaching, we are committed to protecting your privacy. This Privacy Policy outlines how we collect, use, and safeguard your personal information.</p>
+        <h3>1. Information We Collect</h3>
+        <ul>
+            <li>Personal Information: Name, email address, phone number, and other details provided during booking or registration.</li>
+            <li>Payment Information: Billing details for processing payments securely.</li>
+            <li>Usage Data: Information about how you interact with our website, such as IP address, browser type, and pages visited.</li>
+        </ul>
+        <h3>2. How We Use Your Information</h3>
+        <ul>
+            <li>To process bookings and provide coaching services.</li>
+            <li>To communicate updates, promotions, and important information.</li>
+            <li>To improve our website and services based on user feedback.</li>
+        </ul>
+        <h3>3. Data Sharing</h3>
+        <ul>
+            <li>We do not sell or share your personal information with third parties, except as required by law or to provide our services (e.g., payment processors).</li>
+        </ul>
+        <h3>4. Data Security</h3>
+        <ul>
+            <li>We implement industry-standard measures to protect your data from unauthorized access, alteration, or disclosure.</li>
+        </ul>
+        <h3>5. Your Rights</h3>
+        <ul>
+            <li>You have the right to access, update, or delete your personal information.</li>
+            <li>You can opt out of receiving promotional communications at any time.</li>
+        </ul>
+        <h3>6. Cookies</h3>
+        <ul>
+            <li>Our website uses cookies to enhance user experience and analyze website traffic. You can manage cookie preferences through your browser settings.</li>
+        </ul>
+        <h3>7. Changes to This Policy</h3>
+        <p>We may update this Privacy Policy from time to time. Any changes will be posted on this page with the updated date.</p>
+        <h3>8. Contact Us</h3>
+        <p>If you have any questions or concerns about this Privacy Policy, please contact us at <a href="mailto:info@f7coaching.com">info@f7coaching.com</a>.</p>
+    </div>
+</div>
+</html>
