@@ -14,14 +14,14 @@ body.no-scroll {
 
 @font-face {
     font-family: 'Infinite';
-    src: url('../fonts/Infinite.ttf') format('truetype');
+    src: url('../Fonts/Infinite.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
   }
   
   @font-face {
     font-family: 'Infinite Slim';
-    src: url('../fonts/InfinitS.ttf') format('truetype');
+    src: url('../Fonts/InfinitS.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
   }
@@ -47,7 +47,7 @@ section {
 /* Custom Heights for Each Section */
 #sectionCarousel{
     min-height: 84vh; /* Full screen height */
-    background: url('../images/SectionBG.svg') no-repeat center/cover;
+    background: url('../Images/SectionBG.svg') no-repeat center/cover;
     position: relative;
     overflow: hidden;
     display: flex;
@@ -79,14 +79,14 @@ section {
 
 #coaches {
     min-height: 86vh; /* Enough space for the carousel */
-    background: url('../images/CoachSectionIMG.svg') no-repeat center/cover;
+    background: url('../Images/CoachSectionIMG.svg') no-repeat center/cover;
     justify-content: center;
     align-items: center;
 }
 
 #testimonials {
     min-height: 86vh; /* Enough space for the carousel */
-    background: url('../images/TestimonialSectionBGIMG.svg') no-repeat center/cover;
+    background: url('../Images/TestimonialSectionBGIMG.svg') no-repeat center/cover;
     text-shadow: #000000 0px 22px 50px;
 }
 
@@ -119,9 +119,9 @@ section {
 
 #about { background: url('../Images/PanelIMG1.svg') no-repeat center/cover; }
 #services { background: url('../Images/PanelIMG1.svg') no-repeat center/cover; }
-#framework { background: url('../images/PanelIMG1.svg') no-repeat center/cover; }
-#schedule { background: url('../images/PanelIMG1.svg') no-repeat center/cover; }
-#contact { background: url('../images/PanelIMG1.svg') no-repeat center/cover;}
+#framework { background: url('../Images/PanelIMG1.svg') no-repeat center/cover; }
+#schedule { background: url('../Images/PanelIMG1.svg') no-repeat center/cover; }
+#contact { background: url('../Images/PanelIMG1.svg') no-repeat center/cover;}
 
 /* Ensure the Page Uses Full Viewport */
 html, body {
