@@ -44,6 +44,87 @@ section {
     transition: all 0.5s ease-in-out;
 }
 
+/* Fullscreen Video Styling */
+.video-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.fullscreen-video {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+/* Overlay for Enter Button and Progress Bar */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4); /* Dark overlay for contrast */
+  z-index: 2;
+}
+
+/* Enter Button Style */
+#enterButton {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* Logo Image Style */
+#enterButton img {
+  background: none !important; /* No background */
+  background-color: transparent !important; /* Transparent background */
+  box-shadow: none !important; /* No shadow */
+  padding: 0;
+  margin-bottom: 15px; /* Adjust spacing */
+  width: 150px; /* Adjust size as needed */
+}
+
+/* Progress Bar Container */
+.progress-container {
+  width: 60%;
+  height: 10px;
+  background: #333;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+/* Progress Bar */
+#progressBar {
+  width: 0%;
+  height: 100%;
+  background: #4caf50;
+  transition: width 0.1s ease-in-out;
+}
+
+/* Percentage Text */
+#progressText {
+  margin-top: 5px;
+  font-size: 18px;
+  color: #ffffff;
+  font-weight: bold;
+  text-align: center;
+}
+
+
 /* Custom Heights for Each Section */
 #sectionCarousel{
     min-height: 84vh; /* Full screen height */
@@ -1581,6 +1662,18 @@ button:disabled {
 
       section {
         padding: 20px;
+      }
+
+        #enterButton img {
+          width: 120px; /* Smaller for mobile */
+      }
+
+      .progress-container {
+          width: 80%; /* Wider for better visibility */
+      }
+
+      #progressText {
+          font-size: 16px; /* Smaller text for mobile */
       }
 
       .logo-container {

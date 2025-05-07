@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>
+    console.log("Redirect script loaded.");
+    if (!localStorage.getItem('introShown')) {
+        console.log("Redirecting to intro.html");
+        localStorage.setItem('introShown', 'true');
+        window.location.href = "intro.html";
+    } else {
+        console.log("Intro already shown.");
+    }
+</script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>F7 Coaching | Football Coaching for Kids</title>
@@ -40,7 +51,7 @@
         <meta name="description" content="F7 Coaching offers elite football coaching for young players. Join us to develop skills, confidence, and teamwork.">
         <meta name="keywords" content="football coaching, youth football, F7 Coaching, kids football training, modern football program">
         <meta name="Plot Perfect Studios Ltd" content="F7 Coaching">
-            
+
 </head>
 <body>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
