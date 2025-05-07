@@ -292,3 +292,58 @@ function openContactFromMenu() {
 window.openContactOverlay = openContactOverlay;
 window.closeContactOverlay = closeContactOverlay;
 window.openContactFromMenu = openContactFromMenu;
+
+document.addEventListener('DOMContentLoaded', function() {
+  const carouselTrack = document.getElementById('carouselTrack');
+  let startX = 0;
+  let isSwiping = false;
+
+  // Mobile Swipe (Touch Events)
+  carouselTrack.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+      isSwiping = true;
+  });
+
+  carouselTrack.addEventListener('touchmove', (e) => {
+      if (!isSwiping) return;
+
+      const currentX = e.touches[0].clientX;
+      const diff = startX - currentX;
+
+      if (diff > 50) { // Swipe Left
+          document.getElementById('carouselNext').click();
+          isSwiping = false;
+      } else if (diff < -50) { // Swipe Right
+          document.getElementById('carouselPrev').click();
+          isSwiping = false;
+      }
+  });
+
+  carouselTrack.addEventListener('touchend', () => {
+      isSwiping = false;
+  });
+
+  // Desktop Drag (Mouse Events)
+  carouselTrack.addEventListener('mousedown', (e) => {
+      startX = e.clientX;
+      isSwiping = true;
+  });
+
+  carouselTrack.addEventListener('mousemove', (e) => {
+      if (!isSwiping) return;
+
+      const diff = startX - e.clientX;
+
+      if (diff > 50) { // Drag Left
+          document.getElementById('carouselNext').click();
+          isSwiping = false;
+      } else if (diff < -50) { // Drag Right
+          document.getElementById('carouselPrev').click();
+          isSwiping = false;
+      }
+  });
+
+  carouselTrack.addEventListener('mouseup', () => {
+      isSwiping = false;
+  });
+});
