@@ -298,6 +298,11 @@ document.addEventListener('DOMContentLoaded', function() {
   let startX = 0;
   let isSwiping = false;
 
+  // Prevent Text Selection on Swipe/Drag
+  carouselTrack.style.userSelect = 'none';
+  carouselTrack.style.webkitUserSelect = 'none';
+  carouselTrack.style.msUserSelect = 'none';
+
   // Mobile Swipe (Touch Events)
   carouselTrack.addEventListener('touchstart', (e) => {
       startX = e.touches[0].clientX;
