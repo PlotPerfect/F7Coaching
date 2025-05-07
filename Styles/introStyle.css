@@ -110,3 +110,24 @@ button, a, input, textarea {
     color: white;
     text-shadow: 0px 0px 5px limegreen;
 }
+
+/* Mobile Support */
+@media (max-width: 768px) {
+    html, body {
+        font-size: 14px; /* Adjust font size for smaller screens */
+    }
+
+    #enterButton img {
+        width: 150px; /* Reduce size of the button image */
+    }
+
+    .progress-container {
+        bottom: 150px; /* Adjust position for smaller screens */
+        width: 150px; /* Reduce width */
+    }
+
+    #progressText {
+        bottom: 120px; /* Adjust position for smaller screens */
+        font-size: 16px; /* Adjust font size */
+    }
+}
