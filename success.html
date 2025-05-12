@@ -4,78 +4,74 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Booking Confirmed - F7 Coaching</title>
+  <link rel="icon" href="Images/faviconV2.png" type="image/png">
   <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-  <script type="module">
-    import emailjs from 'https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js';
-    emailjs.init("JLEKSvv3grHxLF2B4");
+  <script>
+    (function() {
+      emailjs.init("ECmgwYr6FZo4qcUfk"); // Your correct Public Key
+    })();
   </script>
-    <style>
-        body {
-          background-color: #0d0d0d;
-          color: #ffffff;
-          font-family: Arial, sans-serif;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          height: 100vh;
-          margin: 0;
-        }
-    
-        .success-container {
-          background: rgba(0, 0, 0, 0.8);
-          padding: 30px 40px;
-          border-radius: 12px;
-          box-shadow: 0 0 25px rgba(0, 255, 0, 0.3);
-          text-align: center;
-          max-width: 400px;
-        }
-    
-        .success-container h2 {
-          color: #00ff00;
-          font-size: 28px;
-          margin-bottom: 15px;
-        }
-    
-        .success-container p {
-          font-size: 16px;
-          margin-bottom: 10px;
-        }
-    
-        .success-container a {
-          display: inline-block;
-          margin-top: 15px;
-          padding: 10px 20px;
-          background: #00ff00;
-          color: #000;
-          text-decoration: none;
-          font-weight: bold;
-          border-radius: 8px;
-          transition: background 0.3s ease;
-        }
-    
-        .success-container a:hover {
-          background: #00cc00;
-        }
-      </style>
+
+  <style>
+    body {
+      background-color: #0d0d0d;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .success-container {
+      background: rgba(0, 0, 0, 0.8);
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 0 25px rgba(0, 255, 0, 0.3);
+      text-align: center;
+      max-width: 400px;
+    }
+    .success-container h2 {
+      color: #00ff00;
+      font-size: 28px;
+      margin-bottom: 15px;
+    }
+    .success-container p {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+    .success-container a {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: #00ff00;
+      color: #000;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 8px;
+      transition: background 0.3s ease;
+    }
+    .success-container a:hover {
+      background: #00cc00;
+    }
+  </style>
 </head>
 <body>
-    <div class="success-container">
-        <h2>✅ Booking Confirmed!</h2>
-        <p>Thank you for booking your session with F7 Coaching.</p>
-    
-        <div class="booking-details">
-          <h3>Your Booking Details:</h3>
-          <p><strong>Child's Name:</strong> <span id="playerName"></span></p>
-          <p><strong>Session:</strong> <span id="sessionName"></span></p>
-          <p><strong>Date:</strong> <span id="sessionDate"></span></p>
-          <p><strong>Time:</strong> <span id="sessionTime"></span></p>
-        </div>
-    
-        <p>A confirmation email has been sent to your inbox.</p>
-        <a href="index.html">Return to Homepage</a>
-      </div>
+  <div class="success-container">
+    <h2>✅ Booking Confirmed!</h2>
+    <p>Thank you for booking your session with F7 Coaching.</p>
 
+    <div class="booking-details">
+      <h3>Your Booking Details:</h3>
+      <p><strong>Child's Name:</strong> <span id="playerName"></span></p>
+      <p><strong>Session:</strong> <span id="sessionName"></span></p>
+      <p><strong>Date:</strong> <span id="sessionDate"></span></p>
+      <p><strong>Time:</strong> <span id="sessionTime"></span></p>
+    </div>
 
+    <p>A confirmation email has been sent to your inbox.</p>
+    <a href="index.html">Return to Homepage</a>
+  </div>
 
   <script>
     window.addEventListener("load", function() {
@@ -84,7 +80,7 @@
       const sessionName = localStorage.getItem("selectedSessionName");
       const sessionDate = localStorage.getItem("selectedSessionDate");
       const sessionTime = localStorage.getItem("selectedSessionTime");
-  
+
       if (playerName && parentEmail && sessionName && sessionDate && sessionTime) {
         emailjs.send("service_a8immd3", "F7AutoReply_28bwauq", {
           player_name: playerName,
@@ -93,11 +89,12 @@
           session_date: sessionDate,
           session_time: sessionTime
         }).then((response) => {
-          console.log("Confirmation Email Sent!", response.status, response.text);
+          console.log("✅ Confirmation Email Sent!", response.status, response.text);
         }).catch((error) => {
-          console.error("Failed to send confirmation email.", error);
+          console.error("❌ Failed to send confirmation email.", error);
+          alert("❌ Error sending confirmation email. Please try again.");
         });
-  
+
         // Clear Local Storage (so it doesn't send again)
         localStorage.removeItem("selectedPlayerName");
         localStorage.removeItem("selectedParentEmail");
@@ -105,24 +102,16 @@
         localStorage.removeItem("selectedSessionDate");
         localStorage.removeItem("selectedSessionTime");
       } else {
-        console.error("No booking data found.");
+        console.error("❌ No booking data found.");
+        alert("❌ No booking data found.");
       }
     });
-  </script>
-  
-  <script>
-    // Load Booking Details from Local Storage
+
+    // Load Booking Details for Display
     document.getElementById("playerName").textContent = localStorage.getItem("selectedPlayerName") || "N/A";
     document.getElementById("sessionName").textContent = localStorage.getItem("selectedSessionName") || "N/A";
     document.getElementById("sessionDate").textContent = localStorage.getItem("selectedSessionDate") || "N/A";
     document.getElementById("sessionTime").textContent = localStorage.getItem("selectedSessionTime") || "N/A";
-
-    // Clear Local Storage to prevent duplicate emails
-    localStorage.removeItem("selectedPlayerName");
-    localStorage.removeItem("selectedSessionName");
-    localStorage.removeItem("selectedSessionDate");
-    localStorage.removeItem("selectedSessionTime");
   </script>
-
 </body>
 </html>
