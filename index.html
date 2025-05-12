@@ -1,16 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>
-    console.log("Redirect script loaded.");
-    if (!localStorage.getItem('introShown')) {
-        console.log("Redirecting to intro.html");
-        localStorage.setItem('introShown', 'true');
-        window.location.href = "intro.html";
-    } else {
-        console.log("Intro already shown.");
-    }
-</script>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -76,12 +66,12 @@
         <img src="Images/F7Logo.svg" alt="Logo Image" class="menu-logo-icon">
         <ul>
             <li><a href="#home" class="menu-link">Home</a></li>
-            <li><a href="#bookings" class="menu-link">Bookings</a></li>
+            <li><a href="#" class="menu-link" onclick="openBookingsFromMenu()">Bookings</a></li>
             <li><a href="#" class="menu-link" onclick="openAboutUsFromMenu()">About Me</a></li>
             <li><a href="#" class="menu-link" onclick="openServicesFromMenu()">Services</a></li>
             <li><a href="#" class="menu-link" onclick="openFrameworkFromMenu()">Framework</a></li>
             <li><a href="#" class="menu-link" onclick="openScheduleFromMenu()">Schedule</a></li>
-            <li><a href="#coaches" class="menu-link">Coaches</a></li>
+            <li><a href="#" class="menu-link" onclick="openCoachesFromMenu()">Coaches</a></li>
             <li><a href="#testimonials" class="menu-link">Testimonials</a></li>
             <li><a href="#" class="menu-link" onclick="openContactFromMenu()">Contact</a></li>
             <li><a href="adminportal.html" class="menu-link" onclick="closeMenuOverlay()">Admin Portal</a></li>
@@ -107,23 +97,23 @@
     
   <section id="sectionCarousel">
     <button class="carousel-nav left" id="carouselPrev">&#8592;</button>
-  
+
     <div class="carousel-track" id="carouselTrack">
       <!-- Card 1 -->
       <div class="carousel-card active" style="background-image: url('Images/templateimg2.svg');">
         <h1>Bookings</h1>
         <div class="card-overlay">
-          <button disabled class="card-button" onclick="openBookingOverlay()">Book Now</button>
+          <button class="card-button" onclick="openBookingOverlay()">Book Now</button>
         </div>
       </div>
-  
-    <!-- Card 2 -->
-    <div class="carousel-card" style="background-image: url('Images/templateimg1.svg');">
-      <h1>About Us</h1>
-      <div class="card-overlay">
-        <button onclick="openAboutUsOverlay()">Learn More</button>
+
+      <!-- Card 2 -->
+      <div class="carousel-card" style="background-image: url('Images/templateimg1.svg');">
+        <h1>About Us</h1>
+        <div class="card-overlay">
+          <button onclick="openAboutUsOverlay()">Learn More</button>
+        </div>
       </div>
-    </div>
 
       <!-- Card 3 -->
       <div class="carousel-card" style="background-image: url('Images/templateimg3.svg');">
@@ -132,7 +122,7 @@
           <button onclick="openFrameworkOverlay()">Learn More</button>
         </div>
       </div>
-  
+
       <!-- Card 4 -->
       <div class="carousel-card" style="background-image: url('Images/templateimg4.svg');">
         <h1>Services</h1>
@@ -141,51 +131,39 @@
         </div>
       </div>
 
-            <!-- Card 5 -->
-            <div class="carousel-card" style="background-image: url('Images/templateimg5.svg');">
-                <h1>Schedule</h1>
-                <div class="card-overlay">
-                  <button onclick="openScheduleOverlay()">Learn More</button>
-                </div>
-              </div>
+      <!-- Card 5 -->
+      <div class="carousel-card" style="background-image: url('Images/templateimg5.svg');">
+        <h1>Schedule</h1>
+        <div class="card-overlay">
+          <button onclick="openScheduleOverlay()">Learn More</button>
+        </div>
+      </div>
 
-                          <!-- Card 6 -->
-            <div class="carousel-card" style="background-image: url('Images/templateimg6.svg');">
-                <h1>Get in Touch</h1>
-                <div class="card-overlay">
-                  <button onclick="openContactOverlay()">Get in Touch</button>
-                </div>
-              </div>
-  
-      <!-- Add more cards here -->
+      <!-- Card 6 -->
+      <div class="carousel-card" style="background-image: url('Images/templateimg6.svg');">
+        <h1>Get in Touch</h1>
+        <div class="card-overlay">
+          <button onclick="openContactOverlay()">Get in Touch</button>
+        </div>
+      </div>
+
+      <!-- Card 7 -->
+      <div class="carousel-card" style="background-image: url('Images/templateimg4.svg');">
+        <h1>Meet the Coach</h1>
+        <div class="card-overlay">
+          <button onclick="openCoachesOverlay()">Learn More</button>
+        </div>
+      </div>
     </div>
-  
     <button class="carousel-nav right" id="carouselNext">&#8594;</button>
 
-    <div class="scroll-down-indicator" onclick="document.getElementById('coaches').scrollIntoView({behavior: 'smooth'})">
-        <h1>Meet the Coaches</h1>
-        <div class="arrow-down"></div>
-      </div>
+    <!-- Swipe for More Section -->
+    <div class="swipe-arrow-container">
+      <span class="swipe-arrow-text">Swipe for More</span>
+      <span class="swipe-arrow-icon"></span>
+    </div>
   </section>
 
-  <div class="section-divider animated-glow"></div>
-  
-  <section id="coaches">
-    <div class="coach-profile-container">
-        <div class="coach-profile-card horizontal">
-            <div class="coach-image">
-              <img src="Images/templatecoach1.svg" alt="Finley Fletcher">
-            </div>
-            <div class="coach-info">
-              <div class="coach-name">FINLEY FLETCHER</div>
-              <h2>Head Coach</h2>
-              <p>
-                Hey! I'm Finley – the founder of F7 Coaching and a UEFA C Licensed coach.
-                With a rich background in professional football and elite academy systems, I bring a deep understanding of the game both on and off the pitch. My passion lies in helping young athletes unlock their full potential by focusing not just on technical ability, but also on mental resilience, confidence, and personal growth.
-              </p>
-            </div>
-          </div>
-  </section>
 
   <div class="section-divider animated-glow"></div>
 
@@ -413,12 +391,12 @@
         </div>
 
         <div class="schedule-item">
-          <h3>U9–U11 Advanced Group <span class="coming-soon">(Coming Soon)</span></h3>
+          <h3>U9–U11 Advanced Group</h3>
           <p>Sundays at 3:15pm – 4:30pm / Trent Park 5's, N14 4UW</p>
         </div>
 
         <div class="schedule-item">
-          <h3>U12–U15 Advanced Group <span class="coming-soon">(Coming Soon)</span></h3>
+          <h3>U12–U15 Advanced Group</h3>
           <p>Sundays at 4:30pm – 5:45pm / Trent Park 5's, N14 4UW</p>
         </div>
 
@@ -445,6 +423,31 @@
   </div>
 </div>
 
+
+<!-- Coaches Overlay Panel -->
+<div id="coachesOverlay" class="overlay-panel" style="display: none;">
+  <div class="overlay-content">
+    <button class="close-btn" onclick="closeCoachesOverlay()">✖</button>
+    <section id="coaches">
+      <div class="coaches-container">
+
+        <div class="coach-profile-card">
+          <div class="coach-image">
+            <img src="Images/templatecoach1.svg" alt="Finley Fletcher">
+          </div>
+          <div class="coach-info">
+            <div class="coach-name">FINLEY FLETCHER</div>
+            <h2>Head Coach</h2>
+            <p>Hey! I'm Finley – the founder of F7 Coaching and a UEFA C Licensed coach. With a rich background in professional football and elite academy systems, I bring a deep understanding of the game both on and off the pitch. My passion lies in helping young athletes unlock their full potential by focusing not just on technical ability, but also on mental resilience, confidence, and personal growth.</p>
+          </div>
+        </div>
+
+        <!-- Add more coach profiles as needed -->
+
+      </div>
+    </section>
+  </div>
+</div>
 
 
 

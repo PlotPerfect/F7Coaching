@@ -159,16 +159,14 @@ section {
 }
 
 #coaches {
-    min-height: 86vh; /* Enough space for the carousel */
-    background: url('../Images/CoachSectionIMG.svg') no-repeat center/cover;
-    justify-content: center;
-    align-items: center;
+  min-height: 120vh; /* Adjusted to fit all service details */
 }
 
 #testimonials {
     min-height: 86vh; /* Enough space for the carousel */
     background: url('../Images/TestimonialSectionBGIMG.svg') no-repeat center/cover;
     text-shadow: #000000 0px 22px 50px;
+    font-family: 'Rajdhani', sans-serif !important;
 }
 
 #contact {
@@ -203,6 +201,7 @@ section {
 #framework { background: url('../Images/PanelIMG1.svg') no-repeat center/cover; }
 #schedule { background: url('../Images/PanelIMG1.svg') no-repeat center/cover; }
 #contact { background: url('../Images/PanelIMG1.svg') no-repeat center/cover;}
+#coaches { background: url('../Images/PanelIMG1.svg') no-repeat center/cover;}
 
 /* Ensure the Page Uses Full Viewport */
 html, body {
@@ -270,26 +269,39 @@ html, body {
     .menu-logo-icon{
         width: 100px;
         height: auto;
-        margin-left: 20px;
+        margin-left: 10px;
     }
 
 
 /* Menu Container (Top Right) */
 .menu-container {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    z-index: 1011;
-    width: auto;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1011;
+  width: auto;
 }
-
 
 /* Menu Button */
 .menu-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    outline: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .menu-container {
+    top: 10px; /* Adjusted for smaller screens */
+    left: 10px; /* Adjusted for smaller screens */
+  }
+
+  .menu-button {
+    width: 40px; /* Smaller button size for mobile */
+    height: 40px; /* Smaller button size for mobile */
+  }
 }
 
 .menu-icon {
@@ -331,6 +343,15 @@ html, body {
 
 .menu-content li {
     margin: 15px 0;
+}
+
+.menu-link{
+    text-decoration: none;
+    color: #00ff00;
+    font-size: 32px;
+    font-weight: bold;
+    font-family: 'Rajdhani', sans-serif !important;
+    transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
 /* Styled Menu Links */
@@ -382,10 +403,21 @@ html, body {
     transform: scale(0.9);
   }
 
+  .carousel-card h1 {
+    margin-bottom: 110px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 900;
+    font-size: 26px;
+    color: white;
+    letter-spacing: 0.5px;
+    text-shadow: #000000 0px 0px 10px;
+  }
+
   .carousel-card.active {
     opacity: 1;
     transform: scale(1.05);
     z-index: 2;
+    right: 150px;
   }
   
   .carousel-card:hover {
@@ -562,7 +594,7 @@ html, body {
     align-items: center;
     z-index: 2;
     color: #0f0;
-    font-family: 'Infinite', sans-serif;
+    font-family: 'Rajdhani', sans-serif !important;
     font-size: 14px;
     letter-spacing: 1px;
   }
@@ -883,6 +915,60 @@ transform: rotate(90deg);
     margin-top: -170px; /* try adjusting this value */
 }
 
+/* Coaches Section */
+#coaches {
+  color: white;
+  padding: 50px 20px;
+  text-align: center;
+}
+
+#coaches h3 {
+  font-size: 32px; /* Change size */
+  color: limegreen; /* Change color */
+  font-weight: bold; /* Make it bold */
+  text-transform: uppercase; /* Example */
+}
+
+/* Container for All Services */
+.coaches-container {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: center;
+  max-width: 1000px;
+  margin: 0 auto;
+  margin-top: -220px;
+}
+
+/* Individual Service Box */
+.coaches-box {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding: 20px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 900px;
+}
+
+/* Service Image */
+.coaches-image {
+  flex: 1;
+}
+
+.coaches-image img {
+  width: 100%;
+  max-width: 250px;
+  border-radius: 10px;
+}
+
+/* Service Text */
+.coaches-text {
+  flex: 2;
+  text-align: left;
+  font-size: medium;
+}
+
 /* Services Section */
 #services {
     color: white;
@@ -1102,6 +1188,7 @@ button:disabled {
   .coach-info h2 {
     color: #00ff00;
     margin-bottom: 10px;
+    font-family: 'Rajdhani', sans-serif !important;
   }
   
   .coach-info p {
@@ -1651,6 +1738,42 @@ button:disabled {
   margin-top: 10px;
 }
 
+ .swipe-arrow-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 25px; /* Slightly lower for better appearance */
+  position: relative;
+  flex-direction: column;
+}
+
+.swipe-arrow-text {
+  font-size: 18px;
+  color: #000000;
+  font-family: 'Inter', sans-serif;
+  text-shadow: 0 0 10px rgba(0, 255, 0, 0.6);
+  animation: arrowTextBlink 1.5s infinite alternate;
+}
+
+.swipe-arrow-icon::before {
+  content: '➡';
+  display: inline-block;
+  font-weight: bold;
+  font-size: 30px;
+  transition: transform 0.3s;
+}
+
+@keyframes arrowTextBlink {
+  0% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+@keyframes arrowMove {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(10px); }
+  100% { transform: translateX(20px); }
+}
+
   
 
     /* Mobile Responsive Styles */
@@ -1690,12 +1813,12 @@ button:disabled {
       .menu-logo-icon {
         width: 80px;
         display: block;
-        margin: -550px -110px 30px 30px; /* top, horizontal center, bottom */
+        margin: -550px -95px 30px 30px; /* top, horizontal center, bottom */
       }
 
       /* Menu */
       .menu-icon {
-        width: 50px;
+        width: 44px;
       }
 
       .menu-overlay {
@@ -1754,7 +1877,7 @@ button:disabled {
       }
 
       #coaches {
-        max-height: 222vh; /* Adjusted height for about section */
+        max-height: 10vh; /* Adjusted height for about section */
       }
 
       #testimonials.cc {
@@ -1764,26 +1887,36 @@ button:disabled {
       #contact.cc {
         min-height: 40vh; /* Adjusted height for contact section */
       }
-
-      /* Carousel */
+      #coaches.cc {
+        min-height: 40vh; /* Adjusted height for coaches section */
+      }
       .carousel-card {
-        min-width: 250px;
-        height: 350px;
+        min-width: 220px;
+        height: 300px;
+        padding: 10px;
+        margin: 0 30px; /* Adjusted margin for better spacing */
+      }
+    
+      .carousel-nav {
+        top: 60%; /* Slightly lower for better visibility */
+        font-size: 20px;
+        display: none !important;
       }
 
-      .carousel-nav {
-        display: none !important;
-    }
-
-      /* Carousel Heading */
-      .carousel-card h1 {
-        font-size: 20px; /* Adjusted font size */
-        color: rgb(255, 255, 255);
+      .card-overlay{
+        position: absolute;
+        bottom: 0;
+        right: -1px;
+        width: 84%;
+        border-radius: 16px;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+        background-size: cover;
+        background-position: center;
+        padding: 20px;
         text-align: center;
-        margin-bottom: 20px;
-        font-family: 'Infinite', sans-serif;
-        text-transform: uppercase;
-        text-shadow: 0 0 10px rgba(9, 9, 9, 0.5);
+        color: white;
+        opacity: 0;
+        transition: opacity 0.3s ease;
       }
 
       /* About Section */
@@ -1830,32 +1963,50 @@ button:disabled {
 
       /* Coaches Section */
 
-      .coach-profile-container {
+      .coaches-container {
+        display: flex;
         flex-direction: column;
-        gap: 20px; /* Add spacing between profiles */
+        gap: 20px;
       }
-
-      .coach-profile-card.horizontal {
-        flex-direction: column;
-        align-items: center;
-        padding: 20px; /* Adjust padding for smaller screens */
+    
+      .coach-profile-card {
+        background: rgba(0, 0, 0, 0.7);
+        padding: 15px;
+        border-radius: 12px;
+        box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
       }
-
+    
       .coach-image img {
-        width: 150px; /* Reduce image size for mobile */
+        width: 100px;
         height: auto;
+        border-radius: 50%;
+        margin-bottom: 10px;
       }
-
+    
       .coach-info {
-        text-align: center; /* Center-align text for better readability */
+        text-align: center;
+        padding: 10px;
       }
-
+    
       .coach-info h2 {
-        font-size: 18px; /* Adjust font size for mobile */
+        font-size: 20px;
+        color: #00ff00;
+        margin-bottom: 10px;
       }
-
+    
+      .coach-info .coach-name {
+        font-size: 16px;
+        font-weight: bold;
+        color: #00ff00;
+        text-transform: uppercase;
+      }
+    
       .coach-info p {
-        font-size: 14px; /* Adjust paragraph font size */
+        font-size: 14px;
+        line-height: 1.5;
+        color: #ffffff;
+        max-width: 90%;
+        margin: 0 auto;
       }
 
       /* Footer */
@@ -2260,6 +2411,96 @@ button:disabled {
         text-align: center;
       }
 
+      .contact-overlay-content {
+        max-width: 70%; /* Wider for mobile */
+        padding: 25px 20px;
+        left: -50px; /* Centered */
+      }
+    
+      .contact-close-btn {
+        top: 10px;
+        right: 15px;
+        font-size: 20px;
+      }
+    
+      .contact-overlay-section h2 {
+        font-size: 1.5rem;
+      }
+    
+      .contact-overlay-section input,
+      .contact-overlay-section textarea {
+        font-size: 0.95rem;
+        padding: 10px 12px;
+      }
+    
+      .contact-overlay-section button {
+        padding: 12px;
+        font-size: 0.95rem;
+      }
+
+      .swipe-arrow-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 25px; /* Slightly lower for better appearance */
+        top: 50px;
+        position: relative;
+        flex-direction: column;
+      }
+    
+      .swipe-arrow-text {
+        font-size: 18px;
+        color: #00ff00;
+        font-family: 'Inter', sans-serif;
+        text-shadow: 0 0 10px rgba(0, 255, 0, 0.6);
+        animation: arrowTextBlink 1.5s infinite alternate;
+      }
+    
+      .swipe-arrow-icon {
+        font-size: 30px;
+        color: #00ff00;
+        margin-top: 5px; /* Slight gap between text and arrow */
+        animation: arrowMove 1.5s infinite alternate;
+      }
+    
+      .swipe-arrow-icon::before {
+        content: '➡';
+        display: inline-block;
+        font-weight: bold;
+        font-size: 30px;
+        transition: transform 0.3s;
+      }
+    
+      @keyframes arrowTextBlink {
+        0% { opacity: 0.5; }
+        100% { opacity: 1; }
+      }
+    
+      @keyframes arrowMove {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(10px); }
+      }
+
+      .contact-overlay-content {
+        padding: 20px;
+        margin-top: 50px;
+        background: rgba(0, 0, 0, 0.85);
+        border-radius: 12px;
+        box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        color: white;
+        font-family: 'Inter', sans-serif;
+        line-height: 1.6;
+        max-width: 300px;
+        margin-top: 90px;
+        margin-left: auto;
+        margin-right: 15px;
+        text-align: center;
+      }
     }
 
-  
+    /* Desktop - Hide Swipe Arrow */
+@media (min-width: 769px) {
+  .swipe-arrow-container {
+    display: none;
+  }
+}

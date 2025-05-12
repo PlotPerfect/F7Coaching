@@ -201,13 +201,39 @@ function closeServicesOverlay() {
   document.body.classList.remove('no-scroll');
 }
 
+function openCoachesOverlay() {
+  document.getElementById('coachesOverlay').style.display = 'block';
+  document.body.classList.add('no-scroll');
+}
+
+function closeCoachesOverlay() {
+  document.getElementById('coachesOverlay').style.display = 'none';
+  document.body.classList.remove('no-scroll');
+}
+
 function openServicesFromMenu() {
   closeMenuOverlay();
   openServicesOverlay();
 }
+
+function openCoachesFromMenu() {
+  closeMenuOverlay(); // Closes the menu overlay
+  openCoachesOverlay(); // Opens the Coaches Overlay
+}
+
+function openBookingsFromMenu() {
+  closeBookingOverlay(); // Closes the menu overlay
+  openBookingOverlay(); // Opens the Coaches Overlay
+}
+
+
 window.openServicesFromMenu = openServicesFromMenu; // make it globally accessible
 window.openServicesOverlay = openServicesOverlay; // make it globally accessible
 window.closeServicesOverlay = closeServicesOverlay; // make it globally accessible
+window.openCoachesFromMenu = openCoachesFromMenu; // make it globally accessible
+window.openCoachesOverlay = openCoachesOverlay; // make it globally accessible
+window.closeCoachesOverlay = closeCoachesOverlay; // make it globally accessible  
+window.openBookingsFromMenu = openBookingsFromMenu; // make it globally accessible
 
 
 function openScheduleOverlay() {
@@ -261,9 +287,12 @@ function openScheduleFromMenu() {
   closeMenuOverlay();
   openScheduleOverlay();
 } 
+
 window.openScheduleFromMenu = openScheduleFromMenu; // make it globally accessible
 window.openScheduleOverlay = openScheduleOverlay; // make it globally accessible  
 window.closeScheduleOverlay = closeScheduleOverlay; // make it globally accessible
+
+
 
 function openAdminPortal() {
   closeMenuOverlay();
@@ -284,7 +313,7 @@ function closeContactOverlay() {
 }
 
 function openContactFromMenu() {
-  closeMenuOverlay();
+  closeContactOverlay();
   openContactOverlay();
 }
 

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking Confirmed - F7 Coaching</title>
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script>
+    (function(){
+      emailjs.init("YOUR_PUBLIC_KEY");
+    })();
+  </script>
+</head>
+<body>
+  <h2>Your Booking is Confirmed!</h2>
+  <p>A confirmation email has been sent to your inbox.</p>
+
+  <script>
+    window.addEventListener("load", function() {
+      const playerName = localStorage.getItem("selectedPlayerName");
+      const parentEmail = localStorage.getItem("selectedParentEmail");
+      const sessionName = localStorage.getItem("selectedSessionName");
+      const sessionDate = localStorage.getItem("selectedSessionDate");
+      const sessionTime = localStorage.getItem("selectedSessionTime");
+
+      if (playerName && parentEmail && sessionName && sessionDate && sessionTime) {
+        // Send Confirmation Email to Customer + Owner (EmailJS)
+        emailjs.send("service_a8immd3", "template_pgdmi2j", {
+          player_name: playerName,
+          parent_email: parentEmail,
+          session_name: sessionName,
+          session_date: sessionDate,
+          session_time: sessionTime
+        }).then((response) => {
+          console.log("Confirmation Email Sent!", response.status, response.text);
+        }, (error) => {
+          console.error("Failed to send confirmation email.", error);
+        });
+
+        // Clear Local Storage (so it doesn't send again)
+        localStorage.removeItem("selectedPlayerName");
+        localStorage.removeItem("selectedParentEmail");
+        localStorage.removeItem("selectedSessionName");
+        localStorage.removeItem("selectedSessionDate");
+        localStorage.removeItem("selectedSessionTime");
+      } else {
+        console.error("No booking data found.");
+      }
+    });
+  </script>
+</body>
+</html>
