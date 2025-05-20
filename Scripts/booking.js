@@ -83,7 +83,8 @@ function extractDayName(sessionTime) {
 
 // Update date picker with Flatpickr
 function updateDatePicker(groupKey, allowedDay) {
-  const bookingsRef = ref(db, `bookings/sessions/${groupKey}`);
+  // FIX: Use correct path for bookings
+  const bookingsRef = ref(db, `bookings/${groupKey}`);
   get(bookingsRef).then((snapshot) => {
     const data = snapshot.val();
     const fullyBookedDates = [];
