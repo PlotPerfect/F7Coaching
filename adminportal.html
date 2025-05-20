@@ -55,7 +55,7 @@
   <!-- Import auth.js and run logic -->
   <script type="module">
     import { getDatabase, ref, onValue, update, set, push, remove } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
-    import { loginUser, logoutUser, onUserChange } from '../auth.js';
+    import { loginUser, logoutUser, onUserChange } from './Scripts/auth.js';
   
     const db = getDatabase();
     const loginPanel = document.getElementById("loginPanel");

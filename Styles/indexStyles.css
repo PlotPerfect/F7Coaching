@@ -188,7 +188,9 @@ section {
     #services,
     #framework,
     #schedule,
-    #coaches,
+    #coaches{
+        min-height: auto; /* Allows sections to adapt on smaller screens */
+    }
     #testimonials,
     #contact {
         min-height: auto;
@@ -1664,8 +1666,6 @@ button:disabled {
     max-width: 400px;
     text-align: center;
     position: relative;
-    left: 500px;
-    z-index: 1000;
   }
 
   .contact-close-btn {
@@ -1678,6 +1678,107 @@ button:disabled {
     color: #0f0;
     cursor: pointer;
   }
+
+  .contact-overlay-section h2 {
+    color: #0f0;
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .contact-overlay-section form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .contact-overlay-section input,
+  .contact-overlay-section textarea {
+    background: #111;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 12px 15px;
+    font-size: 1rem;
+    color: #fff;
+    width: 100%;
+  }
+
+  .contact-overlay-section input::placeholder,
+  .contact-overlay-section textarea::placeholder {
+    color: #777;
+  }
+
+  .contact-overlay-section input:focus,
+  .contact-overlay-section textarea:focus {
+    outline: none;
+    border-color: #0f0;
+    box-shadow: 0 0 8px rgba(0, 255, 0, 0.5);
+  }
+
+  .contact-overlay-section button {
+    background: #0f0;
+    color: #000;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    padding: 14px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s ease;
+  }
+
+  .contact-overlay-section button:hover {
+    background: #00cc00;
+  }
+
+  #contactFormMessage {
+    color: #0f0;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+
+/* Contact Us Overlay Panel Styles */
+.contact-overlay-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2000;
+  background: rgba(0, 0, 0, 0.95);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.contact-overlay-content {
+  background: #111;
+  padding: 40px 30px;
+  border-radius: 15px;
+  box-shadow: 0 0 25px rgba(0, 255, 0, 0.4);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  position: relative;
+  left: 30%;
+}
+
+.contact-close-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #0f0;
+  cursor: pointer;
+}
+
 .contact-overlay-section h2 {
   color: #0f0;
   font-size: 1.8rem;
@@ -1737,44 +1838,6 @@ button:disabled {
   text-align: center;
   margin-top: 10px;
 }
-
- .swipe-arrow-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 25px; /* Slightly lower for better appearance */
-  position: relative;
-  flex-direction: column;
-}
-
-.swipe-arrow-text {
-  font-size: 18px;
-  color: #000000;
-  font-family: 'Inter', sans-serif;
-  text-shadow: 0 0 10px rgba(0, 255, 0, 0.6);
-  animation: arrowTextBlink 1.5s infinite alternate;
-}
-
-.swipe-arrow-icon::before {
-  content: '➡';
-  display: inline-block;
-  font-weight: bold;
-  font-size: 30px;
-  transition: transform 0.3s;
-}
-
-@keyframes arrowTextBlink {
-  0% { opacity: 0.5; }
-  100% { opacity: 1; }
-}
-
-@keyframes arrowMove {
-  0% { transform: translateX(0); }
-  50% { transform: translateX(10px); }
-  100% { transform: translateX(20px); }
-}
-
-  
 
     /* Mobile Responsive Styles */
     @media (max-width: 768px) {
@@ -1855,7 +1918,7 @@ button:disabled {
       }
 
       #sectionCarousel.cc {
-        max-height: 702vh; /* Adjusted height for about section */
+        max-height: 705vh; /* Adjusted height for about section */
         height: auto;
       }
 
@@ -1876,10 +1939,6 @@ button:disabled {
         min-height: 130vh; /* Adjusted height for schedule section */
       }
 
-      #coaches {
-        max-height: 10vh; /* Adjusted height for about section */
-      }
-
       #testimonials.cc {
         min-height: 70vh; /* Adjusted height for testimonials section */
       }
@@ -1887,9 +1946,7 @@ button:disabled {
       #contact.cc {
         min-height: 40vh; /* Adjusted height for contact section */
       }
-      #coaches.cc {
-        min-height: 40vh; /* Adjusted height for coaches section */
-      }
+
       .carousel-card {
         min-width: 220px;
         height: 300px;
@@ -1963,50 +2020,36 @@ button:disabled {
 
       /* Coaches Section */
 
-      .coaches-container {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-      }
+   
     
       .coach-profile-card {
-        background: rgba(0, 0, 0, 0.7);
-        padding: 15px;
-        border-radius: 12px;
-        box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
-      }
-    
-      .coach-image img {
-        width: 100px;
-        height: auto;
-        border-radius: 50%;
-        margin-bottom: 10px;
-      }
-    
-      .coach-info {
+        background: rgba(20, 30, 20, 0.98); /* More opaque for visibility */
+        border-radius: 14px;
+        box-shadow: 0 2px 16px #000b, 0 0 0 2px #00ff8833;
+        padding: 18px 10px 14px 10px;
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         text-align: center;
-        padding: 10px;
+        box-sizing: border-box;
       }
     
-      .coach-info h2 {
-        font-size: 20px;
-        color: #00ff00;
-        margin-bottom: 10px;
-      }
-    
+      .coach-info h2,
       .coach-info .coach-name {
-        font-size: 16px;
-        font-weight: bold;
-        color: #00ff00;
-        text-transform: uppercase;
+        color: #00ff88;
+        text-shadow: 0 1px 6px #000a;
       }
     
       .coach-info p {
-        font-size: 14px;
+        color: #fff;
+        text-shadow: 0 1px 4px #000a;
+        font-size: 1rem;
         line-height: 1.5;
-        color: #ffffff;
-        max-width: 90%;
-        margin: 0 auto;
+        margin: 0 auto 0 auto;
+        max-width: 95%;
       }
 
       /* Footer */
@@ -2502,5 +2545,324 @@ button:disabled {
 @media (min-width: 769px) {
   .swipe-arrow-container {
     display: none;
+  }
+}
+
+/* Testimonials Section Styling */
+#testimonials {
+  background: url('../Images/TestimonialSectionBGIMGMob.svg') no-repeat center/cover;
+    position: relative;
+  padding: 60px 0 40px 0;
+  color: #fff;
+  text-align: center;
+  position: relative;
+}
+#testimonials h1 {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 2rem;
+  margin-bottom: 32px;
+  letter-spacing: 2px;
+  color: #00ff88;
+  text-shadow: 0 2px 12px #000a;
+  margin-top: 102px;
+}
+.carousel-containerT {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.carouselT {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 100%;
+  max-width: 600px;
+  min-height: 320px;
+  position: relative;
+  overflow: hidden;
+}
+.testimonial-card {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(20, 30, 20, 0.95);
+  border-radius: 18px;
+  box-shadow: 0 4px 32px #0008;
+  padding: 36px 28px 28px 28px;
+  min-width: 320px;
+  max-width: 420px;
+  min-height: 320px;
+  margin: 0 auto;
+  transition: transform 0.4s cubic-bezier(.4,2,.6,1), box-shadow 0.3s;
+  opacity: 0.7;
+  transform: scale(0.96);
+  z-index: 1;
+}
+.testimonial-card.active {
+  display: flex;
+  opacity: 1;
+  transform: scale(1.04);
+  box-shadow: 0 8px 40px #00ff8855, 0 2px 16px #000a;
+  z-index: 2;
+}
+.testimonial-img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 18px;
+  border: 3px solid #00ff88;
+  box-shadow: 0 2px 12px #000a;
+}
+.testimonial-text {
+  font-size: 1.15rem;
+  font-family: 'Inter', sans-serif;
+  color: #eafff2;
+  margin-bottom: 18px;
+  line-height: 1.5;
+  font-style: italic;
+}
+.testimonial-author {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.2rem;
+  color: #00ff88;
+  margin-bottom: 2px;
+  margin-top: 8px;
+  letter-spacing: 1px;
+}
+.testimonial-subtext {
+  font-size: 0.95rem;
+  color: #b0ffdd;
+  font-family: 'Inter', sans-serif;
+  margin-bottom: 0;
+}
+.nav-button {
+  background: #111;
+  color: #00ff88;
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 1.7rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #000a;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+  outline: none;
+  margin: 0 8px;
+}
+.nav-button:hover, .nav-button:focus {
+  background: #00ff88;
+  color: #111;
+  transform: scale(1.12);
+}
+@media (max-width: 700px) {
+  #testimonials {
+    padding: 18px 0 10px 0;
+    background-size: cover;
+    min-height: unset;
+    height: 100vh;
+    background-size: auto 100%;
+  }
+  #testimonials h1 {
+    font-size: 1.2rem;
+    margin-top: 20px;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+    color: #00ff88;
+    text-shadow: 0 1px 6px #000a;
+  }
+  .carousel-containerT {
+    flex-direction: column;
+    gap: 6px;
+    max-width: 100vw;
+    padding: 0 1vw;
+  }
+  .carouselT {
+    min-height: 140px;
+    max-width: 99vw;
+    width: 100vw;
+    padding: 0;
+  }
+  .testimonial-card, .testimonial-card.active {
+    min-width: 92vw;
+    max-width: 99vw;
+    padding: 12px 3vw 10px 3vw;
+    min-height: 120px;
+    font-size: 0.97rem;
+    box-shadow: 0 1px 8px #0007;
+    border-radius: 12px;
+    background: rgba(20, 30, 20, 0.93);
+    margin-bottom: 8px;
+  }
+  .testimonial-img {
+    width: 38px;
+    height: 38px;
+    margin-bottom: 6px;
+    border-width: 2px;
+    box-shadow: 0 1px 4px #0007;
+  }
+  .testimonial-text {
+    font-size: 0.92rem;
+    margin-bottom: 7px;
+    color: #eafff2;
+    font-style: bold;
+    line-height: 1.2;
+    margin-right: 5%;
+  }
+  .testimonial-author {
+    font-size: 0.98rem;
+    margin-top: 2px;
+    color: #00ff88;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .testimonial-subtext {
+    font-size: 0.8rem;
+    color: #b0ffdd;
+    margin-bottom: 0;
+  }
+  .nav-button {
+    width: 32px;
+    height: 32px;
+    font-size: 1.1rem;
+    margin: 0 2px;
+    background: #181818;
+    color: #00ff88;
+    border-radius: 50%;
+    border: none;
+    box-shadow: 0 1px 4px #0007;
+    transition: background 0.2s, color 0.2s, transform 0.2s;
+  }
+  .nav-button:hover, .nav-button:focus {
+    background: #00ff88;
+    color: #181818;
+    transform: scale(1.08);
+  }
+
+  #coaches {
+    padding: 260px 0 250px 0;
+    background-size: cover;
+    min-height: unset;
+  }
+
+  .coachesoverlay {
+    position: relative;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    overflow-y: auto;
+    padding: 20px 10px; /* Reduced padding for smaller screens */
+    box-sizing: border-box;
+    backdrop-filter: blur(6px);
+    z-index: 1000;
+  }
+
+  .coaches-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .coach-profile-card {
+    background: rgba(20, 30, 20, 0.98); /* More opaque for visibility */
+    border-radius: 14px;
+    box-shadow: 0 2px 16px #000b, 0 0 0 2px #00ff8833;
+    padding: 18px 10px 14px 10px;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  .coach-info h2,
+  .coach-info .coach-name {
+    color: #00ff88;
+    text-shadow: 0 1px 6px #000a;
+  }
+
+  .coach-info p {
+    color: #fff;
+    text-shadow: 0 1px 4px #000a;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin: 0 auto 0 auto;
+    max-width: 95%;
+  } 
+
+  .coach-profile-card img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 18px;
+    border: 3px solid #00ff88;
+    box-shadow: 0 2px 12px #000a;
+  }
+
+  .coach-profile-card h2 {
+    font-size: 1.2rem;
+    color: #00ff88;
+    margin-bottom: 2px;
+    margin-top: 8px;
+    letter-spacing: 1px;
+  }
+
+  .coach-profile-card p {
+    font-size: 0.9rem;
+    color: #b0ffdd;
+    margin-bottom: 0;
+  }
+
+  .coach-profile-card .coach-name {
+    font-size: 1.2rem;
+    color: #00ff88;
+    margin-bottom: 2px;
+    margin-top: 8px;
+    letter-spacing: 1px;
+  } 
+
+  .coach-profile-card .coach-subtext {
+    font-size: 0.9rem;
+    color: #b0ffdd;
+    margin-bottom: 0;
+  }
+  #coachesOverlay .close-btn {
+    top: 25px;
+    right: 10px;
+    font-size: 22px;
+    color: #00ff88;
+    background: none;
+    border: none;
+    position: absolute;
+    z-index: 10;
+    /* Add any other styles you want */
+  }
+  #coachesOverlay .close-btn:hover {
+    color: #00cc66;
+    transform: scale(1.15);
+  }
+
+  #coachesOverlay .overlay-content {
+    position: relative;
+    max-width: 70%; /* Adjusted width for smaller screens */
+    top: 5vh; /* Adjusted top position */
+    height: 75vh; /* Adjusted height for smaller screens */
+    margin: 0 auto;
+    right: 18px;
+    padding: 50px; /* Reduced padding */
+    background: #111;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+    color: white;
+    font-family: 'Inter', sans-serif;
   }
 }

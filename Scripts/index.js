@@ -1,383 +1,306 @@
-import { db } from '../auth.js';
+import { db } from './auth.js';
 import { ref, onValue } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
 
+// Utility Functions
+const toggleDisplay = (elementId, displayStyle) => {
+  const element = document.getElementById(elementId);
+  if (element) element.style.display = displayStyle;
+};
 
-export function openBookingOverlay() {
-    const overlay = document.getElementById("bookingOverlay");
-    overlay.style.display = "flex";
-  }
-  
-  export function closeBookingOverlay() {
-    const overlay = document.getElementById("bookingOverlay");
-    overlay.style.display = "none";
-  }
-  
-  // Attach globally so inline HTML calls work
-  window.openBookingOverlay = openBookingOverlay;
-  window.closeBookingOverlay = closeBookingOverlay;
-  
+const toggleClass = (elementId, className) => {
+  const element = document.getElementById(elementId);
+  if (element) element.classList.toggle(className);
+};
 
-  // menu Cards Carousel
-  let currentIndex = 0;
+// Overlay Management
+const OverlayManager = {
+  openOverlay(id) {
+    toggleDisplay(id, 'block');
+    document.body.classList.add('no-scroll');
+  },
+  closeOverlay(id) {
+    toggleDisplay(id, 'none');
+    document.body.classList.remove('no-scroll');
+  },
+};
 
-export function updateCarousel() {
-  const cards = document.querySelectorAll('.carousel-card');
-  cards.forEach((card, i) => {
-    card.classList.remove('active');
-    if (i === currentIndex) {
-      card.classList.add('active');
-    }
-  });
 
-  const track = document.getElementById('carouselTrack');
-  const offset = currentIndex * 340; // 300px width + 40px gap
-  track.style.transform = `translateX(calc(50% - ${offset}px))`;
-}
 
-document.getElementById('carouselNext').addEventListener('click', () => {
-  const cards = document.querySelectorAll('.carousel-card');
-  currentIndex = (currentIndex + 1) % cards.length;
-  updateCarousel();
-});
-
-document.getElementById('carouselPrev').addEventListener('click', () => {
-  const cards = document.querySelectorAll('.carousel-card');
-  currentIndex = (currentIndex - 1 + cards.length) % cards.length;
-  updateCarousel();
-});
-
-// Initialize
-updateCarousel();
-
-// Enable card click to make active
-document.querySelectorAll('.carousel-card').forEach((card, index) => {
-    card.addEventListener('click', () => {
-      currentIndex = index;
-      updateCarousel();
+// Carousel Management
+const Carousel = {
+  currentIndex: 0,
+  updateCarousel(trackId, cardClass, offsetWidth) {
+    const cards = document.querySelectorAll(`.${cardClass}`);
+    cards.forEach((card, i) => {
+      card.classList.toggle('active', i === this.currentIndex);
     });
-  });
 
-  
-  // Testimonial Carousel
-  let currentTestimonial = 0;
+    const track = document.getElementById(trackId);
+    const offset = this.currentIndex * offsetWidth;
+    track.style.transform = `translateX(calc(50% - ${offset}px))`;
+  },
+  attachNavigation(nextId, prevId, cardClass, trackId, offsetWidth) {
+    document.getElementById(nextId).addEventListener('click', () => {
+      const cards = document.querySelectorAll(`.${cardClass}`);
+      this.currentIndex = (this.currentIndex + 1) % cards.length;
+      this.updateCarousel(trackId, cardClass, offsetWidth);
+    });
 
-const testimonials = document.querySelectorAll('.testimonial-card');
-const prevBtn = document.getElementById('prevTestimonial');
-const nextBtn = document.getElementById('nextTestimonial');
+    document.getElementById(prevId).addEventListener('click', () => {
+      const cards = document.querySelectorAll(`.${cardClass}`);
+      this.currentIndex = (this.currentIndex - 1 + cards.length) % cards.length;
+      this.updateCarousel(trackId, cardClass, offsetWidth);
+    });
+  },
+  attachCardClick(cardClass, trackId, offsetWidth) {
+    document.querySelectorAll(`.${cardClass}`).forEach((card, index) => {
+      card.addEventListener('click', () => {
+        this.currentIndex = index;
+        this.updateCarousel(trackId, cardClass, offsetWidth);
+      });
+    });
+  },
+};
 
-function updateTestimonials() {
-  testimonials.forEach((card, index) => {
-    card.classList.remove('active');
-    if (index === currentTestimonial) {
-      card.classList.add('active');
-    }
-  });
-}
+// Initialize Menu Cards Carousel
+Carousel.attachNavigation('carouselNext', 'carouselPrev', 'carousel-card', 'carouselTrack', 340);
+Carousel.attachCardClick('carousel-card', 'carouselTrack', 340);
+Carousel.updateCarousel('carouselTrack', 'carousel-card', 340);
 
-nextBtn.addEventListener('click', () => {
-  currentTestimonial = (currentTestimonial + 1) % testimonials.length;
-  updateTestimonials();
-});
+// Testimonial Carousel
+const TestimonialCarousel = {
+  currentIndex: 0,
+  update() {
+    const testimonials = document.querySelectorAll('.testimonial-card');
+    testimonials.forEach((card, index) => {
+      card.classList.toggle('active', index === this.currentIndex);
+    });
+  },
+  attachNavigation(nextId, prevId) {
+    document.getElementById(nextId).addEventListener('click', () => {
+      const testimonials = document.querySelectorAll('.testimonial-card');
+      this.currentIndex = (this.currentIndex + 1) % testimonials.length;
+      this.update();
+    });
 
-prevBtn.addEventListener('click', () => {
-  currentTestimonial = (currentTestimonial - 1 + testimonials.length) % testimonials.length;
-  updateTestimonials();
-});
+    document.getElementById(prevId).addEventListener('click', () => {
+      const testimonials = document.querySelectorAll('.testimonial-card');
+      this.currentIndex = (this.currentIndex - 1 + testimonials.length) % testimonials.length;
+      this.update();
+    });
+  },
+};
 
-// Initial display
-updateTestimonials();
-
+// Initialize Testimonial Carousel
+TestimonialCarousel.attachNavigation('nextTestimonial', 'prevTestimonial');
+TestimonialCarousel.update();
 
 // Menu Toggle
-const menuBtn = document.getElementById('menuBtn');
-const menuOverlay = document.getElementById('menuOverlay');
-const menuIcon = document.getElementById('menuIcon'); // updated to match actual ID
+const Menu = {
+  toggle() {
+    toggleClass('menuOverlay', 'show');
+    const isOpen = document.getElementById('menuOverlay').classList.contains('show');
+    document.getElementById('menuIcon').src = isOpen ? 'Images/menuIconOpen.svg' : 'Images/menuIconClosed.svg';
+  },
+  close() {
+    document.getElementById('menuOverlay').classList.remove('show');
+    document.getElementById('menuIcon').src = 'Images/menuIconClosed.svg';
+  },
+};
+document.getElementById('menuBtn').addEventListener('click', Menu.toggle);
+window.closeMenuOverlay = Menu.close;
 
-const iconClosed = 'Images/menuIconClosed.svg';
-const iconOpen = 'Images/menuIconOpen.svg';
-
-menuBtn.addEventListener('click', () => {
-  menuOverlay.classList.toggle('show');
-
-  const isOpen = menuOverlay.classList.contains('show');
-  menuIcon.src = isOpen ? iconOpen : iconClosed;
-});
-
-// Close overlay and scroll to section when a menu link is clicked
+// Menu Links Scroll
 document.querySelectorAll('.menu-link').forEach(link => {
   link.addEventListener('click', (e) => {
     const href = link.getAttribute('href');
-
-    // ✅ Only prevent default if it's a hash scroll or handled with custom overlay
     if (href.startsWith("#")) {
       e.preventDefault();
-      const targetId = href.substring(1);
-      const targetElement = document.getElementById(targetId);
-
-      if (targetElement) {
-        targetElement.scrollIntoView({ behavior: 'smooth' });
-      }
-
-      menuOverlay.classList.remove('show');
-      menuIcon.src = iconClosed;
+      const targetElement = document.getElementById(href.substring(1));
+      if (targetElement) targetElement.scrollIntoView({ behavior: 'smooth' });
+      Menu.close();
     }
   });
 });
 
-// Open info panels
-document.getElementById('tcBtn').addEventListener('click', () => {
-  document.getElementById('tcPanel').style.display = 'block';
-});
+// Info Panels
+const InfoPanel = {
+  open(panelId) {
+    toggleDisplay(panelId, 'block');
+  },
+  close(panelId) {
+    toggleDisplay(panelId, 'none');
+  },
+};
+window.closePanel = InfoPanel.close;
 
-document.getElementById('privacyBtn').addEventListener('click', () => {
-  document.getElementById('privacyPanel').style.display = 'block';
-});
 
-// Close panel by ID (called from inline onclick)
-window.closePanel = function(panelId) {
-  const panel = document.getElementById(panelId);
-  if (panel) panel.style.display = 'none';
+// Booking Overlay
+export const BookingOverlay = {
+  open() {
+    OverlayManager.openOverlay('bookingOverlay');
+  },
+  close() {
+    OverlayManager.closeOverlay('bookingOverlay');
+  },
+};
+window.openBookingOverlay = BookingOverlay.open;
+window.closeBookingOverlay = BookingOverlay.close;
+// When opening overlays from menu, do NOT scroll to home
+window.openBookingsFromMenu = () => {
+  Menu.close();
+  OverlayManager.openOverlay('bookingOverlay');
 };
 
-// Optional: Close info panel when clicking outside of it
-window.addEventListener('click', (e) => {
-  document.querySelectorAll('.info-panel').forEach(panel => {
-    if (e.target === panel) {
-      panel.style.display = 'none';
-    }
-  });
-});
+// About Us Overlay
+window.openAboutUsOverlay = () => OverlayManager.openOverlay('aboutUsOverlay');
+window.closeAboutUsOverlay = () => OverlayManager.closeOverlay('aboutUsOverlay');
+// When opening overlays from menu, do NOT scroll to home
+window.openAboutUsFromMenu = () => {
+  Menu.close();
+  OverlayManager.openOverlay('aboutUsOverlay');
+};
 
-// about us overlay
-function openAboutUsOverlay() {
-  document.getElementById('aboutUsOverlay').style.display = 'block';
-  document.body.classList.add('no-scroll'); // prevent background scroll
-}
+// Framework Overlay
+window.openFrameworkOverlay = () => OverlayManager.openOverlay('frameworkOverlay');
+window.closeFrameworkOverlay = () => OverlayManager.closeOverlay('frameworkOverlay');
+// When opening overlays from menu, do NOT scroll to home
+window.openFrameworkFromMenu = () => {
+  Menu.close();
+  OverlayManager.openOverlay('frameworkOverlay');
+};
 
-function closeAboutUsOverlay() {
-  document.getElementById('aboutUsOverlay').style.display = 'none';
-  document.body.classList.remove('no-scroll'); // re-enable scroll
-}
-  window.openAboutUsOverlay = openAboutUsOverlay;
-window.closeAboutUsOverlay = closeAboutUsOverlay;
+// Services Overlay
+window.openServicesOverlay = () => OverlayManager.openOverlay('servicesOverlay');
+window.closeServicesOverlay = () => OverlayManager.closeOverlay('servicesOverlay');
+// When opening overlays from menu, do NOT scroll to home
+window.openServicesFromMenu = () => {
+  Menu.close();
+  OverlayManager.openOverlay('servicesOverlay');
+};
 
-function openAboutUsFromMenu() {
-  closeMenuOverlay(); // if you want to close the menu before opening the About panel
-  openAboutUsOverlay(); // opens the About panel
-}
+// Coaches Overlay
+window.openCoachesOverlay = () => OverlayManager.openOverlay('coachesOverlay');
+window.closeCoachesOverlay = () => OverlayManager.closeOverlay('coachesOverlay');
+// When opening overlays from menu, do NOT scroll to home
+window.openCoachesFromMenu = () => {
+  Menu.close();
+  OverlayManager.openOverlay('coachesOverlay');
+};
 
-function closeMenuOverlay() {
-  const menu = document.getElementById('menuOverlay');
-  menu.classList.remove('active');
-}
-window.closeMenuOverlay = closeMenuOverlay; // make it globally accessible
-window.openAboutUsFromMenu = openAboutUsFromMenu; // make it globally accessible
-
-function openFrameworkOverlay() {
-  document.getElementById('frameworkOverlay').style.display = 'block';
-  document.body.classList.add('no-scroll');
-}
-
-function closeFrameworkOverlay() {
-  document.getElementById('frameworkOverlay').style.display = 'none';
-  document.body.classList.remove('no-scroll');
-}
-
-function openFrameworkFromMenu() {
-  closeMenuOverlay(); // optional: closes menu first
-  openFrameworkOverlay();
-}
-window.openFrameworkFromMenu = openFrameworkFromMenu; // make it globally accessible
-window.openFrameworkOverlay = openFrameworkOverlay; // make it globally accessible
-window.closeFrameworkOverlay = closeFrameworkOverlay; // make it globally accessible
-
-function openServicesOverlay() {
-  document.getElementById('servicesOverlay').style.display = 'block';
-  document.body.classList.add('no-scroll');
-}
-
-function closeServicesOverlay() {
-  document.getElementById('servicesOverlay').style.display = 'none';
-  document.body.classList.remove('no-scroll');
-}
-
-function openCoachesOverlay() {
-  document.getElementById('coachesOverlay').style.display = 'block';
-  document.body.classList.add('no-scroll');
-}
-
-function closeCoachesOverlay() {
-  document.getElementById('coachesOverlay').style.display = 'none';
-  document.body.classList.remove('no-scroll');
-}
-
-function openServicesFromMenu() {
-  closeMenuOverlay();
-  openServicesOverlay();
-}
-
-function openCoachesFromMenu() {
-  closeMenuOverlay(); // Closes the menu overlay
-  openCoachesOverlay(); // Opens the Coaches Overlay
-}
-
-function openBookingsFromMenu() {
-  closeBookingOverlay(); // Closes the menu overlay
-  openBookingOverlay(); // Opens the Coaches Overlay
-}
-
-
-window.openServicesFromMenu = openServicesFromMenu; // make it globally accessible
-window.openServicesOverlay = openServicesOverlay; // make it globally accessible
-window.closeServicesOverlay = closeServicesOverlay; // make it globally accessible
-window.openCoachesFromMenu = openCoachesFromMenu; // make it globally accessible
-window.openCoachesOverlay = openCoachesOverlay; // make it globally accessible
-window.closeCoachesOverlay = closeCoachesOverlay; // make it globally accessible  
-window.openBookingsFromMenu = openBookingsFromMenu; // make it globally accessible
-
-
-function openScheduleOverlay() {
+// Schedule Overlay
+window.openScheduleOverlay = () => {
   const overlay = document.getElementById('scheduleOverlay');
-  if (!overlay) {
-    console.error("❌ #scheduleOverlay not found");
-    return;
-  }
-
   const container = overlay.querySelector('.schedule-container');
-  if (!container) {
-    console.error("❌ .schedule-container not found inside overlay");
-    return;
-  }
+  if (!overlay || !container) return console.error("❌ Schedule overlay or container not found");
 
-  overlay.style.display = 'block';
-  document.body.classList.add('no-scroll');
+  OverlayManager.openOverlay('scheduleOverlay');
 
-  // Load Firebase data
   const scheduleRef = ref(db, "schedule");
   onValue(scheduleRef, (snapshot) => {
     const data = snapshot.val();
-    container.innerHTML = "";
-
-    if (!data) {
-      container.innerHTML = "<p>No schedule available at the moment.</p>";
-      return;
-    }
-
-    Object.values(data).forEach((group) => {
-      const item = document.createElement("div");
-      item.className = "schedule-item";
-      item.innerHTML = `
-        <h3>${group.groupName}</h3>
-        <p>${group.time} / ${group.location}</p>
-      `;
-      container.appendChild(item);
-    });
+    container.innerHTML = data
+      ? Object.values(data).map(group => `
+        <div class="schedule-item">
+          <h3>${group.groupName}</h3>
+          <p>${group.time} / ${group.location}</p>
+        </div>
+      `).join('')
+      : "<p>No schedule available at the moment.</p>";
   });
-}
+};
+window.closeScheduleOverlay = () => OverlayManager.closeOverlay('scheduleOverlay');
+// When opening overlays from menu, do NOT scroll to home
+window.openScheduleFromMenu = () => {
+  Menu.close();
+  OverlayManager.openOverlay('scheduleOverlay');
+};
 
-// 🔒 IMPORTANT: Make sure it's exposed globally
-window.openScheduleOverlay = openScheduleOverlay;
+// Admin Portal
+window.openAdminPortal = () => {
+  Menu.close();
+  setTimeout(() => window.location.href = 'adminportal.html', 200);
+};
 
-function closeScheduleOverlay() {
-  document.getElementById('scheduleOverlay').style.display = 'none';
-  document.body.classList.remove('no-scroll');
-}
+// Contact Overlay
+window.openContactOverlay = () => OverlayManager.openOverlay('contactOverlay');
+window.closeContactOverlay = () => OverlayManager.closeOverlay('contactOverlay');
+// When opening overlays from menu, do NOT scroll to home
+window.openContactFromMenu = () => {
+  Menu.close();
+  OverlayManager.openOverlay('contactOverlay');
+};
 
-function openScheduleFromMenu() {
-  closeMenuOverlay();
-  openScheduleOverlay();
-} 
-
-window.openScheduleFromMenu = openScheduleFromMenu; // make it globally accessible
-window.openScheduleOverlay = openScheduleOverlay; // make it globally accessible  
-window.closeScheduleOverlay = closeScheduleOverlay; // make it globally accessible
-
-
-
-function openAdminPortal() {
-  closeMenuOverlay();
-  setTimeout(() => {
-    window.location.href = 'adminportal.html';
-  }, 200); // give the menu time to disappear
-}
-window.openAdminPortal = openAdminPortal; // make it globally accessible
-
-function openContactOverlay() {
-  document.getElementById('contactOverlay').style.display = 'block';
-  document.body.classList.add('no-scroll');
-}
-
-function closeContactOverlay() {
-  document.getElementById('contactOverlay').style.display = 'none';
-  document.body.classList.remove('no-scroll');
-}
-
-function openContactFromMenu() {
-  closeContactOverlay();
-  openContactOverlay();
-}
-
-// Attach globally
-window.openContactOverlay = openContactOverlay;
-window.closeContactOverlay = closeContactOverlay;
-window.openContactFromMenu = openContactFromMenu;
-
-document.addEventListener('DOMContentLoaded', function() {
+// Swipe/Drag for Carousel
+document.addEventListener('DOMContentLoaded', () => {
   const carouselTrack = document.getElementById('carouselTrack');
   let startX = 0;
+  let currentX = 0;
   let isSwiping = false;
 
-  // Prevent Text Selection on Swipe/Drag
-  carouselTrack.style.userSelect = 'none';
-  carouselTrack.style.webkitUserSelect = 'none';
-  carouselTrack.style.msUserSelect = 'none';
-
-  // Mobile Swipe (Touch Events)
+  // Touch events
   carouselTrack.addEventListener('touchstart', (e) => {
-      startX = e.touches[0].clientX;
-      isSwiping = true;
+    startX = e.touches[0].clientX;
+    isSwiping = true;
   });
-
   carouselTrack.addEventListener('touchmove', (e) => {
-      if (!isSwiping) return;
-
-      const currentX = e.touches[0].clientX;
-      const diff = startX - currentX;
-
-      if (diff > 50) { // Swipe Left
-          document.getElementById('carouselNext').click();
-          isSwiping = false;
-      } else if (diff < -50) { // Swipe Right
-          document.getElementById('carouselPrev').click();
-          isSwiping = false;
-      }
+    if (isSwiping) {
+      currentX = e.touches[0].clientX;
+    }
   });
-
   carouselTrack.addEventListener('touchend', () => {
+    if (isSwiping) {
+      const diff = startX - currentX;
+      if (diff > 50) document.getElementById('carouselNext').click();
+      else if (diff < -50) document.getElementById('carouselPrev').click();
       isSwiping = false;
+      startX = 0;
+      currentX = 0;
+    }
   });
 
-  // Desktop Drag (Mouse Events)
+  // Mouse events (for desktop drag)
+  let mouseMoved = false;
   carouselTrack.addEventListener('mousedown', (e) => {
-      startX = e.clientX;
-      isSwiping = true;
+    startX = e.clientX;
+    isSwiping = true;
+    mouseMoved = false;
   });
-
   carouselTrack.addEventListener('mousemove', (e) => {
-      if (!isSwiping) return;
-
-      const diff = startX - e.clientX;
-
-      if (diff > 50) { // Drag Left
-          document.getElementById('carouselNext').click();
-          isSwiping = false;
-      } else if (diff < -50) { // Drag Right
-          document.getElementById('carouselPrev').click();
-          isSwiping = false;
+    if (isSwiping) {
+      currentX = e.clientX;
+      mouseMoved = true;
+    }
+  });
+  carouselTrack.addEventListener('mouseup', (e) => {
+    if (isSwiping) {
+      const diff = startX - currentX;
+      if (mouseMoved && Math.abs(diff) > 10) {
+        if (diff > 50) document.getElementById('carouselNext').click();
+        else if (diff < -50) document.getElementById('carouselPrev').click();
+      } else if (!mouseMoved) {
+        // Treat as click: find the card and trigger its click event
+        const card = e.target.closest('.carousel-card');
+        if (card) card.click();
       }
-  });
-
-  carouselTrack.addEventListener('mouseup', () => {
       isSwiping = false;
+      startX = 0;
+      currentX = 0;
+      mouseMoved = false;
+    }
   });
+  // Prevent accidental text selection while dragging
+  carouselTrack.addEventListener('mouseleave', () => {
+    isSwiping = false;
+    startX = 0;
+    currentX = 0;
+    mouseMoved = false;
+  });
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+  const tcBtn = document.getElementById("tcBtn");
+  const privacyBtn = document.getElementById("privacyBtn");
+  if (tcBtn) tcBtn.addEventListener("click", () => InfoPanel.open('tcPanel'));
+  if (privacyBtn) privacyBtn.addEventListener("click", () => InfoPanel.open('privacyPanel'));
 });
