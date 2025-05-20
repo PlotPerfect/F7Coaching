@@ -27,6 +27,9 @@ document.addEventListener("DOMContentLoaded", async () => {
               document.getElementById("sessionDate").textContent = data.sessionDate || "N/A";
               document.getElementById("sessionTime").textContent = data.sessionTime || "N/A";
 
+              // Inject dynamic JSON-LD structured data for SEO
+              injectDynamicJSONLD(data);
+
               // Send Confirmation Email Automatically
               sendConfirmationEmail(
                 data.playerName,
@@ -54,4 +57,40 @@ function displayError(message) {
       <p>${message}</p>
       <a href="index.html" class="return-btn">Return to Homepage</a>
   `;
+}
+
+// Inject dynamic JSON-LD structured data into the head
+function injectDynamicJSONLD(data) {
+  if (!data) return;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "EventReservation",
+    "reservationStatus": "https://schema.org/ReservationConfirmed",
+    "underName": {
+      "@type": "Person",
+      "name": data.playerName || "N/A"
+    },
+    "provider": {
+      "@type": "SportsActivityLocation",
+      "name": "F7 Coaching",
+      "url": "https://www.f7coaching.com"
+    },
+    "reservationFor": {
+      "@type": "Event",
+      "name": data.sessionName || "Football Coaching Session",
+      "startDate": data.sessionDate || ""
+    },
+    "email": data.parentEmail || undefined,
+    "startTime": data.sessionTime || undefined
+  };
+  // Remove undefined fields
+  Object.keys(jsonLd).forEach(key => (jsonLd[key] === undefined) && delete jsonLd[key]);
+  if (jsonLd.reservationFor) {
+    Object.keys(jsonLd.reservationFor).forEach(key => (jsonLd.reservationFor[key] === undefined) && delete jsonLd.reservationFor[key]);
+  }
+  // Inject into the placeholder script tag
+  const script = document.getElementById('dynamic-jsonld');
+  if (script) {
+    script.textContent = JSON.stringify(jsonLd, null, 2);
+  }
 }

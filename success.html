@@ -4,6 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Booking Confirmed - F7 Coaching</title>
+  <meta name="description" content="Your booking with F7 Coaching has been confirmed. Thank you for choosing elite football coaching for young players in North London.">
+  <meta name="keywords" content="F7 Coaching, football booking confirmation, youth football, kids football, football coaching North London, football academy booking">
+  <meta property="og:title" content="Booking Confirmed - F7 Coaching">
+  <meta property="og:description" content="Your booking with F7 Coaching has been confirmed. Thank you for choosing elite football coaching for young players.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.f7coaching.com/success.html">
+  <meta property="og:image" content="https://www.f7coaching.com/images/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Booking Confirmed - F7 Coaching">
+  <meta name="twitter:description" content="Your booking with F7 Coaching has been confirmed. Thank you for choosing elite football coaching for young players.">
+  <meta name="twitter:image" content="https://www.f7coaching.com/images/twitter-card-image.png">
+  <link rel="canonical" href="https://www.f7coaching.com/success.html">
+  <!-- JSON-LD will be injected dynamically -->
   <link rel="icon" href="Images/faviconV2.png" type="image/png">
  
 </head>
@@ -64,7 +77,43 @@
 <script src="Scripts/auth.js" type="module"></script>
 <script src="Scripts/EmailJS.js" type="module"></script>
 <script src="Scripts/SuccessHandler.js" type="module"></script>
-
+<script type="text/javascript">
+// Wait for DOM and SuccessHandler to populate booking details
+function injectDynamicJSONLD() {
+  const childName = document.getElementById('childName').textContent;
+  const sessionDate = document.getElementById('sessionDate').textContent;
+  if (!childName || childName === 'Loading...' || !sessionDate || sessionDate === 'Loading...') {
+    // Try again shortly if data not loaded yet
+    setTimeout(injectDynamicJSONLD, 100);
+    return;
+  }
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "EventReservation",
+    "reservationStatus": "https://schema.org/ReservationConfirmed",
+    "underName": {
+      "@type": "Person",
+      "name": childName
+    },
+    "provider": {
+      "@type": "SportsActivityLocation",
+      "name": "F7 Coaching",
+      "url": "https://www.f7coaching.com"
+    },
+    "reservationFor": {
+      "@type": "Event",
+      "name": "Football Coaching Session",
+      "startDate": sessionDate
+    }
+  };
+  const script = document.createElement('script');
+  script.type = 'application/ld+json';
+  script.text = JSON.stringify(jsonLd, null, 2);
+  document.head.appendChild(script);
+}
+document.addEventListener('DOMContentLoaded', injectDynamicJSONLD);
+</script>
+<script type="application/ld+json" id="dynamic-jsonld"></script>
 
 </body>
 </html>
