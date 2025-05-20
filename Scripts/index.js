@@ -237,26 +237,68 @@ document.addEventListener('DOMContentLoaded', () => {
   let startX = 0;
   let currentX = 0;
   let isSwiping = false;
+  let touchMoved = false;
+  let activeCard = null;
+  const SWIPE_THRESHOLD = 30;
+
+  // Helper: activate card overlay/button on tap
+  function activateCard(card) {
+    // Remove active state from all cards
+    document.querySelectorAll('.carousel-card').forEach(c => c.classList.remove('mobile-active'));
+    if (card) card.classList.add('mobile-active');
+    activeCard = card;
+  }
 
   // Touch events
   carouselTrack.addEventListener('touchstart', (e) => {
     startX = e.touches[0].clientX;
     isSwiping = true;
+    touchMoved = false;
+    // Find the card being touched
+    activeCard = e.target.closest('.carousel-card');
   });
   carouselTrack.addEventListener('touchmove', (e) => {
     if (isSwiping) {
       currentX = e.touches[0].clientX;
+      if (Math.abs(currentX - startX) > 5) touchMoved = true;
     }
   });
-  carouselTrack.addEventListener('touchend', () => {
-    if (isSwiping) {
-      const diff = startX - currentX;
-      if (diff > 50) document.getElementById('carouselNext').click();
-      else if (diff < -50) document.getElementById('carouselPrev').click();
-      isSwiping = false;
-      startX = 0;
-      currentX = 0;
+  carouselTrack.addEventListener('touchend', (e) => {
+    if (!isSwiping) return;
+    const diff = startX - currentX;
+    if (touchMoved && Math.abs(diff) > SWIPE_THRESHOLD) {
+      // Swipe
+      if (diff > 0) document.getElementById('carouselNext').click();
+      else document.getElementById('carouselPrev').click();
+      // Remove mobile-active from all cards
+      document.querySelectorAll('.carousel-card').forEach(c => c.classList.remove('mobile-active'));
+    } else {
+      // Treat as tap
+      const card = e.target.closest('.carousel-card');
+      if (card) {
+        if (!card.classList.contains('mobile-active')) {
+          // First tap: show overlay/button
+          activateCard(card);
+        } else {
+          // Second tap: if tap is on button, trigger button
+          const button = card.querySelector('.card-overlay button');
+          if (button && e.changedTouches.length === 1) {
+            const touch = e.changedTouches[0];
+            const btnRect = button.getBoundingClientRect();
+            if (
+              touch.clientX >= btnRect.left && touch.clientX <= btnRect.right &&
+              touch.clientY >= btnRect.top && touch.clientY <= btnRect.bottom
+            ) {
+              button.click();
+            }
+          }
+        }
+      }
     }
+    isSwiping = false;
+    startX = 0;
+    currentX = 0;
+    touchMoved = false;
   });
 
   // Mouse events (for desktop drag)
