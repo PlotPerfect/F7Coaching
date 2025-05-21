@@ -13,12 +13,17 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Send Confirmation Email (Globally Accessible)
-window.sendConfirmationEmail = async function(playerName, parentEmail, sessionName, sessionDate, sessionTime) {
+window.sendConfirmationEmail = async function(playerName, parentEmail, sessionName, sessionDate, sessionTime, sessionLocation) {
     try {
         if (!parentEmail || !playerName || !sessionName || !sessionDate || !sessionTime) {
             console.error("❌ Missing Required Fields for Email.");
             return;
         }
+        // Ensure location is a string
+        let locationString = '';
+        if (typeof sessionLocation === 'string') locationString = sessionLocation;
+        else if (sessionLocation && typeof sessionLocation === 'object' && sessionLocation.name) locationString = sessionLocation.name;
+        else locationString = String(sessionLocation || '');
 
         console.log("🚀 Sending Confirmation Email with EmailJS...");
         const response = await emailjs.send("service_h0mu3pe", "template_ltcmr9q", {
@@ -26,7 +31,8 @@ window.sendConfirmationEmail = async function(playerName, parentEmail, sessionNa
             parent_email: parentEmail,
             session_name: sessionName,
             session_date: sessionDate,
-            session_time: sessionTime
+            session_time: sessionTime,
+            session_location: locationString
         });
 
         if (response.status === 200) {

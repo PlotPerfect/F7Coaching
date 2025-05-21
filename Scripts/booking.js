@@ -42,9 +42,10 @@ function populateSessionOptions(scheduleData) {
   liveScheduleData = scheduleData;
 
   Object.entries(scheduleData).forEach(([key, session]) => {
+    const locationString = session.location ? (typeof session.location === 'string' ? session.location : session.location.name || '') : '';
     const option = document.createElement("option");
     option.value = key;
-    option.textContent = `${session.groupName} — ${session.time}`;
+    option.textContent = `${session.groupName} — ${session.time}${locationString ? ` (${locationString})` : ''}`;
     elements.sessionTypeSelect.appendChild(option);
   });
 }
@@ -119,7 +120,13 @@ async function getAvailableSpots(groupKey, sessionDate) {
   const bookingsRef = ref(db, `bookings/${groupKey}/${sessionDate}`);
   const snapshot = await get(bookingsRef);
   const data = snapshot.val();
-  return 15 - (data ? Object.keys(data).length : 0);
+  let confirmedCount = 0;
+  if (data) {
+    Object.values(data).forEach(booking => {
+      if (booking.status === "Confirmed") confirmedCount++;
+    });
+  }
+  return 15 - confirmedCount;
 }
 
 // Update booking message based on available spots for selected date
@@ -190,12 +197,21 @@ async function saveBooking(playerName, parentEmail, sessionName, sessionDate, se
   const bookingRef = ref(db, `bookings/${groupKey}/${sessionDate}`);
   const newBookingRef = push(bookingRef);
 
+  // Fetch location from schedule
+  const sessionRef = ref(db, `schedule/${groupKey}`);
+  const sessionSnap = await get(sessionRef);
+  const sessionData = sessionSnap.val();
+  const location = sessionData && sessionData.location
+  ? (typeof sessionData.location === 'string' ? sessionData.location : sessionData.location.name || '')
+  : '';
+  
   await set(newBookingRef, {
     playerName,
     parentEmail,
     sessionName,
     sessionDate,
     sessionTime,
+    location, // Save location
     status: "Pending",
   });
 

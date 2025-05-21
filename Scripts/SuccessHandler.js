@@ -1,5 +1,5 @@
 // SuccessHandler.js - Handles Booking Confirmation Display
-import { db, ref, get } from './auth.js';
+import { db, ref, get, update } from './auth.js';
 
 document.addEventListener("DOMContentLoaded", async () => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       try {
           const bookingRef = ref(db, `bookings/${groupKey}/${sessionDate}/${bookingId}`);
           const snapshot = await get(bookingRef);
+          await update(bookingRef, { status: "Confirmed" });
 
           if (snapshot.exists()) {
               const data = snapshot.val();
@@ -26,6 +27,7 @@ document.addEventListener("DOMContentLoaded", async () => {
               document.getElementById("sessionName").textContent = data.sessionName || "N/A";
               document.getElementById("sessionDate").textContent = data.sessionDate || "N/A";
               document.getElementById("sessionTime").textContent = data.sessionTime || "N/A";
+              document.getElementById("sessionLocation").textContent = data.location || "N/A";
 
               // Inject dynamic JSON-LD structured data for SEO
               injectDynamicJSONLD(data);
@@ -36,7 +38,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                 data.parentEmail,
                 data.sessionName,
                 data.sessionDate,
-                data.sessionTime
+                data.sessionTime,
+                data.location // Pass location as 6th argument
               );
           } else {
               displayError("❌ Booking data could not be loaded. Please contact support.");

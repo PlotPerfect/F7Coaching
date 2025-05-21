@@ -89,10 +89,7 @@
             <li><a href="#" class="menu-link" onclick="openBookingsFromMenu()">Bookings</a></li>
             <li><a href="#" class="menu-link" onclick="openAboutUsFromMenu()">About Me</a></li>
             <li><a href="#" class="menu-link" onclick="openServicesFromMenu()">Services</a></li>
-            <li><a href="#" class="menu-link" onclick="openFrameworkFromMenu()">Framework</a></li>
             <li><a href="#" class="menu-link" onclick="openScheduleFromMenu()">Schedule</a></li>
-            <li><a href="#" class="menu-link" onclick="openCoachesFromMenu()">Coaches</a></li>
-            <li><a href="#testimonials" class="menu-link">Testimonials</a></li>
             <li><a href="#" class="menu-link" onclick="openContactFromMenu()">Contact</a></li>
             <li><a href="adminportal.html" class="menu-link" onclick="closeMenuOverlay()">Admin Portal</a></li>
         </ul>
@@ -107,7 +104,6 @@
     </video>
   
     <div class="scroll-down-indicator" onclick="document.getElementById('sectionCarousel').scrollIntoView({behavior: 'smooth'})">
-        <h1>Click Here to Book Now</h1>
         <div class="arrow-down"></div>
       </div>
       
@@ -121,67 +117,63 @@
     <div class="carousel-track" id="carouselTrack">
       <!-- Card 1 -->
       <div class="carousel-card active" style="background-image: url('Images/templateimg2.svg');">
-        <h1>Bookings</h1>
+        <h1>BOOKINGS</h1>
         <div class="card-overlay">
-          <button class="card-button" onclick="openBookingOverlay()">Book Now</button>
+          <button class="card-button" onclick="openBookingOverlay()">BOOK NOW</button>
         </div>
       </div>
 
       <!-- Card 2 -->
       <div class="carousel-card" style="background-image: url('Images/templateimg1.svg');">
-        <h1>About Us</h1>
+        <h1>ABOUT US</h1>
         <div class="card-overlay">
-          <button onclick="openAboutUsOverlay()">Learn More</button>
+          <button onclick="openAboutUsOverlay()">LEARN MORE</button>
         </div>
       </div>
 
-      <!-- Card 3 -->
+      <!-- Card 3 COMMENTED OUT FOR NOW 
       <div class="carousel-card" style="background-image: url('Images/templateimg3.svg');">
         <h1>Framework</h1>
         <div class="card-overlay">
           <button onclick="openFrameworkOverlay()">Learn More</button>
         </div>
       </div>
+      -->
 
       <!-- Card 4 -->
       <div class="carousel-card" style="background-image: url('Images/templateimg4.svg');">
-        <h1>Services</h1>
+        <h1>SERVICES</h1>
         <div class="card-overlay">
-          <button onclick="openServicesOverlay()">Learn More</button>
+          <button onclick="openServicesOverlay()">LEARN MORE</button>
         </div>
       </div>
 
       <!-- Card 5 -->
       <div class="carousel-card" style="background-image: url('Images/templateimg5.svg');">
-        <h1>Schedule</h1>
+        <h1>SCHEDULE</h1>
         <div class="card-overlay">
-          <button onclick="openScheduleOverlay()">Learn More</button>
+          <button onclick="openScheduleOverlay()">LEARN MORE</button>
         </div>
       </div>
 
       <!-- Card 6 -->
       <div class="carousel-card" style="background-image: url('Images/templateimg6.svg');">
-        <h1>Get in Touch</h1>
+        <h1>GET IN TOUCH</h1>
         <div class="card-overlay">
-          <button onclick="openContactOverlay()">Get in Touch</button>
+          <button onclick="openContactOverlay()">GET IN TOUCH</button>
         </div>
       </div>
 
       <!-- Card 7 -->
       <div class="carousel-card" style="background-image: url('Images/templateimg4.svg');">
-        <h1>Meet the Coach</h1>
+        <h1>MEET THE COACH</h1>
         <div class="card-overlay">
-          <button onclick="openCoachesOverlay()">Learn More</button>
+          <button onclick="openCoachesOverlay()">LEARN MORE</button>
         </div>
       </div>
     </div>
     <button class="carousel-nav right" id="carouselNext">&#8594;</button>
 
-    <!-- Swipe for More Section -->
-    <div class="swipe-arrow-container">
-      <span class="swipe-arrow-text">Swipe for More</span>
-      <span class="swipe-arrow-icon"></span>
-    </div>
   </section>
 
 
@@ -278,8 +270,6 @@
   </div>
 </div>
 
-  
-  <!-- Framework Overlay Panel -->
 <div id="frameworkOverlay" class="overlay-panel" style="display: none;">
   <div class="overlay-content">
     <button class="close-btn" onclick="closeFrameworkOverlay()">✖</button>
@@ -310,7 +300,6 @@
           <h3>Cognitive Training</h3>
           <p>This training in football is all about enchancing a players mental sharpness. It involves developing the brain's ability to process information quickly and accurately under pressure, which is essential during high-intensity moments of a match. This type of training focuses on improving the players vision, reaction times, decision-making and ability to anticipate the opponents next move. Cognative training drills often include tasks that require multitasking, pattern recognition and mental focus. A player who excels mentaly on the pitch can better read the game, make intelligent decisions and stay composed during critical moments.</p>
         </div>
-
       </div>
     </section>
   </div>

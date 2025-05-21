@@ -13,6 +13,7 @@ export async function confirmBooking(bookingId, groupKey, sessionDate) {
         // Fetch booking details for email
         const snapshot = await get(bookingRef);
         const bookingData = snapshot.val();
+        update(bookingRef, { status: "Confirmed" })
         if (!bookingData) throw new Error("❌ Booking data not found.");
 
         // Send confirmation email

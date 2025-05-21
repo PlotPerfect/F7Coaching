@@ -60,6 +60,7 @@
     <p><strong>Session:</strong> <span id="sessionName">Loading...</span></p>
     <p><strong>Date:</strong> <span id="sessionDate">Loading...</span></p>
     <p><strong>Time:</strong> <span id="sessionTime">Loading...</span></p>
+    <p><strong>Location:</strong> <span id="sessionLocation">Loading...</span></p>
     <p>A confirmation email has been sent to your inbox.</p>
     <a href="index.html" class="return-btn">Return to Homepage</a>
 </div>
@@ -77,42 +78,6 @@
 <script src="Scripts/auth.js" type="module"></script>
 <script src="Scripts/EmailJS.js" type="module"></script>
 <script src="Scripts/SuccessHandler.js" type="module"></script>
-<script type="text/javascript">
-// Wait for DOM and SuccessHandler to populate booking details
-function injectDynamicJSONLD() {
-  const childName = document.getElementById('childName').textContent;
-  const sessionDate = document.getElementById('sessionDate').textContent;
-  if (!childName || childName === 'Loading...' || !sessionDate || sessionDate === 'Loading...') {
-    // Try again shortly if data not loaded yet
-    setTimeout(injectDynamicJSONLD, 100);
-    return;
-  }
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "EventReservation",
-    "reservationStatus": "https://schema.org/ReservationConfirmed",
-    "underName": {
-      "@type": "Person",
-      "name": childName
-    },
-    "provider": {
-      "@type": "SportsActivityLocation",
-      "name": "F7 Coaching",
-      "url": "https://www.f7coaching.com"
-    },
-    "reservationFor": {
-      "@type": "Event",
-      "name": "Football Coaching Session",
-      "startDate": sessionDate
-    }
-  };
-  const script = document.createElement('script');
-  script.type = 'application/ld+json';
-  script.text = JSON.stringify(jsonLd, null, 2);
-  document.head.appendChild(script);
-}
-document.addEventListener('DOMContentLoaded', injectDynamicJSONLD);
-</script>
 <script type="application/ld+json" id="dynamic-jsonld"></script>
 
 </body>

@@ -43,7 +43,30 @@
 <h3>Add New Group</h3>
 <form id="addGroupForm">
   <input type="text" id="newGroupName" placeholder="Group Name" required />
-  <input type="text" id="newGroupTime" placeholder="Day & Time" required />
+  <select id="newGroupDay" required>
+    <option value="">Select Day</option>
+    <option value="Monday">Monday</option>
+    <option value="Tuesday">Tuesday</option>
+    <option value="Wednesday">Wednesday</option>
+    <option value="Thursday">Thursday</option>
+    <option value="Friday">Friday</option>
+    <option value="Saturday">Saturday</option>
+    <option value="Sunday">Sunday</option>
+  </select><br>
+  <label>From:</label><br>
+  <input type="number" id="newFromHour" min="1" max="12" placeholder="H" style="width:50px;" required /> :
+  <input type="number" id="newFromMinute" min="0" max="59" placeholder="MM" style="width:50px;" required />
+  <select id="newFromPeriod" required>
+    <option value="am">AM</option>
+    <option value="pm">PM</option>
+  </select><br>
+  <label>To:</label><br>
+  <input type="number" id="newToHour" min="1" max="12" placeholder="H" style="width:50px;" required /> :
+  <input type="number" id="newToMinute" min="0" max="59" placeholder="MM" style="width:50px;" required />
+  <select id="newToPeriod" required>
+    <option value="am">AM</option>
+    <option value="pm">PM</option>
+  </select><br>
   <input type="text" id="newGroupLocation" placeholder="Location" required />
   <button type="submit">Add Group</button>
 </form>
@@ -141,13 +164,61 @@
         }
   
         Object.entries(data).forEach(([key, item]) => {
+          // Parse day and time from item.time (e.g. "Fridays at 5:15pm - 6:30pm")
+          let day = "";
+          let fromHour = "";
+          let fromMinute = "";
+          let fromPeriod = "";
+          let toHour = "";
+          let toMinute = "";
+          let toPeriod = "";
+          let timeRange = "";
+          const match = item.time.match(/^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)s? at (\d{1,2}):(\d{2})(am|pm)\s*-\s*(\d{1,2}):(\d{2})(am|pm)$/i);
+          if (match) {
+            day = match[1];
+            fromHour = match[2];
+            fromMinute = match[3];
+            fromPeriod = match[4].toLowerCase();
+            toHour = match[5];
+            toMinute = match[6];
+            toPeriod = match[7].toLowerCase();
+            timeRange = `${fromHour}:${fromMinute}${fromPeriod} - ${toHour}:${toMinute}${toPeriod}`;
+          } else {
+            // fallback for legacy or malformed data
+            const fallback = item.time.match(/^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)s? at (.+)$/i);
+            if (fallback) {
+              day = fallback[1];
+              timeRange = fallback[2];
+            }
+          }
           const div = document.createElement("div");
           div.style.marginBottom = "20px";
-  
           div.innerHTML = `
                 <h4>${item.groupName}</h4>
-                <label>Day & Time:</label><br>
-                <input type="text" id="${key}-time" value="${item.time}" /><br>
+                <label>Day:</label><br>
+                <select id="${key}-day">
+                  <option value="Monday" ${day === "Monday" ? "selected" : ""}>Monday</option>
+                  <option value="Tuesday" ${day === "Tuesday" ? "selected" : ""}>Tuesday</option>
+                  <option value="Wednesday" ${day === "Wednesday" ? "selected" : ""}>Wednesday</option>
+                  <option value="Thursday" ${day === "Thursday" ? "selected" : ""}>Thursday</option>
+                  <option value="Friday" ${day === "Friday" ? "selected" : ""}>Friday</option>
+                  <option value="Saturday" ${day === "Saturday" ? "selected" : ""}>Saturday</option>
+                  <option value="Sunday" ${day === "Sunday" ? "selected" : ""}>Sunday</option>
+                </select><br>
+                <label>From:</label><br>
+                <input type="number" id="${key}-fromHour" min="1" max="12" value="${fromHour || ''}" placeholder="H" style="width:50px;" /> :
+                <input type="number" id="${key}-fromMinute" min="0" max="59" value="${fromMinute || ''}" placeholder="MM" style="width:50px;" />
+                <select id="${key}-fromPeriod">
+                  <option value="am" ${fromPeriod === "am" ? "selected" : ""}>AM</option>
+                  <option value="pm" ${fromPeriod === "pm" ? "selected" : ""}>PM</option>
+                </select><br>
+                <label>To:</label><br>
+                <input type="number" id="${key}-toHour" min="1" max="12" value="${toHour || ''}" placeholder="H" style="width:50px;" /> :
+                <input type="number" id="${key}-toMinute" min="0" max="59" value="${toMinute || ''}" placeholder="MM" style="width:50px;" />
+                <select id="${key}-toPeriod">
+                  <option value="am" ${toPeriod === "am" ? "selected" : ""}>AM</option>
+                  <option value="pm" ${toPeriod === "pm" ? "selected" : ""}>PM</option>
+                </select><br>
                 <label>Location:</label><br>
                 <input type="text" id="${key}-location" value="${item.location}" /><br>
                 <button onclick="saveSchedule('${key}')">💾 Save</button>
@@ -161,9 +232,19 @@
   
     // Save changes to an existing group
     window.saveSchedule = function (key) {
-      const time = document.getElementById(`${key}-time`).value;
+      const day = document.getElementById(`${key}-day`).value;
+      const fromHour = document.getElementById(`${key}-fromHour`).value;
+      const fromMinute = document.getElementById(`${key}-fromMinute`).value.padStart(2, '0');
+      const fromPeriod = document.getElementById(`${key}-fromPeriod`).value;
+      const toHour = document.getElementById(`${key}-toHour`).value;
+      const toMinute = document.getElementById(`${key}-toMinute`).value.padStart(2, '0');
+      const toPeriod = document.getElementById(`${key}-toPeriod`).value;
       const location = document.getElementById(`${key}-location`).value;
-  
+      if (!day || !fromHour || !fromMinute || !fromPeriod || !toHour || !toMinute || !toPeriod) {
+        alert("❌ Please fill in all time fields.");
+        return;
+      }
+      const time = `${day}s at ${fromHour}:${fromMinute}${fromPeriod} - ${toHour}:${toMinute}${toPeriod}`;
       update(ref(db, `schedule/${key}`), {
         time: time,
         location: location
@@ -195,12 +276,21 @@
     document.getElementById("addGroupForm").addEventListener("submit", (e) => {
       e.preventDefault();
       const name = document.getElementById("newGroupName").value;
-      const time = document.getElementById("newGroupTime").value;
+      const day = document.getElementById("newGroupDay").value;
+      const fromHour = document.getElementById("newFromHour").value;
+      const fromMinute = document.getElementById("newFromMinute").value.padStart(2, '0');
+      const fromPeriod = document.getElementById("newFromPeriod").value;
+      const toHour = document.getElementById("newToHour").value;
+      const toMinute = document.getElementById("newToMinute").value.padStart(2, '0');
+      const toPeriod = document.getElementById("newToPeriod").value;
       const location = document.getElementById("newGroupLocation").value;
-  
+      if (!name || !day || !fromHour || !fromMinute || !fromPeriod || !toHour || !toMinute || !toPeriod || !location) {
+        alert("❌ Please fill in all fields.");
+        return;
+      }
+      const time = `${day}s at ${fromHour}:${fromMinute}${fromPeriod} - ${toHour}:${toMinute}${toPeriod}`;
       const key = name.replace(/[^a-zA-Z0-9]/g, "_"); // Safe key
       const newGroupRef = ref(db, `schedule/${key}`);
-  
       set(newGroupRef, {
         groupName: name,
         time: time,

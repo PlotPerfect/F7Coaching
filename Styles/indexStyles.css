@@ -407,12 +407,8 @@ html, body {
 
   .carousel-card h1 {
     margin-bottom: 110px;
-    font-family: 'Rajdhani', sans-serif;
-    font-weight: 900;
-    font-size: 26px;
-    color: white;
-    letter-spacing: 0.5px;
-    text-shadow: #000000 0px 0px 10px;
+    font-family: 'Rajdhani', sans-serif !important;
+
   }
 
   .carousel-card.active {
@@ -445,20 +441,12 @@ html, body {
     opacity: 1;
   }
   
-  .card-overlay h1 {
-    margin-bottom: 110px;
-    font-family: 'Rajdhani', sans-serif;
-    font-weight: 900;
-    font-size: 52px;
-    color: white;
-    letter-spacing: 0.5px;
-    text-shadow: #000000 0px 0px 10px;
-  }
+
   
   .card-overlay button {
     position: relative;
-    background: white;
-    color: black;
+    background: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
     font-weight: 600;
     padding: 10px 20px;
     border-radius: 8px;
@@ -467,6 +455,7 @@ html, body {
     overflow: hidden;
     z-index: 0;
     transition: color 0.3s ease;
+    font-family: 'Rajdhani', sans-serif !important;
   }
 
   .card-overlay button::before {
@@ -487,7 +476,7 @@ html, body {
   }
 
   .card-overlay button:hover {
-    color: #000000;
+    color: #ffffff;
   }
   
   .carousel-wrapper.dragging {
@@ -603,10 +592,10 @@ html, body {
   
   .arrow-down {
     margin-top: 6px;
-    width: 10px;
-    height: 10px;
-    border-left: 2px solid #0f0;
-    border-bottom: 2px solid #0f0;
+    width: 30px;
+    height: 30px;
+    border-left: 5px solid #0f0;
+    border-bottom: 5px solid #0f0;
     transform: rotate(-45deg);
     animation: bounce 2s infinite;
   }
@@ -857,19 +846,28 @@ transform: rotate(90deg);
 
 /* Navigation Buttons */
 .nav-button {
-    background: transparent;
-    border: 2px solid white;
-    color: white;
-    font-size: 18px;
-    padding: 8px;
-    border-radius: 50%;
-    transition: 0.3s;
+  background: #111;
+  border: 2px solid #00ff88;
+  color: #00ff88;
+  font-size: 1.7rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px #000a;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
+  outline: none;
+  margin: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.nav-button:hover {
-    background: #0f0;
-    color: black;
-    border-color: #0f0;
+.nav-button:hover, .nav-button:focus {
+  background: #00ff88;
+  color: #111;
+  border-color: #00ff88;
+  transform: scale(1.12);
 }
 
 
@@ -1955,9 +1953,8 @@ button:disabled {
       }
     
       .carousel-nav {
-        top: 60%; /* Slightly lower for better visibility */
+        top: 70%; /* Slightly lower for better visibility */
         font-size: 20px;
-        display: none !important;
       }
 
       .card-overlay{
