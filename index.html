@@ -112,11 +112,12 @@
   <div class="section-divider animated-glow"></div>
     
   <section id="sectionCarousel">
-    <button class="carousel-nav left" id="carouselPrev">&#8592;</button>
-
-    <div class="carousel-track" id="carouselTrack">
+  <button class="carousel-nav left" id="carouselPrev" aria-label="Previous">
+    <img src="Images/NavLeft.svg" alt="Previous" style="width:40px;height:40px;" />
+  </button>
+  <div class="carousel-track" id="carouselTrack">
       <!-- Card 1 -->
-      <div class="carousel-card active" style="background-image: url('Images/templateimg2.svg');">
+      <div class="carousel-card active" style="background-image: url('Images/BookingsImg.svg');">
         <h1>BOOKINGS</h1>
         <div class="card-overlay">
           <button class="card-button" onclick="openBookingOverlay()">BOOK NOW</button>
@@ -124,7 +125,7 @@
       </div>
 
       <!-- Card 2 -->
-      <div class="carousel-card" style="background-image: url('Images/templateimg1.svg');">
+      <div class="carousel-card" style="background-image: url('Images/AboutUsIMG.svg');">
         <h1>ABOUT US</h1>
         <div class="card-overlay">
           <button onclick="openAboutUsOverlay()">LEARN MORE</button>
@@ -141,7 +142,7 @@
       -->
 
       <!-- Card 4 -->
-      <div class="carousel-card" style="background-image: url('Images/templateimg4.svg');">
+      <div class="carousel-card" style="background-image: url('Images/ServicesIMG.svg');">
         <h1>SERVICES</h1>
         <div class="card-overlay">
           <button onclick="openServicesOverlay()">LEARN MORE</button>
@@ -149,7 +150,7 @@
       </div>
 
       <!-- Card 5 -->
-      <div class="carousel-card" style="background-image: url('Images/templateimg5.svg');">
+      <div class="carousel-card" style="background-image: url('Images/ScheduleIMG.svg');">
         <h1>SCHEDULE</h1>
         <div class="card-overlay">
           <button onclick="openScheduleOverlay()">LEARN MORE</button>
@@ -157,7 +158,7 @@
       </div>
 
       <!-- Card 6 -->
-      <div class="carousel-card" style="background-image: url('Images/templateimg6.svg');">
+      <div class="carousel-card" style="background-image: url('Images/GetInTouchIMG.svg');">
         <h1>GET IN TOUCH</h1>
         <div class="card-overlay">
           <button onclick="openContactOverlay()">GET IN TOUCH</button>
@@ -165,14 +166,16 @@
       </div>
 
       <!-- Card 7 -->
-      <div class="carousel-card" style="background-image: url('Images/templateimg4.svg');">
+      <div class="carousel-card" style="background-image: url('Images/MeetTheCoachIMG.svg');">
         <h1>MEET THE COACH</h1>
         <div class="card-overlay">
           <button onclick="openCoachesOverlay()">LEARN MORE</button>
         </div>
       </div>
     </div>
-    <button class="carousel-nav right" id="carouselNext">&#8594;</button>
+    <button class="carousel-nav right" id="carouselNext" aria-label="Next">
+    <img src="Images/NavRight.svg" alt="Next" style="width:40px;height:40px;" />
+  </button>
 
   </section>
 
@@ -183,8 +186,9 @@
 <section id="testimonials">
     <h1>Testimonials</h1>
     <div class="carousel-containerT">
-        <button id="prevTestimonial" class="nav-button">&#8592;</button>
-
+        <button id="prevTestimonial" class="nav-button" aria-label="Previous Testimonial">
+          <img src="Images/NavLeft.svg" alt="Previous" style="width:32px;height:32px;" />
+        </button>
         <div class="carouselT">
             <div class="testimonial-card active">
                 <img src="Images/user1.svg" alt="User Image" class="testimonial-img">
@@ -207,8 +211,9 @@
                 <p class="testimonial-subtext">Parent of Future Star</p>
             </div>
         </div>
-
-        <button id="nextTestimonial" class="nav-button">&#8594;</button>
+        <button id="nextTestimonial" class="nav-button" aria-label="Next Testimonial">
+          <img src="Images/NavRight.svg" alt="Next" style="width:32px;height:32px;" />
+        </button>
     </div>
 </section>
 
@@ -315,7 +320,7 @@
         <!-- Small Group Training -->
         <div class="service-box">
           <div class="service-image">
-            <img src="Images/templateimg1.svg" alt="Small Group Training">
+            <img src="Images/ServicesIMG.svg" alt="Small Group Training">
           </div>
           <div class="service-text">
             <h3>Small Group Training (3–7 Players)</h3>
@@ -332,7 +337,7 @@
         <!-- Group Sessions -->
         <div class="service-box">
           <div class="service-image">
-            <img src="Images/templateimg2.svg" alt="Group Sessions">
+            <img src="Images/AboutUsIMG.svg" alt="Group Sessions">
           </div>
           <div class="service-text">
             <h3>Group Sessions (8+ Players)</h3>
@@ -348,7 +353,7 @@
         <!-- 1-to-1 Coaching -->
         <div class="service-box">
           <div class="service-image">
-            <img src="Images/templateimg3.svg" alt="1-to-1 Coaching">
+            <img src="Images/GetInTouchIMG.svg" alt="1-to-1 Coaching">
           </div>
           <div class="service-text">
             <h3>1-to-1 Coaching</h3>
@@ -442,7 +447,7 @@
 
         <div class="coach-profile-card">
           <div class="coach-image">
-            <img src="Images/templatecoach1.svg" alt="Finley Fletcher">
+            <img src="Images/MeetTheCoachIMG.svg" alt="Finley Fletcher">
           </div>
           <div class="coach-info">
             <div class="coach-name">FINLEY FLETCHER</div>
@@ -475,7 +480,7 @@
     <div class="footer-content">
       <!-- T&C & Privacy -->
       <div class="footer-links">
-        <button class="footer-btn" id="tcBtn">T&C's</button>
+        <button class="footer-btn" id="tcBtn">T&amp;C's</button>
         <button class="footer-btn" id="privacyBtn">Privacy Policy</button>
       </div>
   

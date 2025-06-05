@@ -280,7 +280,7 @@ html, body {
   position: fixed;
   top: 20px;
   left: 20px;
-  z-index: 1011;
+  z-index: 99994;
   width: auto;
 }
 
@@ -492,27 +492,35 @@ html, body {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: rgba(0, 0, 0, 0.7);
-    border: 2px solid #00ff00;
-    color: #00ff00;
-    font-size: 24px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
     z-index: 3;
     transition: all 0.3s ease;
-    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    padding: 0;
+    margin: 0 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .carousel-nav img {
+    width: 62px;
+    height: 62px;
+    display: block;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  .carousel-nav:focus {
+    outline: none !important;
   }
   
   .carousel-nav:hover {
-    background: #00ff00;
-    color: black;
     transform: translateY(-50%) scale(1.1);
-    box-shadow: 0 0 15px #00ff00;
   }
   
   .carousel-nav.left {
@@ -1946,10 +1954,12 @@ button:disabled {
       }
 
       .carousel-card {
-        min-width: 220px;
+        min-width: 180px;
         height: 300px;
-        padding: 10px;
+        padding: 30px;
         margin: 0 30px; /* Adjusted margin for better spacing */
+        border-radius: 35px;
+        border: #000;
       }
     
       .carousel-nav {
@@ -1962,7 +1972,7 @@ button:disabled {
         bottom: 0;
         right: -1px;
         width: 84%;
-        border-radius: 16px;
+        border-radius: 35px;
         background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
         background-size: cover;
         background-position: center;
@@ -2047,7 +2057,7 @@ button:disabled {
         line-height: 1.5;
         margin: 0 auto 0 auto;
         max-width: 95%;
-      }
+      } 
 
       /* Footer */
       .footer {
@@ -2649,10 +2659,15 @@ button:disabled {
   transition: background 0.2s, color 0.2s, transform 0.2s;
   outline: none;
   margin: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
 .nav-button:hover, .nav-button:focus {
   background: #00ff88;
   color: #111;
+  border-color: #00ff88;
   transform: scale(1.12);
 }
 @media (max-width: 700px) {
@@ -2682,6 +2697,11 @@ button:disabled {
     max-width: 99vw;
     width: 100vw;
     padding: 0;
+  }
+  .carousel-card h1 {
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+    text-shadow: 0 1px 6px #000a;
   }
   .testimonial-card, .testimonial-card.active {
     min-width: 92vw;
@@ -2861,5 +2881,28 @@ button:disabled {
     box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
     color: white;
     font-family: 'Inter', sans-serif;
+  }
+}
+
+/* Ensure carousel nav buttons are mobile-friendly */
+@media (max-width: 700px) {
+  .carousel-nav {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0;
+    margin: 0 6px;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .carousel-nav img {
+    width: 52px;
+    height: 52px;
   }
 }

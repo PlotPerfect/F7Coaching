@@ -1,5 +1,6 @@
 // SuccessHandler.js - Handles Booking Confirmation Display
-import { db, ref, get, update } from './auth.js';
+import { db, ref, get } from './auth.js';
+import { confirmBooking } from './CompleteBookingSystem.js';
 
 document.addEventListener("DOMContentLoaded", async () => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -16,31 +17,28 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   if (bookingId && groupKey && sessionDate) {
       try {
+          // Fetch the booking data first (should be status Pending)
           const bookingRef = ref(db, `bookings/${groupKey}/${sessionDate}/${bookingId}`);
           const snapshot = await get(bookingRef);
-          await update(bookingRef, { status: "Confirmed" });
 
           if (snapshot.exists()) {
               const data = snapshot.val();
-              document.getElementById("childName").textContent = data.playerName || "N/A";
-              document.getElementById("parentEmail").textContent = data.parentEmail || "N/A";
-              document.getElementById("sessionName").textContent = data.sessionName || "N/A";
-              document.getElementById("sessionDate").textContent = data.sessionDate || "N/A";
-              document.getElementById("sessionTime").textContent = data.sessionTime || "N/A";
-              document.getElementById("sessionLocation").textContent = data.location || "N/A";
+              const childNameEl = document.getElementById("childName");
+              const parentEmailEl = document.getElementById("parentEmail");
+              const sessionNameEl = document.getElementById("sessionName");
+              const sessionDateEl = document.getElementById("sessionDate");
+              const sessionTimeEl = document.getElementById("sessionTime");
+              if (childNameEl) childNameEl.textContent = data.playerName || "N/A";
+              if (parentEmailEl) parentEmailEl.textContent = data.parentEmail || "N/A";
+              if (sessionNameEl) sessionNameEl.textContent = data.sessionName || "N/A";
+              if (sessionDateEl) sessionDateEl.textContent = data.sessionDate || "N/A";
+              if (sessionTimeEl) sessionTimeEl.textContent = data.sessionTime || "N/A";
 
               // Inject dynamic JSON-LD structured data for SEO
               injectDynamicJSONLD(data);
 
-              // Send Confirmation Email Automatically
-              sendConfirmationEmail(
-                data.playerName,
-                data.parentEmail,
-                data.sessionName,
-                data.sessionDate,
-                data.sessionTime,
-                data.location // Pass location as 6th argument
-              );
+              // Now, confirm the booking and send email in the background
+              confirmBooking(bookingId, groupKey, sessionDate);
           } else {
               displayError("❌ Booking data could not be loaded. Please contact support.");
           }

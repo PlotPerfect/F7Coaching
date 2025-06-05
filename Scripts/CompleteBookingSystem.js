@@ -10,20 +10,19 @@ export async function confirmBooking(bookingId, groupKey, sessionDate) {
 
         console.log("✅ Booking Confirmed in Firebase.");
 
-        // Fetch booking details for email
-        const snapshot = await get(bookingRef);
-        const bookingData = snapshot.val();
-        update(bookingRef, { status: "Confirmed" })
-        if (!bookingData) throw new Error("❌ Booking data not found.");
-
-        // Send confirmation email
-        await sendConfirmationEmail(
-            bookingData.playerName,
-            bookingData.parentEmail,
-            bookingData.sessionName,
-            bookingData.sessionDate,
-            bookingData.sessionTime
-        );
+        // Send confirmation email in the background (do not await)
+        get(bookingRef).then(snapshot => {
+            const bookingData = snapshot.val();
+            if (bookingData) {
+                sendConfirmationEmail(
+                    bookingData.playerName,
+                    bookingData.parentEmail,
+                    bookingData.sessionName,
+                    bookingData.sessionDate,
+                    bookingData.sessionTime
+                );
+            }
+        });
     } catch (error) {
         console.error("❌ Error confirming booking:", error);
     }
