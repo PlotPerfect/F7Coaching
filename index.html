@@ -87,9 +87,9 @@
         <ul>
             <li><a href="#home" class="menu-link">Home</a></li>
             <li><a href="#" class="menu-link" onclick="openBookingsFromMenu()">Bookings</a></li>
-            <li><a href="#" class="menu-link" onclick="openAboutUsFromMenu()">About Me</a></li>
-            <li><a href="#" class="menu-link" onclick="openServicesFromMenu()">Services</a></li>
             <li><a href="#" class="menu-link" onclick="openScheduleFromMenu()">Schedule</a></li>
+            <li><a href="#" class="menu-link" onclick="openAboutUsFromMenu()">About Us</a></li>
+            <li><a href="#" class="menu-link" onclick="openServicesFromMenu()">Services</a></li>
             <li><a href="#" class="menu-link" onclick="openContactFromMenu()">Contact</a></li>
             <li><a href="adminportal.html" class="menu-link" onclick="closeMenuOverlay()">Admin Portal</a></li>
         </ul>
@@ -99,7 +99,7 @@
 <!-- Sections -->
 <section id="home">
     <video autoplay muted loop playsinline class="bg-video">
-      <source src="Videos/HomePageWelcomeVideo.mp4" type="video/mp4">
+      <source src="Videos/NewHomePageWelcomeVideo (1).mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
   
@@ -124,6 +124,14 @@
         </div>
       </div>
 
+            <!-- Card 5 -->
+      <div class="carousel-card" style="background-image: url('Images/ScheduleIMG.svg');">
+        <h1>SCHEDULE</h1>
+        <div class="card-overlay">
+          <button onclick="openScheduleOverlay()">LEARN MORE</button>
+        </div>
+      </div>
+
       <!-- Card 2 -->
       <div class="carousel-card" style="background-image: url('Images/AboutUsIMG.svg');">
         <h1>ABOUT US</h1>
@@ -141,19 +149,19 @@
       </div>
       -->
 
+            <!-- Card 7 -->
+      <div class="carousel-card" style="background-image: url('Images/MeetTheCoachIMG.svg');">
+        <h1>MEET THE COACH</h1>
+        <div class="card-overlay">
+          <button onclick="openCoachesOverlay()">LEARN MORE</button>
+        </div>
+      </div>
+
       <!-- Card 4 -->
       <div class="carousel-card" style="background-image: url('Images/ServicesIMG.svg');">
         <h1>SERVICES</h1>
         <div class="card-overlay">
           <button onclick="openServicesOverlay()">LEARN MORE</button>
-        </div>
-      </div>
-
-      <!-- Card 5 -->
-      <div class="carousel-card" style="background-image: url('Images/ScheduleIMG.svg');">
-        <h1>SCHEDULE</h1>
-        <div class="card-overlay">
-          <button onclick="openScheduleOverlay()">LEARN MORE</button>
         </div>
       </div>
 
@@ -165,13 +173,7 @@
         </div>
       </div>
 
-      <!-- Card 7 -->
-      <div class="carousel-card" style="background-image: url('Images/MeetTheCoachIMG.svg');">
-        <h1>MEET THE COACH</h1>
-        <div class="card-overlay">
-          <button onclick="openCoachesOverlay()">LEARN MORE</button>
-        </div>
-      </div>
+
     </div>
     <button class="carousel-nav right" id="carouselNext" aria-label="Next">
     <img src="Images/NavRight.svg" alt="Next" style="width:40px;height:40px;" />
@@ -248,7 +250,7 @@
           <img src="Images/f7IMG1.jpg" alt="F7 Coaching Training">
         </div>
         <div class="about-text">
-          <h1 style="text-decoration: underline;">About Me</h1>
+          <h1 style="text-decoration: underline;">About Us</h1>
           <p>Hey guys, I'm <strong>Finley</strong>, the founder and one of the coaches here at <strong>F7 Coaching</strong>. I’m an outgoing, confident, and approachable individual with a passion for football and personal development.</p>
           <p>Throughout my journey in professional football, I’ve developed a strong work ethic, resilience, and a can-do attitude that allows me to overcome challenges and continuously improve. From the age of five, I’ve been immersed in elite football environments, playing for professional clubs and gaining invaluable experience.</p>
           <p>This background has shaped me into a dedicated and hardworking individual who thrives on learning new skills and helping others reach their full potential. As a qualified <strong>UEFA C Licensed coach</strong>, I am committed to developing young athletes not just in their technical abilities but also in their mindset and confidence.</p>

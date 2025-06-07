@@ -164,7 +164,7 @@ section {
 
 #testimonials {
     min-height: 86vh; /* Enough space for the carousel */
-    background: url('../Images/TestimonialSectionBGIMG.svg') no-repeat center/cover;
+    background: url('../Images/CoachSectionIMG.svg') no-repeat center/cover;
     text-shadow: #000000 0px 22px 50px;
     font-family: 'Rajdhani', sans-serif !important;
 }
@@ -198,12 +198,14 @@ section {
 }
 
 
+/* Commented Out Backgrounds for Each Section
 #about { background: url('../Images/PanelIMG1.svg') no-repeat center/cover; }
 #services { background: url('../Images/PanelIMG1.svg') no-repeat center/cover; }
 #framework { background: url('../Images/PanelIMG1.svg') no-repeat center/cover; }
 #schedule { background: url('../Images/PanelIMG1.svg') no-repeat center/cover; }
 #contact { background: url('../Images/PanelIMG1.svg') no-repeat center/cover;}
 #coaches { background: url('../Images/PanelIMG1.svg') no-repeat center/cover;}
+*/
 
 /* Ensure the Page Uses Full Viewport */
 html, body {
@@ -1491,7 +1493,7 @@ button:disabled {
 #aboutUsOverlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.034);
+    background: rgb(0, 0, 0);
     z-index: 1000;
     display: none;
     overflow-y: auto;
@@ -2557,7 +2559,7 @@ button:disabled {
 
 /* Testimonials Section Styling */
 #testimonials {
-  background: url('../Images/TestimonialSectionBGIMGMob.svg') no-repeat center/cover;
+  background: url('../Images/CoachSectionIMG.svg') no-repeat center/cover;
     position: relative;
   padding: 60px 0 40px 0;
   color: #fff;
@@ -2904,5 +2906,27 @@ button:disabled {
   .carousel-nav img {
     width: 52px;
     height: 52px;
+  }
+}
+
+@media (max-width: 700px) {
+  .scroll-down-indicator {
+    bottom: 200px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 52px;
+    height: 52px;
+    padding: 0;
+    background: none;
+    border: none;
+    box-shadow: none;
+    z-index: 10;
+  }
+  .arrow-down {
+    width: 36px;
+    height: 36px;
+    border-left: 4px solid #0f0;
+    border-bottom: 4px solid #0f0;
+    margin-top: 2px;
   }
 }
