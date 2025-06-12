@@ -253,8 +253,22 @@
         <p style="margin-bottom: 1.5em;">Or, continue to online booking.</p>
         <button id="continueToBookingBtn" type="button" style="margin-bottom: 1em;">Continue to Online Booking</button>
         <div style="display: flex; justify-content: center; margin-top: 1em;">
-          <img src="Images/QRCodeCall.svg" alt="Call Coach Fin QR Code" style="width:160px; height:160px;" />
+          <a href="tel:07491950612" id="qrCallLink">
+        <img src="Images/QRCodeCall.svg" alt="Call Coach Fin QR Code" style="width:160px; height:160px;" />
+          </a>
         </div>
+        <script>
+          // Only make QR clickable on mobile devices
+          (function() {
+        const isMobile = /iPhone|iPad|iPod|Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        const qrLink = document.getElementById('qrCallLink');
+        if (!isMobile && qrLink) {
+          qrLink.removeAttribute('href');
+          qrLink.style.pointerEvents = 'none';
+          qrLink.style.cursor = 'default';
+        }
+          })();
+        </script>
       </div>
       <form id="bookingForm" style="display:none;">
       <input type="text" id="playerName" placeholder="Player's Name" required>

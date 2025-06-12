@@ -3013,7 +3013,7 @@ button:disabled {
   }
   #bookingForm button[type="submit"] {
     font-size: 0.98rem;
-    padding: 12px 0;
+    padding: 12px 15px;
   }
 }
 /* --- End Enhanced Booking Form Styles --- */
