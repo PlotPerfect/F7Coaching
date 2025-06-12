@@ -194,24 +194,48 @@
         <div class="carouselT">
             <div class="testimonial-card active">
                 <img src="Images/user1.svg" alt="User Image" class="testimonial-img">
-                <p class="testimonial-text">“F7 Coaching has transformed my child's football skills. The coaches are truly dedicated and have helped build confidence on and off the field.”</p>
+                <p class="testimonial-text">“My son has worked with several coaches over the years, but the level of detail and technical development he’s gained here is unmatched. The sessions are sharp, professional, and built for exactly what we were looking for.”</p>
                 <h4 class="testimonial-author">Emma L.</h4>
-                <p class="testimonial-subtext">Parent - Academy Player</p>
+                <p class="testimonial-subtext">Parent of U14 player</p>
             </div>
 
             <div class="testimonial-card">
                 <img src="Images/user1.svg" alt="User Image" class="testimonial-img">
-                <p class="testimonial-text">“The training sessions are top-notch! My son has gained technical skills and tactical awareness beyond what I imagined.”</p>
-                <h4 class="testimonial-author">Michael S.</h4>
-                <p class="testimonial-subtext">Father of U12 Player</p>
-            </div>
-
-            <div class="testimonial-card">
-                <img src="Images/user1.svg" alt="User Image" class="testimonial-img">
-                <p class="testimonial-text">“F7 Coaching has given my daughter the confidence to compete at the highest level. The progress has been incredible!”</p>
+                <p class="testimonial-text">“Coach Fin not only understands the game inside out, but knows how to connect with players in a way that inspires confidence. My daughter now talks about football differently — she’s thinking, analyzing, and improving every week.”</p>
                 <h4 class="testimonial-author">Sarah K.</h4>
-                <p class="testimonial-subtext">Parent of Future Star</p>
+                <p class="testimonial-subtext">Parent of U12 Player</p>
             </div>
+
+            <!-- ⚽ Player Testimonials -->
+            <div class="testimonial-card">
+                <img src="Images/user1.svg" alt="User Image" class="testimonial-img">
+                <p class="testimonial-text">“I’ve trained with a lot of coaches, but this is the first time I feel like I’m truly being prepared for the elite level. Every session pushes me — technically and mentally.”</p>
+                <h4 class="testimonial-author">Josh A</h4>
+                <p class="testimonial-subtext">U17 player</p>
+            </div>
+
+            <div class="testimonial-card">
+                <img src="Images/user1.svg" alt="User Image" class="testimonial-img">
+                <p class="testimonial-text">“I used to be nervous in 1v1 situations. After working on my footwork and decision-making with Coach Fin, it’s now one of my strengths. He helped me see the game differently.”</p>
+                <h4 class="testimonial-author">Liam</h4>
+                <p class="testimonial-subtext">Parent of U13 player</p>
+            </div>
+
+            <div class="testimonial-card">
+                <img src="Images/user1.svg" alt="User Image" class="testimonial-img">
+                <p class="testimonial-text">“Fin’s coaching — sharper technique, better understanding of the game, and a more professional mindset. His sessions mirror what we look for at academy level.”</p>
+                <h4 class="testimonial-author">Head of Youth Development</h4>
+                <p class="testimonial-subtext">Local Academy</p>
+            </div>
+
+            <!-- 🎯 Success Story Highlight -->
+            <div class="testimonial-card">
+                <img src="Images/user1.svg" alt="User Image" class="testimonial-img">
+                <p class="testimonial-text">“After just 6 months of private technical coaching, my son was scouted and offered a trial at a professional academy. The improvement in his game has been incredible — and that’s all down to the structure and elite-level insight Coach brings to every session.”</p>
+                <h4 class="testimonial-author">James T</h4>
+                <p class="testimonial-subtext">Parent U11 Player</p>
+            </div>
+
         </div>
         <button id="nextTestimonial" class="nav-button" aria-label="Next Testimonial">
           <img src="Images/NavRight.svg" alt="Next" style="width:32px;height:32px;" />
@@ -222,8 +246,14 @@
   <div id="bookingOverlay" class="booking-overlay" style="display:none;">
     <button class="close-booking" onclick="closeBookingOverlay()">✖</button>
     <div class="booking-content">
-      <h2>📅 Book a Session</h2>
-      <form id="bookingForm">
+      <div id="bookingMessageIntro">
+        <h2>Book a Session</h2>
+        <p>Please contact coach Fin for a tailored session recommendation, as each session is age and ability specific.</p>
+        <p><strong>Coach Fin - 07491 950 612</strong></p>
+        <p style="margin-bottom: 1.5em;">Or, continue to online booking.</p>
+        <button id="continueToBookingBtn" type="button" style="margin-bottom: 1em;">Continue to Online Booking</button>
+      </div>
+      <form id="bookingForm" style="display:none;">
       <input type="text" id="playerName" placeholder="Player's Name" required>
       <input type="email" id="parentEmail" placeholder="Parent's Email" required>
   

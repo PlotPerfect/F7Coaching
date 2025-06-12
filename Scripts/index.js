@@ -138,6 +138,13 @@ window.closePanel = InfoPanel.close;
 // Booking Overlay
 export const BookingOverlay = {
   open() {
+    // Always reset booking overlay to show intro and hide form
+    const intro = document.getElementById('bookingMessageIntro');
+    const bookingForm = document.getElementById('bookingForm');
+    const bookingMessage = document.getElementById('bookingMessage');
+    if (intro) intro.style.display = 'block';
+    if (bookingForm) bookingForm.style.display = 'none';
+    if (bookingMessage) bookingMessage.textContent = '';
     OverlayManager.openOverlay('bookingOverlay');
   },
   close() {
@@ -345,4 +352,16 @@ document.addEventListener("DOMContentLoaded", function() {
   const privacyBtn = document.getElementById("privacyBtn");
   if (tcBtn) tcBtn.addEventListener("click", () => InfoPanel.open('tcPanel'));
   if (privacyBtn) privacyBtn.addEventListener("click", () => InfoPanel.open('privacyPanel'));
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  const continueBtn = document.getElementById('continueToBookingBtn');
+  const bookingForm = document.getElementById('bookingForm');
+  const intro = document.getElementById('bookingMessageIntro');
+  if (continueBtn && bookingForm && intro) {
+    continueBtn.addEventListener('click', function() {
+      intro.style.display = 'none';
+      bookingForm.style.display = 'block';
+    });
+  }
 });
