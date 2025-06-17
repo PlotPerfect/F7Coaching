@@ -155,7 +155,7 @@ section {
 }
 
 #schedule {
-    min-height: 175vh; /* Enough space for the carousel */
+    min-height: 230vh; /* Enough space for the carousel */
 }
 
 #coaches {
@@ -571,6 +571,16 @@ html, body {
     padding-top: 0vh;
 }
 
+.bg-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the video covers the entire section */
+    z-index: -1; /* Places the video behind other content */
+}
+
 .image-container {
     width: 110%;
     height: 100%;
@@ -602,6 +612,7 @@ html, body {
   
   .arrow-down {
     margin-top: 6px;
+    margin-left: 20px;
     width: 30px;
     height: 30px;
     border-left: 5px solid #0f0;
@@ -3017,3 +3028,31 @@ button:disabled {
   }
 }
 /* --- End Enhanced Booking Form Styles --- */
+
+/* Schedule Times Styling */
+.schedule-times {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+.schedule-times li {
+  background: rgba(0,255,0,0.07);
+  color: #fff;
+  border-radius: 6px;
+  padding: 7px 14px;
+  margin-bottom: 6px;
+  font-size: 16px;
+  text-align: left;
+  border-left: 3px solid #7fff00;
+  transition: background 0.2s;
+}
+.schedule-times li:last-child {
+  margin-bottom: 0;
+}
+@media (max-width: 600px) {
+  .schedule-times li {
+    font-size: 15px;
+    padding: 6px 8px;
+  }
+}

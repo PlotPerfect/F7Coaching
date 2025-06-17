@@ -44,9 +44,13 @@ function populateSessionOptions(scheduleData) {
   Object.entries(scheduleData).forEach(([key, session]) => {
     const option = document.createElement("option");
     option.value = key;
-    option.textContent = `${session.groupName} — ${session.time}`;
+    option.textContent = session.groupName;
     elements.sessionTypeSelect.appendChild(option);
   });
+  // Reset time and date fields
+  elements.sessionTimeInput.value = '';
+  elements.sessionTimeInput.disabled = true;
+  elements.sessionTimeInput.setAttribute('readonly', true);
 }
 
 // Handle session type selection
@@ -57,11 +61,40 @@ elements.sessionTypeSelect.addEventListener("change", async () => {
   const session = liveScheduleData[groupKey];
   if (!session) return;
 
-  autofillSessionTime(session.time);
-  const dayName = extractDayName(session.time);
-  await updateDatePicker(groupKey, dayName);
+  // Reset date and time fields on session change
+  elements.sessionDateInput.value = '';
+  // Remove the type assignment that causes error
+  if (elements.sessionTimeInput.tagName === 'SELECT') {
+    elements.sessionTimeInput.selectedIndex = 0;
+  } else {
+    elements.sessionTimeInput.value = '';
+  }
 
-  // If a date is already selected, update spots for that date
+  // Populate time dropdown if multiple times exist
+  if (Array.isArray(session.times) && session.times.length > 0) {
+    // Replace input with a select dropdown
+    const select = document.createElement('select');
+    select.id = 'sessionTime';
+    select.required = true;
+    select.innerHTML = '<option value="">Select Time</option>' + session.times.map(t => `<option value="${t}">${t}</option>`).join('');
+    elements.sessionTimeInput.replaceWith(select);
+    elements.sessionTimeInput = select;
+    attachSessionTimeListener();
+  } else {
+    // Fallback to text input for legacy data
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.id = 'sessionTime';
+    input.value = session.time || '';
+    input.setAttribute('readonly', true);
+    input.disabled = true;
+    elements.sessionTimeInput.replaceWith(input);
+    elements.sessionTimeInput = input;
+    attachSessionTimeListener();
+  }
+
+  const dayName = session.location.match(/(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)/i)?.[0]?.toLowerCase();
+  await updateDatePicker(groupKey, dayName);
   await updateBookingMessageForDate();
 });
 
@@ -90,8 +123,17 @@ function updateDatePicker(groupKey, allowedDay) {
     const fullyBookedDates = [];
 
     if (data) {
-      Object.keys(data).forEach((dateKey) => {
-        if (Object.keys(data[dateKey]).length >= 15) {
+      Object.entries(data).forEach(([dateKey, bookingsForDate]) => {
+        // For each date, check all times
+        const timeCounts = {};
+        Object.values(bookingsForDate).forEach(booking => {
+          if (booking.sessionTime) {
+            timeCounts[booking.sessionTime] = (timeCounts[booking.sessionTime] || 0) + (booking.status === 'Confirmed' ? 1 : 0);
+          }
+        });
+        // If all times for this date are fully booked, disable the date
+        const allTimesFull = Object.values(timeCounts).length > 0 && Object.values(timeCounts).every(count => count >= 15);
+        if (allTimesFull) {
           fullyBookedDates.push(dateKey.split("_")[0]);
         }
       });
@@ -113,34 +155,49 @@ function updateDatePicker(groupKey, allowedDay) {
   });
 }
 
-// Get available spots for a session on a specific date
-async function getAvailableSpots(groupKey, sessionDate) {
-  if (!groupKey || !sessionDate) return 15;
+// Get available spots for a session on a specific date and time
+async function getAvailableSpots(groupKey, sessionDate, sessionTime) {
+  if (!groupKey || !sessionDate || !sessionTime) return 15;
   const bookingsRef = ref(db, `bookings/${groupKey}/${sessionDate}`);
   const snapshot = await get(bookingsRef);
   const data = snapshot.val();
-  // Only count bookings with status 'Confirmed'
+  // Only count bookings with status 'Confirmed' and matching time
   let confirmedCount = 0;
   if (data) {
     Object.values(data).forEach(booking => {
-      if (booking.status === 'Confirmed') confirmedCount++;
+      if (booking.status === 'Confirmed' && booking.sessionTime === sessionTime) confirmedCount++;
     });
   }
   return 15 - confirmedCount;
 }
 
-// Update booking message based on available spots for selected date
+// Update booking message based on available spots for selected date and time
 async function updateBookingMessageForDate() {
   const groupKey = elements.sessionTypeSelect.value;
   const sessionDate = elements.sessionDateInput.value;
-  if (!groupKey || !sessionDate) return;
-  const spotsLeft = await getAvailableSpots(groupKey, sessionDate);
+  let sessionTime = "";
+  if (elements.sessionTimeInput) {
+    if (elements.sessionTimeInput.tagName === 'SELECT') {
+      sessionTime = elements.sessionTimeInput.value;
+    } else {
+      sessionTime = elements.sessionTimeInput.value;
+    }
+  }
+  if (!groupKey || !sessionDate || !sessionTime) return;
+  const spotsLeft = await getAvailableSpots(groupKey, sessionDate, sessionTime);
   updateBookingMessage(spotsLeft);
 }
 
-// Listen for date changes to update spots left
+// Listen for date and time changes to update spots left
 if (elements.sessionDateInput) {
   elements.sessionDateInput.addEventListener("change", updateBookingMessageForDate);
+}
+// Always re-attach event listener after replacing sessionTimeInput
+function attachSessionTimeListener() {
+  if (elements.sessionTimeInput) {
+    elements.sessionTimeInput.removeEventListener("change", updateBookingMessageForDate);
+    elements.sessionTimeInput.addEventListener("change", updateBookingMessageForDate);
+  }
 }
 
 // Update booking message based on available spots
@@ -162,8 +219,15 @@ elements.bookingForm.addEventListener("submit", async (e) => {
   const parentEmail = document.getElementById("parentEmail").value;
   const groupKey = elements.sessionTypeSelect.value;
   const sessionDate = elements.sessionDateInput.value;
+  // Get the selected session time (from dropdown or input)
+  let sessionTime = "";
+  if (elements.sessionTimeInput.tagName === 'SELECT') {
+    sessionTime = elements.sessionTimeInput.value;
+  } else {
+    sessionTime = elements.sessionTimeInput.value;
+  }
 
-  if (!playerName || !parentEmail || !groupKey || !sessionDate) {
+  if (!playerName || !parentEmail || !groupKey || !sessionDate || !sessionTime) {
     elements.bookingMessage.textContent = "❌ Please complete all booking details.";
     return;
   }
@@ -177,12 +241,11 @@ elements.bookingForm.addEventListener("submit", async (e) => {
     return;
   }
   const sessionName = sessionData.groupName;
-  const sessionTime = sessionData.time;
-  // If you want to use location in the email, you can also get sessionData.location
+  const sessionLocation = sessionData.location || sessionData.sessionLocation || "";
 
   try {
     elements.bookingMessage.textContent = "✅ Saving booking... Please wait.";
-    const bookingId = await saveBooking(playerName, parentEmail, sessionName, sessionDate, sessionTime);
+    const bookingId = await saveBooking(playerName, parentEmail, sessionName, sessionDate, sessionTime, sessionLocation);
     console.log("✅ Booking saved:", bookingId);
     redirectToPayment(bookingId);
   } catch (error) {
@@ -192,7 +255,7 @@ elements.bookingForm.addEventListener("submit", async (e) => {
 });
 
 // Save booking to Firebase and then redirect
-async function saveBooking(playerName, parentEmail, sessionName, sessionDate, sessionTime) {
+async function saveBooking(playerName, parentEmail, sessionName, sessionDate, sessionTime, sessionLocation) {
   const groupKey = elements.sessionTypeSelect.value;
   const bookingRef = ref(db, `bookings/${groupKey}/${sessionDate}`);
   const newBookingRef = push(bookingRef);
@@ -203,6 +266,7 @@ async function saveBooking(playerName, parentEmail, sessionName, sessionDate, se
     sessionName,
     sessionDate,
     sessionTime,
+    sessionLocation,
     status: "Pending",
   });
 

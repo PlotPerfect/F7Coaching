@@ -64,38 +64,38 @@
     const seedData = {
       U9_U10: {
         groupName: "U9/U10 Academy Group",
-        time: "Tuesdays at 5:30pm - 6:45pm",
-        location: "Trent Park 5's, N14 4UW"
+        times: ["4–5 PM Elite Session", "5–6 PM Elite Session", "6–7 PM Elite Session"],
+        location: "Fairlop Waters (Tuesday)"
       },
       U11_U12: {
         groupName: "U11/U12 Academy Group",
-        time: "Fridays at 5:15pm - 6:30pm",
-        location: "Mill Hill Powerleague, NW7 2BB"
+        times: ["4:30–5:30 PM Elite Session", "5:30–6:30 PM Elite Session", "6:30–7:30 PM Elite Session", "7:30–8:30 PM Elite Session"],
+        location: "Fairlop Waters (Wednesday)"
       },
       U13_U15: {
-        groupName: "U13-U15 Academy Group",
-        time: "Fridays at 6:30pm - 8:00pm",
-        location: "Mill Hill Powerleague, NW7 2BB"
+        groupName: "U13–U15 Academy Group",
+        times: ["4:00–5:00 PM Elite Session", "5:00–6:00 PM Elite Session", "6:00–7:00 PM Elite Session"],
+        location: "Shooters North Weald (Thursday)"
       },
       U10_U12: {
-        groupName: "U10-U12 Academy Group",
-        time: "Saturdays at 9:15am - 10:30am",
-        location: "Mill Hill Powerleague, NW7 2BB"
+        groupName: "U10–U12 Academy Group",
+        times: ["4:30–5:30 PM Elite Session", "5:30–6:30 PM Elite Session", "6:30–7:30 PM Elite Session", "7:30–8:30 PM Elite Session"],
+        location: "Fairlop Waters (Friday)"
       },
       U7_U8: {
         groupName: "U7/U8 Academy Group",
-        time: "Sundays at 2:00pm - 3:15pm",
-        location: "Trent Park 5's, N14 4UW"
+        times: ["9–10 AM Elite Session", "12–1 PM Elite Session", "1–2 PM Elite Session", "2–3 PM Elite Session"],
+        location: "Wadham Lodge (Saturday)"
       },
       U9_U11_Advanced: {
-        groupName: "U9-U11 Advanced Group",
-        time: "Sundays at 3:15pm - 4:30pm",
-        location: "Trent Park 5's, N14 4UW"
+        groupName: "U9–U11 Advanced Group",
+        times: ["9–10 AM Elite Session", "12–1 PM Elite Session", "1–2 PM Elite Session", "2–3 PM Elite Session"],
+        location: "Wadham Lodge (Saturday)"
       },
       U12_U15_Advanced: {
-        groupName: "U12-U15 Advanced Group",
-        time: "Sundays at 4:30pm - 5:45pm",
-        location: "Trent Park 5's, N14 4UW"
+        groupName: "U12–U15 Advanced Group",
+        times: ["9–10 AM Elite Session", "12–1 PM Elite Session", "1–2 PM Elite Session", "2–3 PM Elite Session"],
+        location: "Wadham Lodge (Saturday)"
       }
     };
   
@@ -143,11 +143,21 @@
         Object.entries(data).forEach(([key, item]) => {
           const div = document.createElement("div");
           div.style.marginBottom = "20px";
-  
+
+          // Render each time as a separate input if times is an array
+          let timesInputs = "";
+          if (Array.isArray(item.times)) {
+            item.times.forEach((t, idx) => {
+              timesInputs += `<input type=\"text\" id=\"${key}-time-${idx}\" value=\"${t}\" style=\"margin-bottom:4px;\" /><br>`;
+            });
+          } else {
+            timesInputs = `<input type=\"text\" id=\"${key}-time-0\" value=\"${item.time || ''}\" /><br>`;
+          }
+
           div.innerHTML = `
                 <h4>${item.groupName}</h4>
-                <label>Day & Time:</label><br>
-                <input type="text" id="${key}-time" value="${item.time}" /><br>
+                <label>Day & Times:</label><br>
+                ${timesInputs}
                 <label>Location:</label><br>
                 <input type="text" id="${key}-location" value="${item.location}" /><br>
                 <button onclick="saveSchedule('${key}')">💾 Save</button>
@@ -161,11 +171,19 @@
   
     // Save changes to an existing group
     window.saveSchedule = function (key) {
-      const time = document.getElementById(`${key}-time`).value;
+      // Collect all time inputs for this group
+      const times = [];
+      let idx = 0;
+      while (true) {
+        const input = document.getElementById(`${key}-time-${idx}`);
+        if (!input) break;
+        if (input.value.trim() !== "") times.push(input.value.trim());
+        idx++;
+      }
       const location = document.getElementById(`${key}-location`).value;
   
       update(ref(db, `schedule/${key}`), {
-        time: time,
+        times: times,
         location: location
       })
       .then(() => alert(`✅ ${key} updated!`))

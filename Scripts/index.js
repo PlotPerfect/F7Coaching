@@ -210,7 +210,10 @@ window.openScheduleOverlay = () => {
       ? Object.values(data).map(group => `
         <div class="schedule-item">
           <h3>${group.groupName}</h3>
-          <p>${group.time} / ${group.location}</p>
+          <div class="schedule-location">${group.location}</div>
+          <ul class="schedule-times">
+            ${Array.isArray(group.times) ? group.times.map(time => `<li>${time}</li>`).join('') : `<li>${group.time || ''}</li>`}
+          </ul>
         </div>
       `).join('')
       : "<p>No schedule available at the moment.</p>";

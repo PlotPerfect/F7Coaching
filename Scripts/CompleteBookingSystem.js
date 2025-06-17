@@ -1,6 +1,5 @@
 // CompleteBookingSystem.js - Optimized Booking System
 import { db, ref, update, get } from './auth.js';
-import { sendConfirmationEmail } from './EmailJS.js';
 
 // Confirm Booking Function
 export async function confirmBooking(bookingId, groupKey, sessionDate) {
@@ -14,13 +13,18 @@ export async function confirmBooking(bookingId, groupKey, sessionDate) {
         get(bookingRef).then(snapshot => {
             const bookingData = snapshot.val();
             if (bookingData) {
-                sendConfirmationEmail(
-                    bookingData.playerName,
-                    bookingData.parentEmail,
-                    bookingData.sessionName,
-                    bookingData.sessionDate,
-                    bookingData.sessionTime
-                );
+                if (window.sendConfirmationEmail) {
+                    window.sendConfirmationEmail(
+                        bookingData.playerName,
+                        bookingData.parentEmail,
+                        bookingData.sessionName,
+                        bookingData.sessionDate,
+                        bookingData.sessionTime,
+                        bookingData.sessionLocation
+                    );
+                } else {
+                    console.error("❌ sendConfirmationEmail is not defined on window.");
+                }
             }
         });
     } catch (error) {
