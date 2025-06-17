@@ -61,6 +61,12 @@ elements.sessionTypeSelect.addEventListener("change", async () => {
   const session = liveScheduleData[groupKey];
   if (!session) return;
 
+  // Display the location for the selected session
+  const locationDiv = document.getElementById('sessionLocationDisplay');
+  if (locationDiv) {
+    locationDiv.textContent = session.location ? `Location: ${session.location}` : '';
+  }
+
   // Reset date and time fields on session change
   elements.sessionDateInput.value = '';
   // Remove the type assignment that causes error
