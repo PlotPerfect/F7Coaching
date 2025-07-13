@@ -1514,7 +1514,7 @@ button:disabled {
 }
   
   /* Close Button */
-  .close-btn {
+  .about-close-btn {
     position: absolute;
     top: 75px;
     right: 280px;
@@ -1525,7 +1525,39 @@ button:disabled {
     cursor: pointer;
     transition: transform 0.2s ease;
   }
-  .close-btn:hover {
+  .about-close-btn:hover {
+    transform: rotate(90deg);
+  }
+
+    /* Close Button */
+  .coaches-close-btn {
+    position: absolute;
+    top: 75px;
+    right: 280px;
+    background: none;
+    border: none;
+    font-size: 30px;
+    color: #00ff00;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  .coaches-close-btn:hover {
+    transform: rotate(90deg);
+  }
+
+  /* Close Button */
+  .services-close-btn {
+    position: absolute;
+    top: 75px;
+    right: 280px;
+    background: none;
+    border: none;
+    font-size: 30px;
+    color: #00ff00;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  .services-close-btn:hover {
     transform: rotate(90deg);
   }
 
@@ -1884,12 +1916,10 @@ button:disabled {
   pointer-events: none;
 }
 
-
-/* Schedule Overlay Close Button */
-#scheduleOverlay .close-btn {
+.schedule-close-btn {
   position: absolute;
-  top: 32px;
-  right: 32px;
+  top: 55px;
+  right: 300px;
   background: none;
   border: none;
   font-size: 32px;
@@ -1898,8 +1928,5 @@ button:disabled {
   transition: color 0.2s, transform 0.2s;
   z-index: 10;
 }
-#scheduleOverlay .close-btn:hover {
-  color: #00cc66;
-  transform: rotate(90deg) scale(1.12);
-}
+
 

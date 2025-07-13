@@ -356,6 +356,10 @@
         z-index: 10;
     }
 
+    .contact-close-btn {
+        transform: rotate(90deg);
+    }
+
     .about-close-btn {
         position: absolute;
         top: 55px;
@@ -714,7 +718,7 @@
 
 /* Mobile CSS for scroll-down-indicator */
 .scroll-down-indicator {
-    bottom: 24px;
+    bottom: 85px;
     left: 43%;
     transform: translateX(-50%);
     display: flex;
