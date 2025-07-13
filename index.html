@@ -86,7 +86,7 @@
     <div class="menu-content">
         <img src="Images/F7Logo.svg" alt="Logo Image" class="menu-logo-icon">
         <ul>
-            <li><a href="#home" class="menu-link">Home</a></li>
+            <li><a href="#home" class="menu-link" onclick="closeMenuOverlay();closeBookingOverlay();closeAboutUsOverlay();closeServicesOverlay();closeContactOverlay();closeCoachesOverlay();closeScheduleOverlay();closeFrameworkOverlay();">Home</a></li>
             <li><a href="#b" class="menu-link" onclick="openBookingsFromMenu()">Bookings</a></li>
             <li><a href="#" class="menu-link" onclick="openScheduleFromMenu()">Schedule</a></li>
             <li><a href="#" class="menu-link" onclick="openAboutUsFromMenu()">About Us</a></li>
@@ -296,7 +296,7 @@
   <!-- About Us Overlay Panel -->
 <div id="aboutUsOverlay" class="overlay-panel" style="display: none;">
   <div class="overlay-content">
-    <button class="close-btn" onclick="closeAboutUsOverlay()">✖</button>
+    <button class="about-close-btn" onclick="closeAboutUsOverlay()">✖</button>
     <section id="about">
       <div class="about-container">
         <div class="about-image">
@@ -332,7 +332,7 @@
 
 <div id="frameworkOverlay" class="overlay-panel" style="display: none;">
   <div class="overlay-content">
-    <button class="close-btn" onclick="closeFrameworkOverlay()">✖</button>
+    <button class="framework-close-btn" onclick="closeFrameworkOverlay()">✖</button>
     <section id="framework">
       <div class="framework-container">
 
@@ -368,7 +368,7 @@
 <!-- Services Overlay Panel -->
 <div id="servicesOverlay" class="overlay-panel" style="display: none;">
   <div class="overlay-content">
-    <button class="close-btn" onclick="closeServicesOverlay()">✖</button>
+    <button class="services-close-btn" onclick="closeServicesOverlay()">✖</button>
     <section id="services">
       <div class="service-container">
 
@@ -429,65 +429,10 @@
 <!-- Schedule Overlay Panel -->
 <div id="scheduleOverlay" class="overlay-panel" style="display: none;">
   <div class="overlay-content">
-    <button class="close-btn" onclick="closeScheduleOverlay()">✖</button>
+    <button class="schedule-close-btn" onclick="closeScheduleOverlay()">✖</button>
     <section id="schedule">
-      <div class="schedule-container">
-        <!-- Monday - Shooters North Weald -->
-        <div class="schedule-item">
-          <h3>Monday <span class="schedule-location">- Shooters North Weald</span></h3>
-          <ul class="schedule-times">
-            <li>5:00–6:00 PM Elite Session</li>
-            <li>6:00–7:00 PM Elite Session</li>
-          </ul>
-        </div>
-        <!-- Tuesday - Fairlop Waters -->
-        <div class="schedule-item">
-          <h3>Tuesday <span class="schedule-location">- Fairlop Waters</span></h3>
-          <ul class="schedule-times">
-            <li>4:00–5:00 PM Elite Session</li>
-            <li>5:00–6:00 PM Elite Session</li>
-            <li>6:00–7:00 PM Elite Session</li>
-          </ul>
-        </div>
-        <!-- Wednesday - Fairlop Waters -->
-        <div class="schedule-item">
-          <h3>Wednesday <span class="schedule-location">- Fairlop Waters</span></h3>
-          <ul class="schedule-times">
-            <li>4:30–5:30 PM Elite Session</li>
-            <li>5:30–6:30 PM Elite Session</li>
-            <li>6:30–7:30 PM Elite Session</li>
-            <li>7:30–8:30 PM Elite Session</li>
-          </ul>
-        </div>
-        <!-- Thursday - Shooters North Weald -->
-        <div class="schedule-item">
-          <h3>Thursday <span class="schedule-location">- Shooters North Weald</span></h3>
-          <ul class="schedule-times">
-            <li>4:00–5:00 PM Elite Session</li>
-            <li>5:00–6:00 PM Elite Session</li>
-            <li>6:00–7:00 PM Elite Session</li>
-          </ul>
-        </div>
-        <!-- Friday - Fairlop Waters -->
-        <div class="schedule-item">
-          <h3>Friday <span class="schedule-location">- Fairlop Waters</span></h3>
-          <ul class="schedule-times">
-            <li>4:30–5:30 PM Elite Session</li>
-            <li>5:30–6:30 PM Elite Session</li>
-            <li>6:30–7:30 PM Elite Session</li>
-            <li>7:30–8:30 PM Elite Session</li>
-          </ul>
-        </div>
-        <!-- Saturday - Wadham Lodge -->
-        <div class="schedule-item">
-          <h3>Saturday <span class="schedule-location">- Wadham Lodge</span></h3>
-          <ul class="schedule-times">
-            <li>9:00–10:00 AM Elite Session</li>
-            <li>12:00–1:00 PM Elite Session</li>
-            <li>1:00–2:00 PM Elite Session</li>
-            <li>2:00–3:00 PM Elite Session</li>
-          </ul>
-        </div>
+      <div id="dynamicScheduleContainer" class="schedule-container">
+        <!-- Schedule will be loaded here dynamically -->
       </div>
     </section>
   </div>
@@ -524,7 +469,7 @@
 <!-- Coaches Overlay Panel -->
 <div id="coachesOverlay" class="overlay-panel" style="display: none;">
   <div class="overlay-content">
-    <button class="close-btn" onclick="closeCoachesOverlay()">✖</button>
+    <button class="coaches-close-btn" onclick="closeCoachesOverlay()">✖</button>
     <section id="coaches">
       <div class="coaches-container">
 
