@@ -1,28 +1,28 @@
-import { db, ref, onValue, push, set, get } from './auth.js';
+// Stripe payment links for each groupKey (add more as needed)
+const stripePaymentLinks = {
+  // Example: 'groupKey': 'https://book.stripe.com/test_14AfZhc804nk8wDaLf3AY0d',
+  'fri_fairlop': 'https://book.stripe.com/8x2aEX2xtgVY0U769Hao806',
+  'sat_wadham': 'https://book.stripe.com/8x2aEX2xtgVY0U769Hao806',
+  'thurs_shooters': 'https://book.stripe.com/8x2aEX2xtgVY0U769Hao806',
+  'tues_fairlop': 'https://book.stripe.com/test_14AfZhc804nk8wDaLf3AY0d', //test link for Tuesday Fairlop
+  'wed_fairlop': 'https://book.stripe.com/8x2aEX2xtgVY0U769Hao806'
+};
 
+import { db, ref, onValue, push, set, get } from './auth.js';
 
 // Elements
 const elements = {
-  sessionTypeSelect: document.getElementById("sessionType"),
-  sessionDateInput: document.getElementById("sessionDate"),
-  sessionTimeInput: document.getElementById("sessionTime"),
+  bookingLocation: document.getElementById("bookingLocation"),
+  bookingDate: document.getElementById("bookingDate"),
+  bookingTime: document.getElementById("bookingTime"),
   bookingForm: document.getElementById("bookingForm"),
   bookingMessage: document.getElementById("bookingMessage"),
+  playerName: document.getElementById("playerName"),
+  parentEmail: document.getElementById("parentEmail"),
 };
 
-// Stripe Payment Links
-const stripePaymentLinks = {
-  "U10_U12": "https://book.stripe.com/test_14AfZhc804nk8wDaLf3AY0d",
-  "U11_U12": "https://book.stripe.com/3cI7sLb3Z49c32fapXao805",
-  "U12_U15_Advanced": "https://book.stripe.com/00w4gz5JFaxAgT5gOlao804",
-  "U13_U15": "https://book.stripe.com/eVqeVddc78psdGTcy5ao803",
-  "U7_U8": "https://book.stripe.com/aFa14n2xt49c46jdC9ao802",
-  "U9_U10": "https://book.stripe.com/8x2bJ19ZV358eKXapXao801",
-  "U9_U11_Advanced": "https://book.stripe.com/6oU4gz9ZVgVY6ereGdao800",
-};
-
-// Global session data
 let liveScheduleData = {};
+let currentFlatpickr = null;
 
 // Initialize the app
 
@@ -32,133 +32,158 @@ function loadSchedule() {
   const scheduleRef = ref(db, "schedule");
   onValue(scheduleRef, (snapshot) => {
     const data = snapshot.val();
-    populateSessionOptions(data);
+    liveScheduleData = data;
+    populateLocationOptions(data);
   });
 }
 
-// Populate session options in the dropdown
-function populateSessionOptions(scheduleData) {
-  elements.sessionTypeSelect.innerHTML = '<option value="">Select Session Type</option>';
-  liveScheduleData = scheduleData;
-
+// Populate location options in the dropdown
+function populateLocationOptions(scheduleData) {
+  elements.bookingLocation.innerHTML = '<option value="">Select Location</option>';
+  const locations = {};
   Object.entries(scheduleData).forEach(([key, session]) => {
-    const option = document.createElement("option");
-    option.value = key;
-    option.textContent = session.groupName;
-    elements.sessionTypeSelect.appendChild(option);
+    if (session.location) {
+      if (!locations[session.location]) locations[session.location] = [];
+      locations[session.location].push({ key, ...session });
+    }
   });
-  // Reset time and date fields
-  elements.sessionTimeInput.value = '';
-  elements.sessionTimeInput.disabled = true;
-  elements.sessionTimeInput.setAttribute('readonly', true);
+  // Define the desired order of days
+  const dayOrder = [
+    "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
+  ];
+  // Helper to extract day from location string
+  function getDayFromLocation(loc) {
+    const match = loc.match(/(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)/i);
+    return match ? match[0] : "";
+  }
+  // Sort locations by day order
+  const sortedLocations = Object.keys(locations).sort((a, b) => {
+    const dayA = getDayFromLocation(a);
+    const dayB = getDayFromLocation(b);
+    return dayOrder.indexOf(dayA) - dayOrder.indexOf(dayB);
+  });
+  sortedLocations.forEach(location => {
+    const option = document.createElement("option");
+    option.value = location;
+    option.textContent = location;
+    elements.bookingLocation.appendChild(option);
+  });
+  // Hide date and time dropdowns until location is selected
+  elements.bookingDate.style.display = 'none';
+  elements.bookingTime.style.display = 'none';
 }
 
-// Handle session type selection
-elements.sessionTypeSelect.addEventListener("change", async () => {
-  const groupKey = elements.sessionTypeSelect.value;
-  if (!groupKey) return;
-
-  const session = liveScheduleData[groupKey];
-  if (!session) return;
-
-  // Display the location for the selected session
-  const locationDiv = document.getElementById('sessionLocationDisplay');
-  if (locationDiv) {
-    locationDiv.textContent = session.location ? `Location: ${session.location}` : '';
+// Handle location selection
+// When a location is selected, show the date input as a calendar (flatpickr), filtered to only show available days for that location
+elements.bookingLocation.addEventListener("change", async () => {
+  const location = elements.bookingLocation.value;
+  if (!location) {
+    elements.bookingDate.style.display = 'none';
+    elements.bookingTime.style.display = 'none';
+    if (currentFlatpickr) { currentFlatpickr.destroy(); currentFlatpickr = null; }
+    return;
   }
-
-  // Reset date and time fields on session change
-  elements.sessionDateInput.value = '';
-  // Remove the type assignment that causes error
-  if (elements.sessionTimeInput.tagName === 'SELECT') {
-    elements.sessionTimeInput.selectedIndex = 0;
-  } else {
-    elements.sessionTimeInput.value = '';
-  }
-
-  // Populate time dropdown if multiple times exist
-  if (Array.isArray(session.times) && session.times.length > 0) {
-    // Replace input with a select dropdown
-    const select = document.createElement('select');
-    select.id = 'sessionTime';
-    select.required = true;
-    select.innerHTML = '<option value="">Select Time</option>' + session.times.map(t => `<option value="${t}">${t}</option>`).join('');
-    elements.sessionTimeInput.replaceWith(select);
-    elements.sessionTimeInput = select;
-    attachSessionTimeListener();
-  } else {
-    // Fallback to text input for legacy data
-    const input = document.createElement('input');
-    input.type = 'text';
-    input.id = 'sessionTime';
-    input.value = session.time || '';
-    input.setAttribute('readonly', true);
-    input.disabled = true;
-    elements.sessionTimeInput.replaceWith(input);
-    elements.sessionTimeInput = input;
-    attachSessionTimeListener();
-  }
-
-  const dayName = session.location.match(/(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)/i)?.[0]?.toLowerCase();
-  await updateDatePicker(groupKey, dayName);
-  await updateBookingMessageForDate();
+  // Find all sessions for this location
+  const sessions = Object.entries(liveScheduleData).filter(([key, session]) => session.location === location);
+  const groupKeys = sessions.map(([key]) => key);
+  // Find all allowed days (e.g. Tuesday, Wednesday, etc.) for this location
+  const allowedDays = Array.from(new Set(sessions.map(([_, session]) => session.dayName || (session.location.match(/(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)/i)?.[0])))).filter(Boolean);
+  // Setup flatpickr for the date input
+  elements.bookingDate.style.display = '';
+  elements.bookingTime.style.display = 'none';
+  elements.bookingDate.value = '';
+  if (currentFlatpickr) { currentFlatpickr.destroy(); }
+  currentFlatpickr = flatpickr(elements.bookingDate, {
+    dateFormat: "Y-m-d",
+    minDate: "today",
+    disable: [
+      function(date) {
+        // Only enable allowed days and dates that are not fully booked
+        const dayName = date.toLocaleDateString("en-US", { weekday: "long" });
+        if (!allowedDays.includes(dayName)) return true;
+        // Check if all times for this date are fully booked for all groupKeys
+        // (async not allowed here, so we only filter by day)
+        return false;
+      }
+    ],
+    onChange: function(selectedDates, dateStr) {
+      if (!dateStr) {
+        elements.bookingTime.style.display = 'none';
+        return;
+      }
+      populateAvailableTimesForDate(location, dateStr);
+    }
+  });
 });
 
-// Autofill session time
-function autofillSessionTime(sessionTime) {
-  const match = sessionTime.match(/at\s(\d{1,2}:\d{2}[ap]m)/i);
-  if (match) {
-    elements.sessionTimeInput.value = match[1];
-    elements.sessionTimeInput.setAttribute("readonly", true);
-    elements.sessionTimeInput.disabled = true;
+async function populateAvailableTimesForDate(location, date) {
+  // Find all sessions for this location
+  const sessions = Object.entries(liveScheduleData).filter(([key, session]) => session.location === location);
+  let availableTimes = [];
+  for (const [key, session] of sessions) {
+    if (Array.isArray(session.times)) {
+      for (const time of session.times) {
+        const spots = await getAvailableSpots(key, date, time);
+        if (spots > 0) {
+          availableTimes.push({ key, time });
+        }
+      }
+    }
   }
+  elements.bookingTime.innerHTML = '<option value="">Select Time</option>' + availableTimes.map(t => `<option value="${t.key}|${t.time}">${t.time}</option>`).join('');
+  elements.bookingTime.style.display = '';
 }
 
-// Extract day name from session time
-function extractDayName(sessionTime) {
-  const match = sessionTime.match(/(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)/i);
-  return match ? match[0].toLowerCase() : null;
-}
+// Handle date selection
+elements.bookingDate.addEventListener("change", async () => {
+  const location = elements.bookingLocation.value;
+  const date = elements.bookingDate.value;
+  if (!location || !date) {
+    elements.bookingTime.style.display = 'none';
+    return;
+  }
+  // Find all sessions for this location
+  const sessions = Object.entries(liveScheduleData).filter(([key, session]) => session.location === location);
+  // For each session, get available times for this date
+  let availableTimes = [];
+  for (const [key, session] of sessions) {
+    if (Array.isArray(session.times)) {
+      for (const time of session.times) {
+        const spots = await getAvailableSpots(key, date, time);
+        if (spots > 0) {
+          availableTimes.push({ key, time });
+        }
+      }
+    }
+  }
+  elements.bookingTime.innerHTML = '<option value="">Select Time</option>' + availableTimes.map(t => `<option value="${t.key}|${t.time}">${t.time}</option>`).join('');
+  elements.bookingTime.style.display = '';
+});
 
-// Update date picker with Flatpickr
-function updateDatePicker(groupKey, allowedDay) {
-  // FIX: Use correct path for bookings
-  const bookingsRef = ref(db, `bookings/${groupKey}`);
-  get(bookingsRef).then((snapshot) => {
+// Helper to get all available dates for a set of groupKeys
+async function getAvailableDatesForLocation(groupKeys) {
+  const allDates = new Set();
+  for (const groupKey of groupKeys) {
+    const bookingsRef = ref(db, `bookings/${groupKey}`);
+    const snapshot = await get(bookingsRef);
     const data = snapshot.val();
-    const fullyBookedDates = [];
-
     if (data) {
       Object.entries(data).forEach(([dateKey, bookingsForDate]) => {
-        // For each date, check all times
+        // Check if any time slot for this date is not fully booked
         const timeCounts = {};
         Object.values(bookingsForDate).forEach(booking => {
           if (booking.sessionTime) {
             timeCounts[booking.sessionTime] = (timeCounts[booking.sessionTime] || 0) + (booking.status === 'Confirmed' ? 1 : 0);
           }
         });
-        // If all times for this date are fully booked, disable the date
-        const allTimesFull = Object.values(timeCounts).length > 0 && Object.values(timeCounts).every(count => count >= 15);
-        if (allTimesFull) {
-          fullyBookedDates.push(dateKey.split("_")[0]);
-        }
+        const hasAvailable = Object.values(timeCounts).some(count => count < 15);
+        if (hasAvailable) allDates.add(dateKey.split("_")[0]);
       });
     }
-
-    flatpickr("#sessionDate", {
-      dateFormat: "Y-m-d",
-      minDate: "today",
-      disable: [
-        (date) => {
-          const dateString = date.toISOString().split("T")[0];
-          if (fullyBookedDates.includes(dateString)) return true;
-          return allowedDay
-            ? date.toLocaleDateString("en-US", { weekday: "long" }).toLowerCase() !== allowedDay
-            : false;
-        },
-      ],
-    });
-  });
+  }
+  // Also add future dates from schedule if not already booked out
+  // (Optional: can be extended for more robust logic)
+  return Array.from(allDates).sort();
 }
 
 // Get available spots for a session on a specific date and time
@@ -179,32 +204,16 @@ async function getAvailableSpots(groupKey, sessionDate, sessionTime) {
 
 // Update booking message based on available spots for selected date and time
 async function updateBookingMessageForDate() {
-  const groupKey = elements.sessionTypeSelect.value;
-  const sessionDate = elements.sessionDateInput.value;
-  let sessionTime = "";
-  if (elements.sessionTimeInput) {
-    if (elements.sessionTimeInput.tagName === 'SELECT') {
-      sessionTime = elements.sessionTimeInput.value;
-    } else {
-      sessionTime = elements.sessionTimeInput.value;
-    }
-  }
-  if (!groupKey || !sessionDate || !sessionTime) return;
-  const spotsLeft = await getAvailableSpots(groupKey, sessionDate, sessionTime);
+  const location = elements.bookingLocation.value;
+  const date = elements.bookingDate.value;
+  const timeValue = elements.bookingTime.value;
+  if (!location || !date || !timeValue) return;
+  const [groupKey, sessionTime] = timeValue.split('|');
+  const spotsLeft = await getAvailableSpots(groupKey, date, sessionTime);
   updateBookingMessage(spotsLeft);
 }
 
-// Listen for date and time changes to update spots left
-if (elements.sessionDateInput) {
-  elements.sessionDateInput.addEventListener("change", updateBookingMessageForDate);
-}
-// Always re-attach event listener after replacing sessionTimeInput
-function attachSessionTimeListener() {
-  if (elements.sessionTimeInput) {
-    elements.sessionTimeInput.removeEventListener("change", updateBookingMessageForDate);
-    elements.sessionTimeInput.addEventListener("change", updateBookingMessageForDate);
-  }
-}
+elements.bookingTime.addEventListener("change", updateBookingMessageForDate);
 
 // Update booking message based on available spots
 function updateBookingMessage(spotsLeft) {
@@ -217,27 +226,21 @@ function updateBookingMessage(spotsLeft) {
   }
 }
 
+// Form submission handler
 elements.bookingForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   elements.bookingMessage.textContent = "";
 
-  const playerName = document.getElementById("playerName").value;
-  const parentEmail = document.getElementById("parentEmail").value;
-  const groupKey = elements.sessionTypeSelect.value;
-  const sessionDate = elements.sessionDateInput.value;
-  // Get the selected session time (from dropdown or input)
-  let sessionTime = "";
-  if (elements.sessionTimeInput.tagName === 'SELECT') {
-    sessionTime = elements.sessionTimeInput.value;
-  } else {
-    sessionTime = elements.sessionTimeInput.value;
-  }
-
-  if (!playerName || !parentEmail || !groupKey || !sessionDate || !sessionTime) {
+  const playerName = elements.playerName.value;
+  const parentEmail = elements.parentEmail.value;
+  const location = elements.bookingLocation.value;
+  const date = elements.bookingDate.value;
+  const timeValue = elements.bookingTime.value;
+  if (!playerName || !parentEmail || !location || !date || !timeValue) {
     elements.bookingMessage.textContent = "❌ Please complete all booking details.";
     return;
   }
-
+  const [groupKey, sessionTime] = timeValue.split('|');
   // Fetch latest session details from Firebase
   const sessionRef = ref(db, `schedule/${groupKey}`);
   const sessionSnap = await get(sessionRef);
@@ -251,9 +254,9 @@ elements.bookingForm.addEventListener("submit", async (e) => {
 
   try {
     elements.bookingMessage.textContent = "✅ Saving booking... Please wait.";
-    const bookingId = await saveBooking(playerName, parentEmail, sessionName, sessionDate, sessionTime, sessionLocation);
+    const bookingId = await saveBooking(playerName, parentEmail, sessionName, date, sessionTime, sessionLocation, groupKey);
     console.log("✅ Booking saved:", bookingId);
-    redirectToPayment(bookingId);
+    redirectToPayment(bookingId, groupKey);
   } catch (error) {
     console.error("❌ Error saving booking:", error);
     elements.bookingMessage.textContent = "❌ Error saving booking. Please try again.";
@@ -261,8 +264,10 @@ elements.bookingForm.addEventListener("submit", async (e) => {
 });
 
 // Save booking to Firebase and then redirect
-async function saveBooking(playerName, parentEmail, sessionName, sessionDate, sessionTime, sessionLocation) {
-  const groupKey = elements.sessionTypeSelect.value;
+async function saveBooking(playerName, parentEmail, sessionName, sessionDate, sessionTime, sessionLocation, groupKeyOverride) {
+  // Use the groupKey from the time dropdown if provided, otherwise fallback
+  const groupKey = groupKeyOverride || (elements.bookingTime.value ? elements.bookingTime.value.split('|')[0] : null);
+  if (!groupKey) throw new Error('No groupKey found for booking');
   const bookingRef = ref(db, `bookings/${groupKey}/${sessionDate}`);
   const newBookingRef = push(bookingRef);
 
@@ -281,15 +286,12 @@ async function saveBooking(playerName, parentEmail, sessionName, sessionDate, se
 }
 
 // Redirect to payment with all necessary parameters
-function redirectToPayment(bookingId) {
-  const paymentLink = stripePaymentLinks[elements.sessionTypeSelect.value];
+function redirectToPayment(bookingId, groupKey) {
+  const paymentLink = stripePaymentLinks[groupKey];
   if (paymentLink) {
-    // Save booking data to local storage for success page
     localStorage.setItem("bookingId", bookingId);
-    localStorage.setItem("groupKey", elements.sessionTypeSelect.value);
-    localStorage.setItem("sessionDate", elements.sessionDateInput.value);
-
-    console.log("✅ Redirecting to payment:", paymentLink);
+    localStorage.setItem("groupKey", groupKey);
+    localStorage.setItem("sessionDate", elements.bookingDate.value);
     window.location.href = paymentLink;
   } else {
     elements.bookingMessage.textContent = "❌ No payment link available for this session.";

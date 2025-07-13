@@ -17,6 +17,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   if (bookingId && groupKey && sessionDate) {
       try {
+          // Log the exact database path being queried
+          console.log("[SuccessHandler] Fetching from path:", `bookings/${groupKey}/${sessionDate}/${bookingId}`);
           // Fetch the booking data first (should be status Pending)
           const bookingRef = ref(db, `bookings/${groupKey}/${sessionDate}/${bookingId}`);
           const snapshot = await get(bookingRef);
@@ -41,6 +43,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
               // Now, confirm the booking and send email in the background
               confirmBooking(bookingId, groupKey, sessionDate);
+
+              // Clear localStorage after use to avoid stale data
+              localStorage.removeItem("bookingId");
+              localStorage.removeItem("groupKey");
+              localStorage.removeItem("sessionDate");
           } else {
               displayError("❌ Booking data could not be loaded. Please contact support.");
           }

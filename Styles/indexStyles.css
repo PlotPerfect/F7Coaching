@@ -128,7 +128,7 @@ section {
 /* Custom Heights for Each Section */
 #sectionCarousel{
     min-height: 84vh; /* Full screen height */
-    background: url('../Images/SectionBG.svg') no-repeat center/cover;
+    background: url('../Images/SectionBG.webp') no-repeat center/cover;
     position: relative;
     overflow: hidden;
     display: flex;
@@ -164,7 +164,7 @@ section {
 
 #testimonials {
     min-height: 86vh; /* Enough space for the carousel */
-    background: url('../Images/CoachSectionIMG.svg') no-repeat center/cover;
+    background: url('../Images/CoachSectionIMG.webp') no-repeat center/cover;
     text-shadow: #000000 0px 22px 50px;
     font-family: 'Rajdhani', sans-serif !important;
 }
@@ -282,7 +282,7 @@ html, body {
   position: fixed;
   top: 20px;
   left: 20px;
-  z-index: 99994;
+  z-index: 99999;
   width: auto;
 }
 
@@ -1337,7 +1337,7 @@ button:disabled {
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.95);
-    z-index: 9999;
+    z-index: 9991;
     padding: 30px;
     overflow-y: auto;
     font-family: 'Inter', sans-serif;
@@ -1383,18 +1383,31 @@ button:disabled {
 .booking-content input,
 .booking-content select {
   padding: 10px 15px;
-  font-size: 14px;
+  font-size: 16px;
   background: #232323;
   color: #fff;
   border: 1px solid #333;
   border-radius: 7px;
   transition: border 0.3s;
+  width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.booking-content input:focus,
-.booking-content select:focus {
-  border-color: #00ff00;
-  outline: none;
+.booking-content select option {
+  white-space: normal;
+  font-size: 15px;
+  word-break: break-word;
+  max-width: 100vw;
+}
+
+.booking-content input::placeholder,
+.booking-content select {
+  font-size: 15px;
+  color: #aaa;
 }
 
 .booking-content button {
@@ -1657,104 +1670,6 @@ button:disabled {
     box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
   }
 
-  /* Base Styles (Desktop Default) */
-  .contact-overlay-panel {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 9999;
-    background: rgba(0, 0, 0, 0.95);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    overflow-y: auto;
-  }
-
-  .contact-overlay-content {
-    background: #000;
-    padding: 40px 30px;
-    border-radius: 15px;
-    box-shadow: 0 0 25px rgba(0, 255, 0, 0.4);
-    width: 100%;
-    max-width: 400px;
-    text-align: center;
-    position: relative;
-  }
-
-  .contact-close-btn {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    background: none;
-    border: none;
-    font-size: 24px;
-    color: #0f0;
-    cursor: pointer;
-  }
-
-  .contact-overlay-section h2 {
-    color: #0f0;
-    font-size: 1.8rem;
-    text-align: center;
-    margin-bottom: 25px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-
-  .contact-overlay-section form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-
-  .contact-overlay-section input,
-  .contact-overlay-section textarea {
-    background: #111;
-    border: 1px solid #333;
-    border-radius: 8px;
-    padding: 12px 15px;
-    font-size: 1rem;
-    color: #fff;
-    width: 100%;
-  }
-
-  .contact-overlay-section input::placeholder,
-  .contact-overlay-section textarea::placeholder {
-    color: #777;
-  }
-
-  .contact-overlay-section input:focus,
-  .contact-overlay-section textarea:focus {
-    outline: none;
-    border-color: #0f0;
-    box-shadow: 0 0 8px rgba(0, 255, 0, 0.5);
-  }
-
-  .contact-overlay-section button {
-    background: #0f0;
-    color: #000;
-    font-weight: bold;
-    border: none;
-    border-radius: 8px;
-    padding: 14px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background 0.3s ease;
-  }
-
-  .contact-overlay-section button:hover {
-    background: #00cc00;
-  }
-
-  #contactFormMessage {
-    color: #0f0;
-    text-align: center;
-    margin-top: 10px;
-  }
-
 
 /* Contact Us Overlay Panel Styles */
 .contact-overlay-panel {
@@ -1764,810 +1679,53 @@ button:disabled {
   width: 100vw;
   height: 100vh;
   z-index: 2000;
-  background: rgba(0, 0, 0, 0.95);
+  background: rgba(10, 20, 30, 0.75);
+  backdrop-filter: blur(8px) saturate(120%);
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 20px;
   overflow-y: auto;
+  box-sizing: border-box;
 }
 
 .contact-overlay-content {
-  background: #111;
-  padding: 40px 30px;
-  border-radius: 15px;
-  box-shadow: 0 0 25px rgba(0, 255, 0, 0.4);
+  /* Remove any left: 30% or similar offset */
+  background: rgba(20, 30, 40, 0.95);
+  padding: 48px 36px 36px 36px;
+  border-radius: 18px;
+  box-shadow: 0 8px 40px 0 rgba(0,255,128,0.18), 0 1.5px 8px 0 rgba(0,0,0,0.18);
+  border: 1.5px solid rgba(0,255,128,0.18);
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
   text-align: center;
   position: relative;
-  left: 30%;
+  margin: 0 auto;
+  left: unset;
+  right: unset;
+  top: unset;
+  bottom: unset;
+  transition: box-shadow 0.3s, border 0.3s;
 }
 
 .contact-close-btn {
   position: absolute;
-  top: 15px;
-  right: 20px;
+  top: 18px;
+  right: 24px;
   background: none;
   border: none;
-  font-size: 24px;
-  color: #0f0;
+  font-size: 28px;
+  color: #00ff99;
   cursor: pointer;
+  transition: color 0.2s;
 }
-
-.contact-overlay-section h2 {
-  color: #0f0;
-  font-size: 1.8rem;
-  text-align: center;
-  margin-bottom: 25px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+.contact-close-btn:hover {
+  color: #00cc66;
 }
-
-.contact-overlay-section form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.contact-overlay-section input,
-.contact-overlay-section textarea {
-  background: #111;
-  border: 1px solid #333;
-  border-radius: 8px;
-  padding: 12px 15px;
-  font-size: 1rem;
-  color: #fff;
-  width: 100%;
-}
-
-.contact-overlay-section input::placeholder,
-.contact-overlay-section textarea::placeholder {
-  color: #777;
-}
-
-.contact-overlay-section input:focus,
-.contact-overlay-section textarea:focus {
-  outline: none;
-  border-color: #0f0;
-  box-shadow: 0 0 8px rgba(0, 255, 0, 0.5);
-}
-
-.contact-overlay-section button {
-  background: #0f0;
-  color: #000;
-  font-weight: bold;
-  border: none;
-  border-radius: 8px;
-  padding: 14px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background 0.3s ease;
-}
-
-.contact-overlay-section button:hover {
-  background: #00cc00;
-}
-
-#contactFormMessage {
-  color: #0f0;
-  text-align: center;
-  margin-top: 10px;
-}
-
-    /* Mobile Responsive Styles */
-    @media (max-width: 768px) {
-      /* General Adjustments */
-      body {
-        font-size: 14px;
-      }
-
-      section {
-        padding: 20px;
-      }
-
-        #enterButton img {
-          width: 120px; /* Smaller for mobile */
-      }
-
-      .progress-container {
-          width: 80%; /* Wider for better visibility */
-      }
-
-      #progressText {
-          font-size: 16px; /* Smaller text for mobile */
-      }
-
-      .logo-container {
-        position: absolute;
-        z-index: 1; /* Still lower than overlays */
-      }
-      
-      .logo-icon {
-        width: 350px;
-        position: relative; /* REQUIRED for z-index to take effect */
-        z-index: 1;
-      }
-
-      .menu-logo-icon {
-        width: 80px;
-        display: block;
-        margin: -550px -95px 30px 30px; /* top, horizontal center, bottom */
-      }
-
-      /* Menu */
-      .menu-icon {
-        width: 44px;
-      }
-
-      .menu-overlay {
-        top: -100vh; /* ensures it's fully out of view */
-        height: 100vh;
-        overflow: hidden;
-      }
-    
-      .menu-overlay.show {
-        top: 0;
-      }
-    
-      .menu-overlay:not(.show) .menu-content {
-        display: none;
-      }
-
-      .menu-overlay.show .menu-content {
-        display: flex; /* or block */
-      }
-
-      .menu-link {
-        font-size: 12px;
-        padding: 8px 16px;
-      }
-
-      /* Adjust Section Heights for Mobile */
-      .cc {
-        min-height: auto; /* Default height for all sections */
-        padding: 20px; /* Adjust padding for better spacing */
-      }
-
-      #home.cc {
-        min-height: 70vh; /* Adjusted height for home section */
-      }
-
-      #sectionCarousel.cc {
-        max-height: 705vh; /* Adjusted height for about section */
-        height: auto;
-      }
-
-
-      #about.cc {
-        height: 10vh; /* Adjusted height for about section */
-      }
-
-      #services.cc {
-        min-height: 10vh; /* Adjusted height for services section */
-      }
-
-      #framework.cc {
-        min-height: 150vh; /* Adjusted height for framework section */
-      }
-
-      #schedule.cc {
-        min-height: 130vh; /* Adjusted height for schedule section */
-      }
-
-      #testimonials.cc {
-        min-height: 70vh; /* Adjusted height for testimonials section */
-      }
-
-      #contact.cc {
-        min-height: 40vh; /* Adjusted height for contact section */
-      }
-
-      .carousel-card {
-        min-width: 180px;
-        height: 300px;
-        padding: 30px;
-        margin: 0 30px; /* Adjusted margin for better spacing */
-        border-radius: 35px;
-        border: #000;
-      }
-    
-      .carousel-nav {
-        top: 70%; /* Slightly lower for better visibility */
-        font-size: 20px;
-      }
-
-      .card-overlay{
-        position: absolute;
-        bottom: 0;
-        right: -1px;
-        width: 84%;
-        border-radius: 35px;
-        background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
-        background-size: cover;
-        background-position: center;
-        padding: 20px;
-        text-align: center;
-        color: white;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-      }
-
-      /* About Section */
-      .about-container {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .about-image img {
-        max-width: 300px;
-      }
-
-      .about-text {
-        font-size: 14px;
-      }
-
-      /* Services Section */
-      .service-box {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .service-image img {
-        max-width: 200px;
-      }
-
-      .service-text {
-        text-align: center;
-      }
-
-      /* Framework Section */
-      .framework-item {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-      }
-
-      /* Schedule Section */
-      .schedule-item {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-      }
-
-      /* Coaches Section */
-
-   
-    
-      .coach-profile-card {
-        background: rgba(20, 30, 20, 0.98); /* More opaque for visibility */
-        border-radius: 14px;
-        box-shadow: 0 2px 16px #000b, 0 0 0 2px #00ff8833;
-        padding: 18px 10px 14px 10px;
-        width: 100%;
-        max-width: 400px;
-        margin: 0 auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        box-sizing: border-box;
-      }
-    
-      .coach-info h2,
-      .coach-info .coach-name {
-        color: #00ff88;
-        text-shadow: 0 1px 6px #000a;
-      }
-    
-      .coach-info p {
-        color: #fff;
-        text-shadow: 0 1px 4px #000a;
-        font-size: 1rem;
-        line-height: 1.5;
-        margin: 0 auto 0 auto;
-        max-width: 95%;
-      } 
-
-      /* Footer */
-      .footer {
-        font-size: 12px;
-      }
-
-      .footer-logo img {
-        width: 60px;
-      }
-
-      .social-icon img {
-        width: 25px;
-        height: 25px;
-      }
-
-      /* Overlay Panels */
-      .overlay-content {
-        padding: 20px;
-      }
-
-      .close-btn {
-        top: 20px;
-        right: 20px;
-      }
-
-      /* Booking Panel */
-      .booking-content {
-        padding: 20px;
-      }
-
-      .booking-content h2 {
-        font-size: 20px;
-      }
-
-      .booking-content input,
-      .booking-content select {
-        font-size: 14px;
-      }
-
-      .booking-content button {
-        font-size: 14px;
-      }
-
-      /* Terms and Privacy Sections */
-      .info-panel {
-        padding: 20px;
-        font-size: 12px;
-        line-height: 1.4;
-      }
-
-      .privacy-btn,
-      .terms-btn {
-        font-size: 40px;
-        top: -40px;
-        right: 10px;
-      }
-
-      .info-panel::-webkit-scrollbar {
-        width: 6px;
-      }
-
-      .info-panel::-webkit-scrollbar-thumb {
-        background: #00ff00;
-        border-radius: 6px;
-      }
-
-      /* Booking Overlay for Mobile */
-      .booking-overlay {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 20px;
-        overflow-y: auto;
-        z-index: 1000;
-      }
-
-      .booking-content {
-        width: 80%;
-        max-width: 400px;
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
-      }
-
-      .booking-content h2 {
-        font-size: 18px;
-      }
-
-      .booking-content input,
-      .booking-content select {
-        font-size: 14px;
-        padding: 10px;
-      }
-
-      .booking-content button {
-        font-size: 14px;
-        padding: 12px;
-      }
-
-      .close-booking {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        font-size: 24px;
-        color: #00ff00;
-        background: none;
-        border: none;
-        cursor: pointer;
-        transition: transform 0.3s ease, color 0.3s ease;
-      }
-
-      .close-booking:hover {
-        transform: rotate(90deg);
-        color: #00cc00;
-      }
-
-      /* About Us Overlay */
-      #aboutUsOverlay {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.9);
-        z-index: 1000;
-        overflow-y: auto;
-        padding: 20px 10px; /* Reduced padding for smaller screens */
-        box-sizing: border-box;
-        backdrop-filter: blur(6px);
-        z-index: 1000;
-      }
-
-      #aboutUsOverlay .overlay-content {
-        max-width: 90%; /* Adjusted width for smaller screens */
-        margin: 0 auto;
-        padding: 20px; /* Reduced padding */
-        background: #111;
-        border-radius: 12px;
-        box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
-        color: white;
-        font-family: 'Inter', sans-serif;
-      }
-
-      /* Framework Overlay */
-      #frameworkOverlay {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.9);
-        z-index: 1000;
-        overflow-y: auto;
-        padding: 20px 10px; /* Reduced padding for smaller screens */
-        box-sizing: border-box;
-        backdrop-filter: blur(6px);
-        z-index: 1000;
-      }
-
-      #frameworkOverlay .overlay-content {
-        max-width: 90%; /* Adjusted width for smaller screens */
-        margin: 0 auto;
-        padding: 20px; /* Reduced padding */
-        background: #111;
-        border-radius: 12px;
-        box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
-        color: white;
-        font-family: 'Inter', sans-serif;
-      }
-
-      /* Services Overlay */
-      #servicesOverlay {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.9);
-        overflow-y: auto;
-        padding: 20px 10px; /* Reduced padding for smaller screens */
-        box-sizing: border-box;
-        backdrop-filter: blur(6px);
-        z-index: 1000;
-      }
-
-      #servicesOverlay .overlay-content {
-        max-width: 90%; /* Adjusted width for smaller screens */
-        margin: 0 auto;
-        padding: 20px; /* Reduced padding */
-        background: #111;
-        border-radius: 12px;
-        box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
-        color: white;
-        font-family: 'Inter', sans-serif;
-      }
-
-      /* Schedule Overlay */
-      #scheduleOverlay {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.9);
-        z-index: 1000;
-        overflow-y: auto;
-        padding: 20px 10px; /* Reduced padding for smaller screens */
-        box-sizing: border-box;
-        backdrop-filter: blur(6px);
-        z-index: 1000;
-      }
-
-      #scheduleOverlay .overlay-content {
-        max-width: 90%; /* Adjusted width for smaller screens */
-        margin: 0 auto;
-        padding: 20px; /* Reduced padding */
-        background: #111;
-        border-radius: 12px;
-        box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
-        color: white;
-        font-family: 'Inter', sans-serif;
-      }
-
-      /* Contact Us Overlay */
-      #contactUsOverlay {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.9);
-        z-index: 1000;
-        overflow-y: auto;
-        padding: 20px 10px; /* Reduced padding for smaller screens */
-        box-sizing: border-box;
-        backdrop-filter: blur(6px);
-        z-index: 1000;
-      }
-
-      #contactUsOverlay .overlay-content {
-        max-width: 90%; /* Adjusted width for smaller screens */
-        margin: 0 auto;
-        padding: 20px; /* Reduced padding */
-        background: #111;
-        border-radius: 12px;
-        box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
-        color: white;
-        font-family: 'Inter', sans-serif;
-      }
-
-      .close-btn {
-        position: absolute;
-        top: 10px; /* Adjusted position for smaller screens */
-        right: 10px; /* Adjusted position for smaller screens */
-        background: none;
-        border: none;
-        font-size: 20px; /* Reduced font size */
-        color: #00ff00;
-        cursor: pointer;
-      }
-
-      .overlay-content {
-        background: rgba(0, 0, 0, 0.85);
-        padding: 40px;
-        border-radius: 12px;
-        box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
-        color: white;
-        font-family: 'Inter', sans-serif;
-        line-height: 1.6;
-        max-width: 800px;
-        margin: 0 auto;
-        text-align: center;
-        overflow-y: auto;
-      }
-
-      .overlay-content h1, .overlay-content h2, .overlay-content h3 {
-        color: #00ff00;
-        margin-bottom: 20px;
-        text-transform: uppercase;
-        font-family: 'Rajdhani', sans-serif;
-      }
-
-      .overlay-content p {
-        margin-bottom: 16px;
-        font-size: 16px;
-      }
-
-      .overlay-content ul {
-        margin: 20px 0;
-        padding-left: 20px;
-      }
-
-      .overlay-content ul li {
-        margin-bottom: 10px;
-        list-style: disc;
-      }
-
-      #schedule {
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-    
-      .schedule-container {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        width: 100%;
-        max-width: 400px;
-        margin: 0 auto;
-      }
-    
-      .schedule-item {
-        display: flex;
-        flex-direction: column;
-        background-color: #111; /* or your theme color */
-        color: white;
-        padding: 15px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.3);
-        text-align: center;
-      }
-
-      .service-container {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        padding: 20px;
-        padding-top: 160px;
-        align-items: center;
-      }
-    
-      .service-box {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background-color: #111; /* Optional: match your site theme */
-        padding: 15px;
-        border-radius: 10px;
-        width: 100%;
-        max-width: 400px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-        text-align: center;
-      }
-    
-      .service-image img {
-        width: 100%;
-        height: auto;
-        display: block;
-        object-fit: cover;
-        border-radius: 8px;
-      }
-    
-      .service-text {
-        font-size: 1rem;
-        line-height: 1.5;
-        color: white;
-      }
-      
-      .contact-overlay-content {
-        padding: 50px;
-        margin-top: 50px;
-        background: rgba(0, 0, 0, 0.85);
-        border-radius: 12px;
-        box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
-        color: white;
-        font-family: 'Inter', sans-serif;
-        line-height: 1.6;
-        max-width: 300px;
-        margin-top: 90px;
-        margin-left: auto;
-        margin-right: auto;
-        text-align: center;
-      }
-    
-      .contact-overlay-section h2 {
-        font-size: 1.4rem;
-      }
-    
-      .contact-close-btn {
-        font-size: 22px;
-      }
-    
-      #framework {
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background-color: #000; /* or your preferred theme background */
-      }
-    
-      .framework-container {
-        padding-top: 300px;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        width: 100%;
-        max-width: 400px;
-      }
-    
-      .framework-item {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        background: #111;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 255, 0, 0.3); /* optional glow effect */
-        color: white;
-        text-align: center;
-      }
-
-      .contact-overlay-content {
-        max-width: 70%; /* Wider for mobile */
-        padding: 25px 20px;
-        left: -50px; /* Centered */
-      }
-    
-      .contact-close-btn {
-        top: 10px;
-        right: 15px;
-        font-size: 20px;
-      }
-    
-      .contact-overlay-section h2 {
-        font-size: 1.5rem;
-      }
-    
-      .contact-overlay-section input,
-      .contact-overlay-section textarea {
-        font-size: 0.95rem;
-        padding: 10px 12px;
-      }
-    
-      .contact-overlay-section button {
-        padding: 12px;
-        font-size: 0.95rem;
-      }
-
-      .swipe-arrow-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 25px; /* Slightly lower for better appearance */
-        top: 50px;
-        position: relative;
-        flex-direction: column;
-      }
-    
-      .swipe-arrow-text {
-        font-size: 18px;
-        color: #00ff00;
-        font-family: 'Inter', sans-serif;
-        text-shadow: 0 0 10px rgba(0, 255, 0, 0.6);
-        animation: arrowTextBlink 1.5s infinite alternate;
-      }
-    
-      .swipe-arrow-icon {
-        font-size: 30px;
-        color: #00ff00;
-        margin-top: 5px; /* Slight gap between text and arrow */
-        animation: arrowMove 1.5s infinite alternate;
-      }
-    
-      .swipe-arrow-icon::before {
-        content: '➡';
-        display: inline-block;
-        font-weight: bold;
-        font-size: 30px;
-        transition: transform 0.3s;
-      }
-    
-      @keyframes arrowTextBlink {
-        0% { opacity: 0.5; }
-        100% { opacity: 1; }
-      }
-    
-      @keyframes arrowMove {
-        0% { transform: translateX(0); }
-        100% { transform: translateX(10px); }
-      }
-
-      .contact-overlay-content {
-        padding: 20px;
-        margin-top: 50px;
-        background: rgba(0, 0, 0, 0.85);
-        border-radius: 12px;
-        box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
-        color: white;
-        font-family: 'Inter', sans-serif;
-        line-height: 1.6;
-        max-width: 300px;
-        margin-top: 90px;
-        margin-left: auto;
-        margin-right: 15px;
-        text-align: center;
-      }
-    }
-
-    /* Desktop - Hide Swipe Arrow */
-@media (min-width: 769px) {
-  .swipe-arrow-container {
-    display: none;
-  }
-}
-
-/* Testimonials Section Styling */
+  
+  /* Testimonials Section Styling */
 #testimonials {
-  background: url('../Images/CoachSectionIMG.svg') no-repeat center/cover;
+  background: url('../Images/CoachSectionIMG.webp') no-repeat center/cover;
     position: relative;
   padding: 60px 0 40px 0;
   color: #fff;
@@ -2894,165 +2052,208 @@ button:disabled {
   }
 }
 
-/* Ensure carousel nav buttons are mobile-friendly */
-@media (max-width: 700px) {
-  .carousel-nav {
-    width: 44px;
-    height: 44px;
-    min-width: 44px;
-    min-height: 44px;
-    padding: 0;
-    margin: 0 6px;
-    background: none !important;
-    border: none !important;
-    box-shadow: none !important;
-    outline: none !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .carousel-nav img {
-    width: 52px;
-    height: 52px;
-  }
+/* --- Modern Schedule Styling --- */
+#scheduleOverlay .overlay-content {
+  background: linear-gradient(120deg, #101c10 60%, #0a0a0a 100%);
+  border-radius: 18px;
+  box-shadow: 0 0 40px 0 rgba(0,255,0,0.10), 0 2px 24px 0 rgba(0,255,0,0.08);
+  padding: 40px 10px 40px 10px;
 }
 
-@media (max-width: 700px) {
-  .scroll-down-indicator {
-    bottom: 200px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 52px;
-    height: 52px;
-    padding: 0;
-    background: none;
-    border: none;
-    box-shadow: none;
-    z-index: 10;
-  }
-  .arrow-down {
-    width: 36px;
-    height: 36px;
-    border-left: 4px solid #0f0;
-    border-bottom: 4px solid #0f0;
-    margin-top: 2px;
-  }
-}
-
-/* --- Enhanced Booking Form Styles --- */
-#bookingForm {
-  background: rgba(30, 40, 30, 0.97);
-  border-radius: 16px;
-  box-shadow: 0 4px 24px 0 rgba(0,255,0,0.10), 0 1.5px 8px 0 rgba(0,0,0,0.10);
-  padding: 28px 18px 18px 18px;
-  margin: 0 auto;
-  width: 100%;
-  max-width: 370px;
+.schedule-container {
   display: flex;
-  flex-direction: column;
-  gap: 18px;
-  align-items: stretch;
-  border: 1.5px solid rgba(0,255,0,0.10);
-  transition: box-shadow 0.3s, border 0.3s;
+  flex-wrap: wrap;
+  gap: 32px;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 0;
 }
-#bookingForm input,
-#bookingForm select {
-  padding: 13px 16px 13px 44px;
-  font-size: 1rem;
-  background: rgba(34, 44, 34, 0.95);
-  color: #fff;
-  border: 1.5px solid #00ff00;
-  border-radius: 9px;
-  transition: border 0.3s, box-shadow 0.3s;
+
+.schedule-item {
+  background: rgba(20, 30, 20, 0.98);
+  border: 2px solid #00ff99;
+  border-radius: 16px;
+  box-shadow: 0 0 18px 0 rgba(0,255,0,0.08);
+  padding: 28px 32px 22px 32px;
+  min-width: 260px;
+  max-width: 340px;
+  flex: 1 1 300px;
   margin-bottom: 0;
-  box-shadow: 0 1px 6px 0 rgba(0,255,0,0.07);
+  transition: transform 0.2s, box-shadow 0.2s;
   position: relative;
-  max-width: 100%;
-  margin-bottom: 12px;
 }
-#bookingForm input:focus,
-#bookingForm select:focus {
-  border-color: #00ff88;
-  outline: none;
-  box-shadow: 0 0 0 2px #00ff88aa;
+.schedule-item:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 0 32px 0 #00ff99cc;
+  border-color: #00ffcc;
 }
-#bookingForm input::placeholder {
-  color: #b6ffb6;
-  opacity: 1;
-  font-size: 0.98em;
-}
-#bookingForm button[type="submit"] {
-  padding: 14px 15px;
+.schedule-item h3 {
+  color: #00ff99;
+  font-size: 1.25rem;
+  margin-bottom: 10px;
   font-family: 'Rajdhani', sans-serif;
-  background: linear-gradient(90deg, #00ff00 60%, #00cc66 100%);
-  color: #111;
-  font-weight: 700;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.schedule-location {
+  color: #fff;
   font-size: 1rem;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  margin-top: 8px;
-  margin-bottom: 0;
-  box-shadow: 0 2px 12px 0 rgba(0,255,0,0.10);
-  transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+  font-weight: 400;
+  opacity: 0.8;
+  margin-left: 4px;
 }
-#bookingForm button[type="submit"]:hover {
-  background: linear-gradient(90deg, #00cc66 0%, #00ff00 100%);
-  color: #000;
-  box-shadow: 0 4px 18px 0 rgba(0,255,0,0.18);
-}
-/* Optional: Add icons to fields using background images (SVG data URIs) */
-#playerName { background-image: url('data:image/svg+xml;utf8,<svg fill="%2300ff00" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M12 12c2.7 0 8 1.34 8 4v2H4v-2c0-2.66 5.3-4 8-4zm0-2a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>'); background-repeat: no-repeat; background-position: 14px center; }
-#parentEmail { background-image: url('data:image/svg+xml;utf8,<svg fill="%2300ff00" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>'); background-repeat: no-repeat; background-position: 14px center; }
-#sessionType { background-image: url('data:image/svg+xml;utf8,<svg fill="%2300ff00" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>'); background-repeat: no-repeat; background-position: 14px center; }
-#sessionDate { background-image: url('data:image/svg+xml;utf8,<svg fill="%2300ff00" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zm0-13H5V6h14v1z"/></svg>'); background-repeat: no-repeat; background-position: 14px center; }
-#sessionTime { background-image: url('data:image/svg+xml;utf8,<svg fill="%2300ff00" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M12 8v5h5v-2h-3V8z"/><path d="M12 4a8 8 0 1 0 0 16 8 8 0 0 0 0-16zm0 14a6 6 0 1 1 0-12 6 6 0 0 1 0 12z"/></svg>'); background-repeat: no-repeat; background-position: 14px center; }
-#bookingForm input,
-#bookingForm select { padding-left: 44px; }
-
-@media (max-width: 600px) {
-  #bookingForm {
-    max-width: 99vw;
-    padding: 12px 2vw 12px 2vw;
-    border-radius: 10px;
-    gap: 12px;
-  }
-  #bookingForm input,
-  #bookingForm select {
-    font-size: 0.98rem;
-    padding: 10px 10px 10px 38px;
-  }
-  #bookingForm button[type="submit"] {
-    font-size: 0.98rem;
-    padding: 12px 15px;
-  }
-}
-/* --- End Enhanced Booking Form Styles --- */
-
-/* Schedule Times Styling */
 .schedule-times {
   list-style: none;
   padding: 0;
   margin: 0;
-  width: 100%;
 }
 .schedule-times li {
-  background: rgba(0,255,0,0.07);
+  background: #181f18;
   color: #fff;
+  border-left: 4px solid #00ff99;
   border-radius: 6px;
-  padding: 7px 14px;
-  margin-bottom: 6px;
-  font-size: 16px;
-  text-align: left;
-  border-left: 3px solid #7fff00;
-  transition: background 0.2s;
+  margin-bottom: 10px;
+  padding: 8px 14px 8px 14px;
+  font-size: 1.08rem;
+  font-family: 'Inter', sans-serif;
+  box-shadow: 0 1px 6px 0 rgba(0,255,0,0.04);
+  transition: background 0.2s, color 0.2s;
 }
 .schedule-times li:last-child {
   margin-bottom: 0;
 }
-@media (max-width: 600px) {
+.schedule-item::before {
+  content: '\1F4C5'; /* calendar emoji */
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  font-size: 1.5rem;
+  opacity: 0.18;
+  pointer-events: none;
+}
+@media (max-width: 900px) {
+  .schedule-container {
+    flex-direction: column;
+    gap: 18px;
+    align-items: stretch;
+  }
+  .schedule-item {
+    max-width: 100%;
+    min-width: 0;
+    padding: 22px 10px 18px 18px;
+  }
+}
+
+/* Schedule Overlay Close Button */
+#scheduleOverlay .close-btn {
+  position: absolute;
+  top: 32px;
+  right: 32px;
+  background: none;
+  border: none;
+  font-size: 32px;
+  color: #00ff99;
+  cursor: pointer;
+  transition: color 0.2s, transform 0.2s;
+  z-index: 10;
+}
+#scheduleOverlay .close-btn:hover {
+  color: #00cc66;
+  transform: rotate(90deg) scale(1.12);
+}
+
+/* Mobile styles for Schedule Overlay Close Button */
+@media (max-width: 700px) {
+  #scheduleOverlay .close-btn {
+    top: 16px;
+    right: 12px;
+    font-size: 22px;
+    padding: 4px 8px;
+  }
+
+  #scheduleOverlay .overlay-content {
+    padding: 18px 2vw 18px 2vw;
+    border-radius: 10px;
+  }
+
+  .schedule-container {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+    margin-top: 0;
+    padding: 0;
+  }
+
+  .schedule-item {
+    min-width: 0;
+    max-width: 100%;
+    padding: 14px 8px 12px 12px;
+    border-radius: 10px;
+    font-size: 0.98rem;
+    margin-bottom: 0;
+  }
+
+  .schedule-item h3 {
+    font-size: 1.05rem;
+    margin-bottom: 6px;
+    gap: 4px;
+  }
+
+  .schedule-location {
+    font-size: 0.95rem;
+    margin-left: 2px;
+  }
+
   .schedule-times li {
-    font-size: 15px;
-    padding: 6px 8px;
+    font-size: 0.97rem;
+    padding: 6px 8px 6px 10px;
+    border-radius: 4px;
+    margin-bottom: 6px;
+  }
+
+  .schedule-item::before {
+    font-size: 1.1rem;
+    top: 10px;
+    right: 10px;
+  }
+
+  /* --- Contact Us Overlay Mobile Styles --- */
+  .contact-overlay-panel {
+    padding: 8px;
+    border-radius: 0;
+    min-height: 100vh;
+    align-items: flex-start;
+  }
+  .contact-overlay-content {
+    padding: 18px 6px 18px 6px;
+    border-radius: 10px;
+    max-width: 99vw;
+    width: 100vw;
+    min-width: 0;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+  .contact-close-btn {
+    top: 8px;
+    right: 8px;
+    font-size: 22px;
+    padding: 2px 6px;
+  }
+  .contact-overlay-content h2 {
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+  }
+  .contact-overlay-content input,
+  .contact-overlay-content textarea {
+    font-size: 0.97rem;
+    padding: 10px;
+    max-width: 98vw;
+  }
+  .contact-overlay-content button {
+    font-size: 0.97rem;
+    padding: 10px 18px;
+    margin-top: 8px;
   }
 }

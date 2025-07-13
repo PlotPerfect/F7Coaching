@@ -153,9 +153,25 @@ export const BookingOverlay = {
 };
 window.openBookingOverlay = BookingOverlay.open;
 window.closeBookingOverlay = BookingOverlay.close;
+
+// Helper: Close all overlays
+function closeAllOverlays() {
+  const overlayIds = [
+    'bookingOverlay',
+    'aboutUsOverlay',
+    'frameworkOverlay',
+    'servicesOverlay',
+    'coachesOverlay',
+    'scheduleOverlay',
+    'contactOverlay'
+  ];
+  overlayIds.forEach(id => OverlayManager.closeOverlay(id));
+}
+
 // When opening overlays from menu, do NOT scroll to home
 window.openBookingsFromMenu = () => {
   Menu.close();
+  closeAllOverlays();
   OverlayManager.openOverlay('bookingOverlay');
 };
 
@@ -165,6 +181,7 @@ window.closeAboutUsOverlay = () => OverlayManager.closeOverlay('aboutUsOverlay')
 // When opening overlays from menu, do NOT scroll to home
 window.openAboutUsFromMenu = () => {
   Menu.close();
+  closeAllOverlays();
   OverlayManager.openOverlay('aboutUsOverlay');
 };
 
@@ -174,6 +191,7 @@ window.closeFrameworkOverlay = () => OverlayManager.closeOverlay('frameworkOverl
 // When opening overlays from menu, do NOT scroll to home
 window.openFrameworkFromMenu = () => {
   Menu.close();
+  closeAllOverlays();
   OverlayManager.openOverlay('frameworkOverlay');
 };
 
@@ -183,6 +201,7 @@ window.closeServicesOverlay = () => OverlayManager.closeOverlay('servicesOverlay
 // When opening overlays from menu, do NOT scroll to home
 window.openServicesFromMenu = () => {
   Menu.close();
+  closeAllOverlays();
   OverlayManager.openOverlay('servicesOverlay');
 };
 
@@ -192,6 +211,7 @@ window.closeCoachesOverlay = () => OverlayManager.closeOverlay('coachesOverlay')
 // When opening overlays from menu, do NOT scroll to home
 window.openCoachesFromMenu = () => {
   Menu.close();
+  closeAllOverlays();
   OverlayManager.openOverlay('coachesOverlay');
 };
 
@@ -200,9 +220,7 @@ window.openScheduleOverlay = () => {
   const overlay = document.getElementById('scheduleOverlay');
   const container = overlay.querySelector('.schedule-container');
   if (!overlay || !container) return console.error("❌ Schedule overlay or container not found");
-
   OverlayManager.openOverlay('scheduleOverlay');
-
   const scheduleRef = ref(db, "schedule");
   onValue(scheduleRef, (snapshot) => {
     const data = snapshot.val();
@@ -223,12 +241,14 @@ window.closeScheduleOverlay = () => OverlayManager.closeOverlay('scheduleOverlay
 // When opening overlays from menu, do NOT scroll to home
 window.openScheduleFromMenu = () => {
   Menu.close();
+  closeAllOverlays();
   OverlayManager.openOverlay('scheduleOverlay');
 };
 
 // Admin Portal
 window.openAdminPortal = () => {
   Menu.close();
+  closeAllOverlays();
   setTimeout(() => window.location.href = 'adminportal.html', 200);
 };
 
@@ -238,6 +258,7 @@ window.closeContactOverlay = () => OverlayManager.closeOverlay('contactOverlay')
 // When opening overlays from menu, do NOT scroll to home
 window.openContactFromMenu = () => {
   Menu.close();
+  closeAllOverlays();
   OverlayManager.openOverlay('contactOverlay');
 };
 

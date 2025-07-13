@@ -86,7 +86,7 @@
         <img src="Images/F7Logo.svg" alt="Logo Image" class="menu-logo-icon">
         <ul>
             <li><a href="#home" class="menu-link">Home</a></li>
-            <li><a href="#" class="menu-link" onclick="openBookingsFromMenu()">Bookings</a></li>
+            <li><a href="#b" class="menu-link" onclick="openBookingsFromMenu()">Bookings</a></li>
             <li><a href="#" class="menu-link" onclick="openScheduleFromMenu()">Schedule</a></li>
             <li><a href="#" class="menu-link" onclick="openAboutUsFromMenu()">About Us</a></li>
             <li><a href="#" class="menu-link" onclick="openServicesFromMenu()">Services</a></li>
@@ -117,7 +117,7 @@
   </button>
   <div class="carousel-track" id="carouselTrack">
       <!-- Card 1 -->
-      <div class="carousel-card active" style="background-image: url('Images/BookingsImg.svg');">
+      <div class="carousel-card active" style="background-image: url('Images/BookingsImg.webp');">
         <h1>BOOKINGS</h1>
         <div class="card-overlay">
           <button class="card-button" onclick="openBookingOverlay()">BOOK NOW</button>
@@ -125,7 +125,7 @@
       </div>
 
             <!-- Card 5 -->
-      <div class="carousel-card" style="background-image: url('Images/ScheduleIMG.svg');">
+      <div class="carousel-card" style="background-image: url('Images/ScheduleIMG.webp');">
         <h1>SCHEDULE</h1>
         <div class="card-overlay">
           <button onclick="openScheduleOverlay()">LEARN MORE</button>
@@ -133,7 +133,7 @@
       </div>
 
       <!-- Card 2 -->
-      <div class="carousel-card" style="background-image: url('Images/AboutUsIMG.svg');">
+      <div class="carousel-card" style="background-image: url('Images/AboutUsIMG.webp');">
         <h1>ABOUT US</h1>
         <div class="card-overlay">
           <button onclick="openAboutUsOverlay()">LEARN MORE</button>
@@ -158,7 +158,7 @@
       </div>
 
       <!-- Card 4 -->
-      <div class="carousel-card" style="background-image: url('Images/ServicesIMG.svg');">
+      <div class="carousel-card" style="background-image: url('Images/ServicesIMG.webp');">
         <h1>SERVICES</h1>
         <div class="card-overlay">
           <button onclick="openServicesOverlay()">LEARN MORE</button>
@@ -166,7 +166,7 @@
       </div>
 
       <!-- Card 6 -->
-      <div class="carousel-card" style="background-image: url('Images/GetInTouchIMG.svg');">
+      <div class="carousel-card" style="background-image: url('Images/GetInTouchIMG.webp');">
         <h1>GET IN TOUCH</h1>
         <div class="card-overlay">
           <button onclick="openContactOverlay()">GET IN TOUCH</button>
@@ -271,19 +271,24 @@
         </script>
       </div>
       <form id="bookingForm" style="display:none;">
-      <input type="text" id="playerName" placeholder="Player's Name" required>
-      <input type="email" id="parentEmail" placeholder="Parent's Email" required>
-  
-      <select id="sessionType" required>
-        <option value="">Select Session Type</option>
-      </select>
-      <div id="sessionLocationDisplay" style="margin: 10px 0; color: #7fff00; font-weight: bold;"></div>
-      <input type="text" id="sessionDate" placeholder="Choose a Date" required>
-      <input type="text" id="sessionTime" placeholder="Choose a Time" required>
-  
-      <button type="submit">Submit Booking</button>
-    </form>
-    <p id="bookingMessage"></p>
+        <h2 style="color:#00ff99;text-align:center;margin-bottom:18px;">Elite Sessions</h2>
+        <p style="text-align:center;margin-bottom:18px;">
+          Please <a href="#sectionCarousel" onclick="closeBookingOverlay();closeAboutUsOverlay();closeServicesOverlay();closeContactOverlay();closeCoachesOverlay();openScheduleOverlay();return false;" style="color:#00ff99;text-decoration:underline;cursor:pointer;">check our schedule</a> or <a href="tel:07491950612" style="color:#00ff99;text-decoration:underline;cursor:pointer;">call Coach Fin – 07491 950 612</a> prior to booking.
+        </p>
+        <input type="text" id="playerName" placeholder="Player's Name" required>
+        <input type="email" id="parentEmail" placeholder="Parent's Email" required>
+
+        <select id="bookingLocation" required>
+          <option value="">Select Location</option>
+        </select>
+        <input type="text" id="bookingDate" style="display:none;" required placeholder="Select Date" autocomplete="off">
+        <select id="bookingTime" style="display:none;" required>
+          <option value="">Select Time</option>
+        </select>
+
+        <button type="submit">Submit Booking</button>
+      </form>
+      <p id="bookingMessage"></p>
     </div>
   </div>
 
@@ -369,7 +374,7 @@
         <!-- Small Group Training -->
         <div class="service-box">
           <div class="service-image">
-            <img src="Images/ServicesIMG.svg" alt="Small Group Training">
+            <img src="Images/ServicesIMG.webp" alt="Small Group Training">
           </div>
           <div class="service-text">
             <h3>Small Group Training (3–7 Players)</h3>
@@ -386,7 +391,7 @@
         <!-- Group Sessions -->
         <div class="service-box">
           <div class="service-image">
-            <img src="Images/AboutUsIMG.svg" alt="Group Sessions">
+            <img src="Images/AboutUsIMG.webp" alt="Group Sessions">
           </div>
           <div class="service-text">
             <h3>Group Sessions (8+ Players)</h3>
@@ -402,7 +407,7 @@
         <!-- 1-to-1 Coaching -->
         <div class="service-box">
           <div class="service-image">
-            <img src="Images/GetInTouchIMG.svg" alt="1-to-1 Coaching">
+            <img src="Images/GetInTouchIMG.webp" alt="1-to-1 Coaching">
           </div>
           <div class="service-text">
             <h3>1-to-1 Coaching</h3>
@@ -420,20 +425,27 @@
     </section>
   </div>
 </div>
-
 <!-- Schedule Overlay Panel -->
 <div id="scheduleOverlay" class="overlay-panel" style="display: none;">
   <div class="overlay-content">
     <button class="close-btn" onclick="closeScheduleOverlay()">✖</button>
     <section id="schedule">
       <div class="schedule-container">
+        <!-- Monday - Shooters North Weald -->
+        <div class="schedule-item">
+          <h3>Monday <span class="schedule-location">- Shooters North Weald</span></h3>
+          <ul class="schedule-times">
+            <li>5:00–6:00 PM Elite Session</li>
+            <li>6:00–7:00 PM Elite Session</li>
+          </ul>
+        </div>
         <!-- Tuesday - Fairlop Waters -->
         <div class="schedule-item">
           <h3>Tuesday <span class="schedule-location">- Fairlop Waters</span></h3>
           <ul class="schedule-times">
-            <li>4–5 PM Elite Session</li>
-            <li>5–6 PM Elite Session</li>
-            <li>6–7 PM Elite Session</li>
+            <li>4:00–5:00 PM Elite Session</li>
+            <li>5:00–6:00 PM Elite Session</li>
+            <li>6:00–7:00 PM Elite Session</li>
           </ul>
         </div>
         <!-- Wednesday - Fairlop Waters -->
@@ -469,10 +481,10 @@
         <div class="schedule-item">
           <h3>Saturday <span class="schedule-location">- Wadham Lodge</span></h3>
           <ul class="schedule-times">
-            <li>9–10 AM Elite Session</li>
-            <li>12–1 PM Elite Session</li>
-            <li>1–2 PM Elite Session</li>
-            <li>2–3 PM Elite Session</li>
+            <li>9:00–10:00 AM Elite Session</li>
+            <li>12:00–1:00 PM Elite Session</li>
+            <li>1:00–2:00 PM Elite Session</li>
+            <li>2:00–3:00 PM Elite Session</li>
           </ul>
         </div>
       </div>
@@ -483,15 +495,24 @@
 
 <!-- Contact Us Overlay Panel -->
 <div id="contactOverlay" class="contact-overlay-panel" style="display: none;">
-  <div class="contact-overlay-content">
+  <div class="contact-overlay-content enhanced-contact-card">
     <button class="contact-close-btn" onclick="closeContactOverlay()">✖</button>
     <section class="contact-overlay-section">
       <h2>Contact Us</h2>
       <form id="contactFormOverlay">
-        <input type="text" id="contactName" placeholder="Your Name" required>
-        <input type="email" id="contactEmail" placeholder="Your Email" required>
-        <textarea id="contactMessage" placeholder="Your Message" required></textarea>
-        <button type="submit">Send Message</button>
+        <div class="input-group">
+          <span class="input-icon"><svg width="18" height="18" fill="#0f0" viewBox="0 0 24 24"><path d="M12 12c2.7 0 8 1.34 8 4v2H4v-2c0-2.66 5.3-4 8-4zm0-2a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></span>
+          <input type="text" id="contactName" placeholder="Your Name" required>
+        </div>
+        <div class="input-group">
+          <span class="input-icon"><svg width="18" height="18" fill="#0f0" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 2v.01L12 13 4 6.01V6h16zM4 20v-9.99l8 7 8-7V20H4z"/></svg></span>
+          <input type="email" id="contactEmail" placeholder="Your Email" required>
+        </div>
+        <div class="input-group">
+          <span class="input-icon"><svg width="18" height="18" fill="#0f0" viewBox="0 0 24 24"><path d="M2 21l21-9-9 21-2-8-8-2z"/></svg></span>
+          <textarea id="contactMessage" placeholder="Your Message" required></textarea>
+        </div>
+        <button type="submit" class="contact-send-btn">Send Message</button>
       </form>
       <p id="contactFormMessage"></p>
     </section>
