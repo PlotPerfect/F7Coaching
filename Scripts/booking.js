@@ -120,17 +120,36 @@ async function populateAvailableTimesForDate(location, date) {
   // Find all sessions for this location
   const sessions = Object.entries(liveScheduleData).filter(([key, session]) => session.location === location);
   let availableTimes = [];
+  let allTimes = [];
   for (const [key, session] of sessions) {
     if (Array.isArray(session.times)) {
       for (const time of session.times) {
         const spots = await getAvailableSpots(key, date, time);
+        allTimes.push({ key, time, spots });
         if (spots > 0) {
-          availableTimes.push({ key, time });
+          availableTimes.push({ key, time, spots });
         }
       }
     }
   }
-  elements.bookingTime.innerHTML = '<option value="">Select Time</option>' + availableTimes.map(t => `<option value="${t.key}|${t.time}">${t.time}</option>`).join('');
+  let options = '';
+  if (allTimes.length === 0) {
+    options = '<option value="">No sessions available</option>';
+    elements.bookingTime.disabled = true;
+  } else if (availableTimes.length === 0) {
+    options = '<option value="">No sessions available</option>';
+    elements.bookingTime.disabled = true;
+  } else {
+    options = '<option value="">Select Time</option>' + allTimes.map(t => {
+      if (t.spots > 0) {
+        return `<option value="${t.key}|${t.time}">${t.time} (${t.spots} spots left)</option>`;
+      } else {
+        return `<option value="" disabled>${t.time} (Full)</option>`;
+      }
+    }).join('');
+    elements.bookingTime.disabled = false;
+  }
+  elements.bookingTime.innerHTML = options;
   elements.bookingTime.style.display = '';
 }
 
@@ -146,17 +165,36 @@ elements.bookingDate.addEventListener("change", async () => {
   const sessions = Object.entries(liveScheduleData).filter(([key, session]) => session.location === location);
   // For each session, get available times for this date
   let availableTimes = [];
+  let allTimes = [];
   for (const [key, session] of sessions) {
     if (Array.isArray(session.times)) {
       for (const time of session.times) {
         const spots = await getAvailableSpots(key, date, time);
+        allTimes.push({ key, time, spots });
         if (spots > 0) {
-          availableTimes.push({ key, time });
+          availableTimes.push({ key, time, spots });
         }
       }
     }
   }
-  elements.bookingTime.innerHTML = '<option value="">Select Time</option>' + availableTimes.map(t => `<option value="${t.key}|${t.time}">${t.time}</option>`).join('');
+  let options = '';
+  if (allTimes.length === 0) {
+    options = '<option value="">No sessions available</option>';
+    elements.bookingTime.disabled = true;
+  } else if (availableTimes.length === 0) {
+    options = '<option value="">No sessions available</option>';
+    elements.bookingTime.disabled = true;
+  } else {
+    options = '<option value="">Select Time</option>' + allTimes.map(t => {
+      if (t.spots > 0) {
+        return `<option value="${t.key}|${t.time}">${t.time} (${t.spots} spots left)</option>`;
+      } else {
+        return `<option value="" disabled>${t.time} (Full)</option>`;
+      }
+    }).join('');
+    elements.bookingTime.disabled = false;
+  }
+  elements.bookingTime.innerHTML = options;
   elements.bookingTime.style.display = '';
 });
 
