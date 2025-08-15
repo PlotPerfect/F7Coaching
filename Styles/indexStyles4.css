@@ -1,0 +1,469 @@
+  .overlay-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    overflow-y: auto;
+    z-index: 1006;
+    padding: 40px 20px;
+    border-radius: 20px;
+  }
+  
+/* Overlay Container */
+#aboutUsOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgb(0, 0, 0);
+    z-index: 1000;
+    display: none;
+    overflow-y: auto;
+    padding: 40px 20px;
+    box-sizing: border-box;
+    backdrop-filter: blur(6px);
+    z-index: 1004;
+    
+  }
+
+  /* Animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  /* Overlay Content Container */
+.overlay-content {
+  max-width: 1000px;
+  width: 100%;
+  margin: 0 auto;
+
+
+  padding: 30px 20px;
+  color: white;
+  font-family: 'Inter', sans-serif;
+
+  overflow: hidden;
+}
+  
+  /* Close Button */
+  .about-close-btn {
+    position: absolute;
+    top: 75px;
+    right: 280px;
+    background: none;
+    border: none;
+    font-size: 30px;
+    color: #00ff00;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  .about-close-btn:hover {
+    transform: rotate(90deg);
+  }
+
+    /* Close Button */
+  .coaches-close-btn {
+    position: absolute;
+    top: 75px;
+    right: 280px;
+    background: none;
+    border: none;
+    font-size: 30px;
+    color: #00ff00;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  .coaches-close-btn:hover {
+    transform: rotate(90deg);
+  }
+
+  /* Close Button */
+  .services-close-btn {
+    position: absolute;
+    top: 75px;
+    right: 280px;
+    background: none;
+    border: none;
+    font-size: 30px;
+    color: #00ff00;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  .services-close-btn:hover {
+    transform: rotate(90deg);
+  }
+
+
+  
+  /* Left Image */
+  .about-image {
+    flex: 1;
+    min-width: 280px;
+    max-width: 400px;
+  }
+  .about-image img {
+    width: 75%;
+    height: auto;
+    border-radius: 16px;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+  }
+  
+  .about-text h1 {
+    color: #00ff00;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    margin-top: 150px;
+  }
+  .about-text h2 {
+    color: #00ff00;
+    font-size: 1.1rem;
+    margin-top: 30px;
+  }
+  .about-text p {
+    line-height: 1.2;
+    font-size: 1rem;
+    margin-bottom: 16px;
+  }
+  .about-text ul {
+    padding-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+  .about-text ul li {
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+  
+  .overlay-contact {
+    padding: 30px;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+    text-align: center;
+  }
+
+  .overlay-contact h2 {
+    color: #00ff00;
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: 'Rajdhani', sans-serif;
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+  }
+
+  #contactFormOverlay input,
+  #contactFormOverlay textarea {
+    display: block;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto 20px auto;
+    padding: 15px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #444;
+    background: #111;
+    color: #fff;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    font-family: 'Inter', sans-serif;
+  }
+
+  #contactFormOverlay input:focus,
+  #contactFormOverlay textarea:focus {
+    border-color: #00ff00;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    outline: none;
+  }
+
+  #contactFormOverlay button {
+    background-color: #00ff00;
+    color: #111;
+    border: none;
+    padding: 14px 28px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-family: 'Rajdhani', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  #contactFormOverlay button:hover {
+    background-color: #00cc00;
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+  }
+
+
+/* Contact Us Overlay Panel Styles */
+.contact-overlay-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2000;
+  background: rgba(10, 20, 30, 0.75);
+  backdrop-filter: blur(8px) saturate(120%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.contact-overlay-content {
+  /* Remove any left: 30% or similar offset */
+  background: rgba(20, 30, 40, 0.95);
+  padding: 48px 36px 36px 36px;
+  border-radius: 18px;
+  box-shadow: 0 8px 40px 0 rgba(0,255,128,0.18), 0 1.5px 8px 0 rgba(0,0,0,0.18);
+  border: 1.5px solid rgba(0,255,128,0.18);
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  position: relative;
+  margin: 0 auto;
+  left: unset;
+  right: unset;
+  top: unset;
+  bottom: unset;
+  transition: box-shadow 0.3s, border 0.3s;
+}
+
+.contact-close-btn {
+  position: absolute;
+  top: 18px;
+  right: 24px;
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: #00ff99;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.contact-close-btn:hover {
+  color: #00cc66;
+}
+  
+  /* Testimonials Section Styling */
+#testimonials {
+  background: url('../Images/CoachSectionIMG.webp') no-repeat center/cover;
+    position: relative;
+  padding: 60px 0 40px 0;
+  color: #fff;
+  text-align: center;
+  position: relative;
+}
+#testimonials h1 {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 2rem;
+  margin-bottom: 32px;
+  letter-spacing: 2px;
+  color: #00ff88;
+  text-shadow: 0 2px 12px #000a;
+  margin-top: 102px;
+}
+.carousel-containerT {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.carouselT {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 100%;
+  max-width: 600px;
+  min-height: 320px;
+  position: relative;
+  overflow: hidden;
+}
+.testimonial-card {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(20, 30, 20, 0.95);
+  border-radius: 18px;
+  box-shadow: 0 4px 32px #0008;
+  padding: 36px 28px 28px 28px;
+  min-width: 320px;
+  max-width: 420px;
+  min-height: 320px;
+  margin: 0 auto;
+  transition: transform 0.4s cubic-bezier(.4,2,.6,1), box-shadow 0.3s;
+  opacity: 0.7;
+  transform: scale(0.96);
+  z-index: 1;
+}
+.testimonial-card.active {
+  display: flex;
+  opacity: 1;
+  transform: scale(1.04);
+  box-shadow: 0 8px 40px #00ff8855, 0 2px 16px #000a;
+  z-index: 2;
+}
+.testimonial-img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 18px;
+  border: 3px solid #00ff88;
+  box-shadow: 0 2px 12px #000a;
+}
+.testimonial-text {
+  font-size: 1.15rem;
+  font-family: 'Inter', sans-serif;
+  color: #eafff2;
+  margin-bottom: 18px;
+  line-height: 1.5;
+  font-style: italic;
+}
+.testimonial-author {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.2rem;
+  color: #00ff88;
+  margin-bottom: 2px;
+  margin-top: 8px;
+  letter-spacing: 1px;
+}
+.testimonial-subtext {
+  font-size: 0.95rem;
+  color: #b0ffdd;
+  font-family: 'Inter', sans-serif;
+  margin-bottom: 0;
+}
+.nav-button {
+  background: #111;
+  color: #00ff88;
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 1.7rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #000a;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+  outline: none;
+  margin: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-button:hover, .nav-button:focus {
+  background: #00ff88;
+  color: #111;
+  border-color: #00ff88;
+  transform: scale(1.12);
+}
+
+
+/* --- Modern Schedule Styling --- */
+#scheduleOverlay .overlay-content {
+  background: linear-gradient(120deg, #101c10 60%, #0a0a0a 100%);
+  border-radius: 18px;
+  box-shadow: 0 0 40px 0 rgba(0,255,0,0.10), 0 2px 24px 0 rgba(0,255,0,0.08);
+  padding: 40px 10px 40px 10px;
+}
+
+.schedule-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 0;
+}
+
+.schedule-item {
+  background: rgba(20, 30, 20, 0.98);
+  border: 2px solid #00ff99;
+  border-radius: 16px;
+  box-shadow: 0 0 18px 0 rgba(0,255,0,0.08);
+  padding: 28px 32px 22px 32px;
+  min-width: 260px;
+  max-width: 340px;
+  flex: 1 1 300px;
+  margin-bottom: 0;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+}
+.schedule-item:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 0 32px 0 #00ff99cc;
+  border-color: #00ffcc;
+}
+.schedule-item h3 {
+  color: #00ff99;
+  font-size: 1.25rem;
+  margin-bottom: 10px;
+  font-family: 'Rajdhani', sans-serif;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.schedule-location {
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 400;
+  opacity: 0.8;
+  margin-left: 4px;
+}
+.schedule-times {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.schedule-times li {
+  background: #181f18;
+  color: #fff;
+  border-left: 4px solid #00ff99;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  padding: 8px 14px 8px 14px;
+  font-size: 1.08rem;
+  font-family: 'Inter', sans-serif;
+  box-shadow: 0 1px 6px 0 rgba(0,255,0,0.04);
+  transition: background 0.2s, color 0.2s;
+}
+.schedule-times li:last-child {
+  margin-bottom: 0;
+}
+.schedule-item::before {
+  content: '\1F4C5'; /* calendar emoji */
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  font-size: 1.5rem;
+  opacity: 0.18;
+  pointer-events: none;
+}
+
+.schedule-close-btn {
+  position: absolute;
+  top: 55px;
+  right: 300px;
+  background: none;
+  border: none;
+  font-size: 32px;
+  color: #00ff99;
+  cursor: pointer;
+  transition: color 0.2s, transform 0.2s;
+  z-index: 10;
+}
