@@ -40,10 +40,14 @@
 
 
 <!-- Add New Group Form -->
+
 <h3>Add New Group</h3>
 <form id="addGroupForm">
   <input type="text" id="newGroupName" placeholder="Group Name" required />
-  <input type="text" id="newGroupTime" placeholder="Day & Time" required />
+  <div id="newGroupTimesContainer">
+    <input type="text" class="newGroupTime" placeholder="Day & Time" required />
+  </div>
+  <button type="button" id="addTimeFieldBtn" style="background:#222;color:#0f0;margin-bottom:10px;">+ Add Another Time</button>
   <input type="text" id="newGroupLocation" placeholder="Location" required />
   <button type="submit">Add Group</button>
 </form>
@@ -199,24 +203,42 @@
         });
     });
   
+
+    // Add multiple time fields for new group
+    document.getElementById("addTimeFieldBtn").addEventListener("click", () => {
+      const container = document.getElementById("newGroupTimesContainer");
+      const input = document.createElement("input");
+      input.type = "text";
+      input.className = "newGroupTime";
+      input.placeholder = "Day & Time";
+      input.required = true;
+      container.appendChild(input);
+    });
+
     // Add new group
     document.getElementById("addGroupForm").addEventListener("submit", (e) => {
       e.preventDefault();
       const name = document.getElementById("newGroupName").value;
-      const time = document.getElementById("newGroupTime").value;
       const location = document.getElementById("newGroupLocation").value;
-  
+      const timeInputs = document.querySelectorAll(".newGroupTime");
+      const times = Array.from(timeInputs).map(input => input.value.trim()).filter(Boolean);
+      if (times.length === 0) {
+        alert("Please enter at least one Day & Time.");
+        return;
+      }
       const key = name.replace(/[^a-zA-Z0-9]/g, "_"); // Safe key
       const newGroupRef = ref(db, `schedule/${key}`);
-  
       set(newGroupRef, {
         groupName: name,
-        time: time,
+        times: times,
         location: location
       })
       .then(() => {
         alert("✅ New group added!");
         document.getElementById("addGroupForm").reset();
+        // Remove extra time fields except the first
+        const container = document.getElementById("newGroupTimesContainer");
+        while (container.children.length > 1) container.removeChild(container.lastChild);
       })
       .catch(err => alert("❌ Failed to add group: " + err.message));
     });
