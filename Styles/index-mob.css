@@ -887,7 +887,7 @@
 
 #testimonials {
     min-height: 86vh; /* Enough space for the carousel */
-    background: url('../Images/CoachSectionIMG.webp') no-repeat center/cover !important; 
+    background: radial-gradient(ellipse at center, rgb(0, 0, 0) 60%, rgba(0,0,0,1) 100%), #000000;
     text-shadow: #000000 0px 22px 50px;
     font-family: 'Rajdhani', sans-serif !important;
 }

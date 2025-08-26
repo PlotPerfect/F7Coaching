@@ -127,14 +127,14 @@ section {
 
 /* Custom Heights for Each Section */
 #sectionCarousel{
-    min-height: 84vh; /* Full screen height */
-    background: url('../Images/SectionBG.webp') no-repeat center/cover;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 60px 0;
+  min-height: 84vh; /* Full screen height */
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0.85) 60%, rgba(0,0,0,1) 100%), #ffffff60;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 0;
 }
 
 #home {
@@ -164,7 +164,7 @@ section {
 
 #testimonials {
     min-height: 86vh; /* Enough space for the carousel */
-    background: url('../Images/CoachSectionIMG.webp') no-repeat center/cover;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0.85) 60%, rgba(0,0,0,1) 100%), #00000060;
     text-shadow: #000000 0px 22px 50px;
     font-family: 'Rajdhani', sans-serif !important;
 }
@@ -1758,7 +1758,8 @@ button:disabled {
   
   /* Testimonials Section Styling */
 #testimonials {
-  background: url('../Images/CoachSectionIMG.webp') no-repeat center/cover;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0.85) 60%, rgba(0,0,0,1) 100%), #00000060;
+
     position: relative;
   padding: 60px 0 40px 0;
   color: #fff;
