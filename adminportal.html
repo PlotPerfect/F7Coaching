@@ -45,10 +45,10 @@
 <form id="addGroupForm">
   <input type="text" id="newGroupName" placeholder="Group Name" required />
   <div id="newGroupTimesContainer">
-    <input type="text" class="newGroupTime" placeholder="Day & Time" required />
+    <input type="text" class="newGroupTime" placeholder="Time" required />
   </div>
   <button type="button" id="addTimeFieldBtn" style="background:#222;color:#0f0;margin-bottom:10px;">+ Add Another Time</button>
-  <input type="text" id="newGroupLocation" placeholder="Location" required />
+  <input type="text" id="newGroupLocation" placeholder="eg. Fairlop waters, Ilford IG6 3HX (Tuesday)" required />
   <button type="submit">Add Group</button>
 </form>
 
@@ -58,7 +58,7 @@
 
   <!-- Import auth.js and run logic -->
   <script type="module">
-    import { getDatabase, ref, onValue, update, set, push, remove } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
+  import { getDatabase, ref, onValue, update, set, push, remove, get } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
     import { loginUser, logoutUser, onUserChange } from './Scripts/auth.js';
   
     const db = getDatabase();
@@ -124,43 +124,123 @@
     function loadScheduleEditor() {
       const container = document.getElementById("scheduleEditor");
       const scheduleRef = ref(db, "schedule");
-  
-      onValue(scheduleRef, (snapshot) => {
+      get(scheduleRef).then((snapshot) => {
         const data = snapshot.val();
         container.innerHTML = ""; // Clear editor
-  
+
         if (!data) {
           container.innerHTML = "<p>No groups found. Use the 'Seed Schedule' button to begin.</p>";
           return;
         }
-  
-        Object.entries(data).forEach(([key, item]) => {
+
+        // Assign unique order values if missing or duplicated
+        let entries = Object.entries(data);
+        let needsOrderFix = false;
+        let usedOrders = new Set();
+        entries.forEach(([key, item], idx) => {
+          if (typeof item.order !== 'number' || usedOrders.has(item.order)) {
+            needsOrderFix = true;
+          } else {
+            usedOrders.add(item.order);
+          }
+        });
+        if (needsOrderFix) {
+          // Assign unique order values and update in DB
+          const updates = {};
+          entries.forEach(([key, item], idx) => {
+            item.order = idx;
+            updates[key + '/order'] = idx;
+          });
+          update(scheduleRef, updates);
+        }
+        // Now sort and render
+        entries.forEach(([key, item], idx) => {
+          if (typeof item.order !== 'number') item.order = idx;
+        });
+        entries.sort(([, a], [, b]) => a.order - b.order);
+
+        entries.forEach(([key, item], idx) => {
           const div = document.createElement("div");
           div.style.marginBottom = "20px";
 
           // Render each time as a separate input if times is an array
           let timesInputs = "";
           if (Array.isArray(item.times)) {
-            item.times.forEach((t, idx) => {
-              timesInputs += `<input type=\"text\" id=\"${key}-time-${idx}\" value=\"${t}\" style=\"margin-bottom:4px;\" /><br>`;
+            item.times.forEach((t, tIdx) => {
+              timesInputs += `<input type=\"text\" id=\"${key}-time-${tIdx}\" value=\"${t}\" style=\"margin-bottom:4px;\" /><br>`;
             });
           } else {
             timesInputs = `<input type=\"text\" id=\"${key}-time-0\" value=\"${item.time || ''}\" /><br>`;
           }
 
+          // Move Up/Down buttons
+          let moveBtns = '';
+          moveBtns += `<button type=\"button\" onclick=\"moveSchedule('${key}','up')\" ${idx===0?'disabled':''} style=\"width:48%;display:inline-block;margin-right:2%\">⬆️ Move Up</button>`;
+          moveBtns += `<button type=\"button\" onclick=\"moveSchedule('${key}','down')\" ${idx===entries.length-1?'disabled':''} style=\"width:48%;display:inline-block;\">⬇️ Move Down</button>`;
+
           div.innerHTML = `
                 <h4>${item.groupName}</h4>
-                <label>Day & Times:</label><br>
+                <label>Times:</label><br>
                 ${timesInputs}
                 <label>Location:</label><br>
-                <input type="text" id="${key}-location" value="${item.location}" /><br>
-                <button onclick="saveSchedule('${key}')">💾 Save</button>
-                <button onclick="deleteSchedule('${key}')" style="background: crimson; color: white;">🗑️ Delete</button>
+                <input type=\"text\" id=\"${key}-location\" value=\"${item.location}\" /><br>
+                ${moveBtns}
+                <button onclick=\"saveSchedule('${key}')\">💾 Save</button>
+                <button onclick=\"deleteSchedule('${key}')\" style=\"background: crimson; color: white;\">🗑️ Delete</button>
                 <hr />
               `;
           container.appendChild(div);
         });
       });
+// Move schedule item up or down
+window.moveSchedule = function(key, direction) {
+  const scheduleRef = ref(db, "schedule");
+  console.log('moveSchedule called', key, direction);
+  get(scheduleRef).then((snapshot) => {
+    const data = snapshot.val();
+    if (!data) {
+      alert('No schedule data found.');
+      console.error('No schedule data found.');
+      return;
+    }
+    let entries = Object.entries(data).map(([k, item]) => {
+      if (typeof item.order !== 'number') item.order = 0;
+      return [k, item];
+    });
+    // Sort by order
+    entries.sort(([, a], [, b]) => a.order - b.order);
+    const idx = entries.findIndex(([k]) => k === key);
+    if (idx === -1) {
+      alert('Could not find item to move.');
+      console.error('Could not find item to move:', key);
+      return;
+    }
+    let swapIdx = direction === 'up' ? idx - 1 : idx + 1;
+    if (swapIdx < 0 || swapIdx >= entries.length) {
+      alert('Cannot move further in this direction.');
+      console.warn('Cannot move further in this direction:', direction);
+      return;
+    }
+    // Swap order values
+    const temp = entries[idx][1].order;
+    entries[idx][1].order = entries[swapIdx][1].order;
+    entries[swapIdx][1].order = temp;
+    // Write both updated items
+    const updates = {};
+    updates[entries[idx][0] + "/order"] = entries[idx][1].order;
+    updates[entries[swapIdx][0] + "/order"] = entries[swapIdx][1].order;
+    update(scheduleRef, updates).then(() => {
+      console.log('Order updated:', updates);
+      loadScheduleEditor();
+    }).catch(err => {
+      alert('Failed to update order: ' + err.message);
+      console.error('Failed to update order:', err);
+    });
+  }).catch(err => {
+    alert('Failed to fetch schedule: ' + err.message);
+    console.error('Failed to fetch schedule:', err);
+  });
+}
     }
   
     // Save changes to an existing group
@@ -193,14 +273,42 @@
 };
   
     // Seed button logic
-    document.getElementById("seedBtn").addEventListener("click", () => {
-      set(ref(db, 'schedule'), seedData)
-        .then(() => {
-          alert("✅ Schedule seeded successfully!");
-        })
-        .catch(err => {
-          alert("❌ Error seeding schedule: " + err.message);
+  document.getElementById("seedBtn").addEventListener("click", async () => {
+      // Copy the current admin portal schedule to the live schedule node in Firebase, preserving order
+      const scheduleRef = ref(db, 'schedule');
+      const liveScheduleRef = ref(db, 'live_schedule');
+      const { push, set } = await import('https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js');
+      get(scheduleRef).then((snapshot) => {
+        const data = snapshot.val();
+        if (!data) {
+          alert('No schedule data to publish.');
+          return;
+        }
+        // Sort entries by order property
+        let entries = Object.entries(data);
+        entries.forEach(([key, item], idx) => {
+          if (typeof item.order !== 'number') item.order = idx;
         });
+        entries.sort(([, a], [, b]) => a.order - b.order);
+        // Remove all existing live_schedule first
+        set(liveScheduleRef, null).then(() => {
+          // Add each group in order
+          const addNext = (i) => {
+            if (i >= entries.length) {
+              alert('✅ Schedule published to website!');
+              return;
+            }
+            const group = entries[i][1];
+            const newRef = push(liveScheduleRef);
+            set(newRef, group).then(() => addNext(i + 1)).catch(err => {
+              alert('❌ Error publishing group: ' + err.message);
+            });
+          };
+          addNext(0);
+        });
+      }).catch(err => {
+        alert('❌ Error reading schedule: ' + err.message);
+      });
     });
   
 
@@ -210,7 +318,7 @@
       const input = document.createElement("input");
       input.type = "text";
       input.className = "newGroupTime";
-      input.placeholder = "Day & Time";
+      input.placeholder = "Time";
       input.required = true;
       container.appendChild(input);
     });
@@ -226,21 +334,29 @@
         alert("Please enter at least one Day & Time.");
         return;
       }
-      const key = name.replace(/[^a-zA-Z0-9]/g, "_"); // Safe key
-      const newGroupRef = ref(db, `schedule/${key}`);
-      set(newGroupRef, {
-        groupName: name,
-        times: times,
-        location: location
-      })
-      .then(() => {
-        alert("✅ New group added!");
-        document.getElementById("addGroupForm").reset();
-        // Remove extra time fields except the first
-        const container = document.getElementById("newGroupTimesContainer");
-        while (container.children.length > 1) container.removeChild(container.lastChild);
-      })
-      .catch(err => alert("❌ Failed to add group: " + err.message));
+      const scheduleRef = ref(db, "schedule");
+      get(scheduleRef).then((snapshot) => {
+        const data = snapshot.val() || {};
+        let maxOrder = -1;
+        Object.values(data).forEach(item => {
+          if (typeof item.order === 'number' && item.order > maxOrder) maxOrder = item.order;
+        });
+        const newGroupRef = push(scheduleRef);
+        set(newGroupRef, {
+          groupName: name,
+          times: times,
+          location: location,
+          order: maxOrder + 1
+        })
+        .then(() => {
+          alert("✅ New group added!");
+          document.getElementById("addGroupForm").reset();
+          // Remove extra time fields except the first
+          const container = document.getElementById("newGroupTimesContainer");
+          while (container.children.length > 1) container.removeChild(container.lastChild);
+        })
+        .catch(err => alert("❌ Failed to add group: " + err.message));
+      });
     });
   
     // Logout

@@ -221,11 +221,28 @@ window.openScheduleOverlay = () => {
   const container = overlay.querySelector('.schedule-container');
   if (!overlay || !container) return console.error("❌ Schedule overlay or container not found");
   OverlayManager.openOverlay('scheduleOverlay');
-  const scheduleRef = ref(db, "schedule");
+  const scheduleRef = ref(db, "live_schedule");
   onValue(scheduleRef, (snapshot) => {
     const data = snapshot.val();
-    container.innerHTML = data
-      ? Object.values(data).map(group => `
+    // Define the order of days
+    const dayOrder = [
+      'monday','tuesday','wednesday','thursday','friday','saturday','sunday'
+    ];
+    let groups = data ? Object.values(data) : [];
+    // Try to sort by groupName if it matches a day
+    groups = groups.sort((a, b) => {
+      const aIndex = dayOrder.findIndex(day => a.groupName && a.groupName.toLowerCase().includes(day));
+      const bIndex = dayOrder.findIndex(day => b.groupName && b.groupName.toLowerCase().includes(day));
+      // If both found, sort by index
+      if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex;
+      // If only one found, that one comes first
+      if (aIndex !== -1) return -1;
+      if (bIndex !== -1) return 1;
+      // Otherwise, keep original order
+      return 0;
+    });
+    container.innerHTML = groups.length
+      ? groups.map(group => `
         <div class="schedule-item">
           <h3>${group.groupName}</h3>
           <div class="schedule-location">${group.location}</div>
