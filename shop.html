@@ -1,0 +1,59 @@
+	<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>F7 Coaching Kit Shop</title>
+		<link rel="stylesheet" href="Styles/shopStyles.css">
+        <script src="Scripts/ShopFunction.js"></script>
+	</head>
+	<body>
+			<div style="text-align:center; margin-top:24px;">
+				<a href="index.html" class="shop-back-btn">← Back to Home</a>
+			</div>
+			<div class="shop-header">F7 Coaching Kit Shop</div>
+		<div class="shop-container">
+			<div class="shop-item">
+				<img src="Images/1.webp" alt="F7 Home Kit" class="shop-img" />
+				<div class="shop-title">F7 Jacket</div>
+				<div class="shop-price">£45</div>
+				<button class="shop-buy-btn">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="Images/2.webp" alt="F7 Away Kit" class="shop-img" />
+				<div class="shop-title">F7 Joggers</div>
+				<div class="shop-price">£45</div>
+				<button class="shop-buy-btn">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="Images/3.webp" alt="F7 Training Top" class="shop-img" />
+				<div class="shop-title">F7 Shorts</div>
+				<div class="shop-price">£22</div>
+				<button class="shop-buy-btn">Buy Now</button>
+			</div>
+					<div class="shop-item" id="tracksuit-item">
+						<img src="Images/4.webp" alt="F7 Tracksuit Front" class="shop-img" id="tracksuit-img" />
+						<div class="shop-title">F7 T-Shirt</div>
+						<div class="shop-price">£45</div>
+						<div class="shop-toggle">
+							<button onclick="showTracksuit('front')" id="front-btn">Front</button>
+							<button onclick="showTracksuit('back')" id="back-btn">Back</button>
+						</div>
+						<button class="shop-buy-btn">Buy Now</button>
+					</div>
+
+		</div>
+			<script>
+				function showTracksuit(view) {
+					const img = document.getElementById('tracksuit-img');
+					if(view === 'front') {
+						img.src = 'Images/4.webp';
+						img.alt = 'F7 Tracksuit Front';
+					} else {
+						img.src = 'Images/5.webp';
+						img.alt = 'F7 Tracksuit Back';
+					}
+				}
+			</script>
+		</body>
+		</html>
