@@ -149,7 +149,7 @@ async function populateAvailableTimesForDate(location, date) {
   } else {
     options = '<option value="">Select Time</option>' + allTimes.map(t => {
       if (t.spots > 0) {
-        return `<option value="${t.key}|${t.time}">${t.time} (${t.spots} spots left)</option>`;
+  return `<option value="${t.key}|${t.time}">${t.time}</option>`;
       } else {
         return `<option value="" disabled>${t.time} (Full)</option>`;
       }
@@ -194,7 +194,7 @@ elements.bookingDate.addEventListener("change", async () => {
   } else {
     options = '<option value="">Select Time</option>' + allTimes.map(t => {
       if (t.spots > 0) {
-        return `<option value="${t.key}|${t.time}">${t.time} (${t.spots} spots left)</option>`;
+  return `<option value="${t.key}|${t.time}">${t.time}</option>`;
       } else {
         return `<option value="" disabled>${t.time} (Full)</option>`;
       }
@@ -266,7 +266,7 @@ function updateBookingMessage(spotsLeft) {
     elements.bookingMessage.textContent = "❌ No spaces left for this session.";
     elements.bookingForm.querySelector("button[type='submit']").disabled = true;
   } else {
-    elements.bookingMessage.textContent = `✅ ${spotsLeft} spots left.`;
+    elements.bookingMessage.textContent = "";
     elements.bookingForm.querySelector("button[type='submit']").disabled = false;
   }
 }
