@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>F7 Coaching Kit Shop</title>
 		<link rel="stylesheet" href="Styles/shopStyles.css">
-        <script src="Scripts/ShopFunction.js"></script>
+	<!-- Stripe JS and backend removed, using direct payment links -->
 	</head>
 	<body>
 			<div style="text-align:center; margin-top:24px;">
@@ -13,34 +13,24 @@
 			</div>
 			<div class="shop-header">F7 Coaching Kit Shop</div>
 		<div class="shop-container">
-			<div class="shop-item">
-				<img src="Images/1.webp" alt="F7 Home Kit" class="shop-img" />
-				<div class="shop-title">F7 Jacket</div>
-				<div class="shop-price">£45</div>
-				<button class="shop-buy-btn">Buy Now</button>
-			</div>
-			<div class="shop-item">
-				<img src="Images/2.webp" alt="F7 Away Kit" class="shop-img" />
-				<div class="shop-title">F7 Joggers</div>
-				<div class="shop-price">£45</div>
-				<button class="shop-buy-btn">Buy Now</button>
-			</div>
-			<div class="shop-item">
-				<img src="Images/3.webp" alt="F7 Training Top" class="shop-img" />
-				<div class="shop-title">F7 Shorts</div>
-				<div class="shop-price">£22</div>
-				<button class="shop-buy-btn">Buy Now</button>
-			</div>
-					<div class="shop-item" id="tracksuit-item">
-						<img src="Images/4.webp" alt="F7 Tracksuit Front" class="shop-img" id="tracksuit-img" />
-						<div class="shop-title">F7 T-Shirt</div>
-						<div class="shop-price">£45</div>
-						<div class="shop-toggle">
-							<button onclick="showTracksuit('front')" id="front-btn">Front</button>
-							<button onclick="showTracksuit('back')" id="back-btn">Back</button>
-						</div>
-						<button class="shop-buy-btn">Buy Now</button>
-					</div>
+							<div class="shop-item">
+								<div class="shop-img-pair">
+									<img src="Images/1.webp" alt="F7 Jacket" class="shop-img" />
+									<img src="Images/2.webp" alt="F7 Joggers" class="shop-img" />
+								</div>
+								<div class="shop-title">F7 Jacket & Joggers</div>
+								<div class="shop-price">£60</div>
+								<a class="shop-buy-btn" href="https://buy.stripe.com/cNi8wP2xtdJM5angOlao808" target="_blank">Buy Now</a>
+							</div>
+							<div class="shop-item">
+								<div class="shop-img-pair">
+									<img src="Images/3.webp" alt="F7 Shorts" class="shop-img" />
+									<img src="Images/4.webp" alt="F7 T-Shirt Front" class="shop-img" />
+								</div>
+								<div class="shop-title">F7 Shorts & T-Shirt</div>
+								<div class="shop-price">£45</div>
+								<a class="shop-buy-btn" href="https://buy.stripe.com/7sYfZhc83fRUauH41zao807" target="_blank">Buy Now</a>
+							</div>
 
 		</div>
 			<script>

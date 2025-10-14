@@ -4,7 +4,7 @@ const stripePaymentLinks = {
   'fri_fairlop': 'https://book.stripe.com/8x2aEX2xtgVY0U769Hao806',
   'sat_wadham': 'https://book.stripe.com/8x2aEX2xtgVY0U769Hao806',
   'thurs_shooters': 'https://book.stripe.com/8x2aEX2xtgVY0U769Hao806',
-  'tues_fairlop': 'https://book.stripe.com/test_14AfZhc804nk8wDaLf3AY0d', //test link for Tuesday Fairlop
+  'tues_fairlop': 'https://book.stripe.com/8x2aEX2xtgVY0U769Hao806', //test link for Tuesday Fairlop
   'wed_fairlop': 'https://book.stripe.com/8x2aEX2xtgVY0U769Hao806'
 };
 
@@ -121,13 +121,20 @@ async function populateAvailableTimesForDate(location, date) {
   const sessions = Object.entries(liveScheduleData).filter(([key, session]) => session.location === location);
   let availableTimes = [];
   let allTimes = [];
+  // Fallback mapping for auto-generated keys
+  const keyToStripeKey = {
+    '-OZeuNjDKsAEc_o1jvYs': 'fri_fairlop',
+    '-ObZGSYjrRQDxOzyQwlp': 'sat_wadham',
+    // Add more mappings as needed
+  };
   for (const [key, session] of sessions) {
+    const stripeKey = session.stripeKey || keyToStripeKey[key] || key;
     if (Array.isArray(session.times)) {
       for (const time of session.times) {
         const spots = await getAvailableSpots(key, date, time);
-        allTimes.push({ key, time, spots });
+        allTimes.push({ key: stripeKey, time, spots });
         if (spots > 0) {
-          availableTimes.push({ key, time, spots });
+          availableTimes.push({ key: stripeKey, time, spots });
         }
       }
     }
@@ -278,9 +285,18 @@ elements.bookingForm.addEventListener("submit", async (e) => {
     elements.bookingMessage.textContent = "❌ Please complete all booking details.";
     return;
   }
-  const [groupKey, sessionTime] = timeValue.split('|');
+  const [rawGroupKey, sessionTime] = timeValue.split('|');
+  // Fallback mapping for auto-generated keys
+  const keyToStripeKey = {
+    '-OZeuNjDKsAEc_o1jvYs': 'fri_fairlop',
+    '-ObZGSYjrRQDxOzyQwlp': 'sat_wadham',
+    '-ObZIP1mauc_5PWR3W4u': 'fri_fairlop',
+    '-ObZGSYjrRQDxOzyQwlp': 'sat_wadham',
+    // Add more mappings as needed
+  };
+  const groupKey = keyToStripeKey[rawGroupKey] || rawGroupKey;
   // Fetch latest session details from Firebase
-  const sessionRef = ref(db, `schedule/${groupKey}`);
+  const sessionRef = ref(db, `schedule/${rawGroupKey}`);
   const sessionSnap = await get(sessionRef);
   const sessionData = sessionSnap.val();
   if (!sessionData) {
@@ -325,6 +341,7 @@ async function saveBooking(playerName, parentEmail, sessionName, sessionDate, se
 
 // Redirect to payment with all necessary parameters
 function redirectToPayment(bookingId, groupKey) {
+  console.log('[Stripe Debug] groupKey used for payment link:', groupKey);
   const paymentLink = stripePaymentLinks[groupKey];
   if (paymentLink) {
     localStorage.setItem("bookingId", bookingId);
@@ -332,6 +349,7 @@ function redirectToPayment(bookingId, groupKey) {
     localStorage.setItem("sessionDate", elements.bookingDate.value);
     window.location.href = paymentLink;
   } else {
+    console.warn('[Stripe Debug] No payment link found for groupKey:', groupKey);
     elements.bookingMessage.textContent = "❌ No payment link available for this session.";
   }
 }

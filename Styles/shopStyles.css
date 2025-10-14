@@ -45,6 +45,16 @@ body {
   box-shadow: 0 0 16px #0f08;
   background: #222;
 }
+.shop-img-pair {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+.shop-img-pair .shop-img {
+  max-width: 100px;
+  margin-bottom: 0;
+}
 .shop-title {
   font-size: 1.35em;
   font-weight: 600;

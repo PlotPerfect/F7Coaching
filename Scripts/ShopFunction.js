@@ -5,7 +5,7 @@ const stripe = Stripe('pk_test_xxx');
 document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('.shop-buy-btn').forEach(function(btn) {
     btn.addEventListener('click', function() {
-      const priceId = btn.getAttribute('data-stripe-price');
+  const priceId = btn.getAttribute('data-stripe-price');
       // Redirect to Stripe Checkout (replace with your backend endpoint)
       fetch('/create-checkout-session', {
         method: 'POST',
