@@ -25,6 +25,7 @@ if (!orderDetails) {
     buyerEmail: 'Unknown',
     item: 'Unknown',
     price: 'Unknown',
+    size: 'Unknown',
     image_url: ''
   };
 }
@@ -40,6 +41,7 @@ async function saveOrderToFirebase() {
     buyerEmail: orderDetails.buyerEmail,
     item: orderDetails.item,
     price: orderDetails.price,
+    size: orderDetails.size,
     image_url: orderDetails.image_url,
     timestamp: Date.now()
   };
@@ -61,6 +63,7 @@ async function renderOrderDetailsFromFirebase() {
       html += `<div><strong>Name:</strong> ${data.buyerName}</div>`;
       html += `<div><strong>Email:</strong> ${data.buyerEmail}</div>`;
       html += `<div><strong>Item:</strong> ${data.item}</div>`;
+      html += `<div><strong>Size:</strong> ${data.size}</div>`;
       html += `<div><strong>Price:</strong> £${data.price}</div>`;
       if (data.image_url) {
         html += `<div style='margin:12px 0;'><img src='${data.image_url}' alt='${data.item}' style='max-width:120px;border-radius:8px;'></div>`;
@@ -81,9 +84,9 @@ function waitForEmailJSAndSend(retries = 15, delay = 200) {
   if (typeof sendShopPurchaseEmail === 'function' && window.emailjs) {
     sendShopPurchaseEmail(
       orderDetails.order_id,
-      [{ name: orderDetails.item, units: 1, price: orderDetails.price, image_url: orderDetails.image_url, buyerName: orderDetails.buyerName }],
+      [{ name: orderDetails.item, units: 1, price: orderDetails.price, image_url: orderDetails.image_url, buyerName: orderDetails.buyerName, size: orderDetails.size }],
       orderDetails.buyerEmail,
-      { total: orderDetails.price, image_url: orderDetails.image_url, buyerName: orderDetails.buyerName }
+      { total: orderDetails.price, image_url: orderDetails.image_url, buyerName: orderDetails.buyerName, size: orderDetails.size }
     );
   } else if (retries > 0) {
     console.warn(`EmailJS not ready, retrying in ${delay}ms... (${retries} left)`);

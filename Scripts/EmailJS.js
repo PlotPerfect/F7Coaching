@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Send Confirmation Email (Globally Accessible)
 // Send Shop Purchase Confirmation Email (Globally Accessible)
-window.sendShopPurchaseEmail = async function(orderId, orders, buyerEmail, cost) {
+window.sendShopPurchaseEmail = async function(orderId, orders, buyerEmail, cost, extra = {}) {
     try {
         if (!orderId || !orders || !buyerEmail || !cost) {
             console.error("❌ Missing Required Fields for Shop Purchase Email.");
@@ -37,7 +37,7 @@ window.sendShopPurchaseEmail = async function(orderId, orders, buyerEmail, cost)
             item: order.name || '',
             price: order.price || '',
             image_url: order.image_url || (cost.image_url || ''),
-            // For reference, you can still pass the full objects
+            size: extra.size || (orders && orders[0] && orders[0].size ? orders[0].size : ''),
             orders: orders,
             cost: cost
         };

@@ -41,9 +41,19 @@
 					<div style="font-size:17px;font-weight:600;margin-bottom:10px;color:#222;">Your Details</div>
 					<label for="buyerName" style="font-weight:500;color:#333;">Full Name</label><br>
 					<input type="text" id="buyerName" name="buyerName" required style="width:100%;margin-bottom:14px;padding:8px 10px;border:1px solid #ccc;border-radius:5px;font-size:15px;color:#222;background:#fff;" placeholder="e.g. John Smith"><br>
-					<label for="buyerEmail" style="font-weight:500;color:#333;">Email Address</label><br>
-					<input type="email" id="buyerEmail" name="buyerEmail" required style="width:100%;margin-bottom:14px;padding:8px 10px;border:1px solid #ccc;border-radius:5px;font-size:15px;color:#222;background:#fff;" placeholder="e.g. john@email.com"><br>
-					<div id="modalItemPrice" style="margin-bottom:14px;font-size:16px;color:#00b050;font-weight:600;"></div>
+								<label for="buyerEmail" style="font-weight:500;color:#333;">Email Address</label><br>
+								<input type="email" id="buyerEmail" name="buyerEmail" required style="width:100%;margin-bottom:14px;padding:8px 10px;border:1px solid #ccc;border-radius:5px;font-size:15px;color:#222;background:#fff;" placeholder="e.g. john@email.com"><br>
+								<label for="buyerSize" style="font-weight:500;color:#333;">Select Size</label><br>
+								<select id="buyerSize" name="buyerSize" required style="width:100%;margin-bottom:14px;padding:8px 10px;border:1px solid #ccc;border-radius:5px;font-size:15px;color:#222;background:#fff;">
+									<option value="" disabled selected>Select size</option>
+									<option value="5-6 Y">5-6 Y</option>
+									<option value="7-8 Y">7-8 Y</option>
+									<option value="9-10 Y">9-10 Y</option>
+									<option value="11-12 Y">11-12 Y</option>
+									<option value="13-14 Y">13-14 Y</option>
+									<option value="15-16 Y">15-16 Y</option>
+								</select><br>
+								<div id="modalItemPrice" style="margin-bottom:14px;font-size:16px;color:#00b050;font-weight:600;"></div>
 					<button type="submit" style="width:100%;background:#00b050;color:#fff;padding:12px 0;border:none;border-radius:6px;font-size:17px;font-weight:600;">Proceed to Payment</button>
 					<button type="button" onclick="closePurchaseForm()" style="width:100%;margin-top:10px;background:#eee;color:#333;padding:10px 0;border:none;border-radius:6px;font-size:15px;">Cancel</button>
 				</form>
@@ -68,23 +78,25 @@
 					document.getElementById('purchaseModal').style.display = 'none';
 					document.getElementById('purchaseForm').reset();
 				}
-				function submitPurchaseForm(e) {
-					e.preventDefault();
-					const name = document.getElementById('buyerName').value.trim();
-					const email = document.getElementById('buyerEmail').value.trim();
-					// Save order details in sessionStorage
-					const orderDetails = {
-						order_id: 'ORDER-' + Date.now(),
-						buyerName: name,
-						buyerEmail: email,
-						item: currentItem,
-						price: currentPrice
-					};
-					sessionStorage.setItem('shopOrder', JSON.stringify(orderDetails));
-					// Redirect to Stripe
-					window.location.href = currentStripeLink;
-					closePurchaseForm();
-				}
+						function submitPurchaseForm(e) {
+							e.preventDefault();
+							const name = document.getElementById('buyerName').value.trim();
+							const email = document.getElementById('buyerEmail').value.trim();
+							const size = document.getElementById('buyerSize').value;
+							// Save order details in sessionStorage
+							const orderDetails = {
+								order_id: 'ORDER-' + Date.now(),
+								buyerName: name,
+								buyerEmail: email,
+								item: currentItem,
+								price: currentPrice,
+								size: size
+							};
+							sessionStorage.setItem('shopOrder', JSON.stringify(orderDetails));
+							// Redirect to Stripe
+							window.location.href = currentStripeLink;
+							closePurchaseForm();
+						}
 			</script>
 		</body>
 		</html>
