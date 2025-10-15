@@ -298,8 +298,9 @@
         <p style="text-align:center;margin-bottom:18px;">
           Please <a href="#sectionCarousel" onclick="closeBookingOverlay();closeAboutUsOverlay();closeServicesOverlay();closeContactOverlay();closeCoachesOverlay();openScheduleOverlay();return false;" style="color:#00ff99;text-decoration:underline;cursor:pointer;">check our schedule</a> or <a href="tel:07491950612" style="color:#00ff99;text-decoration:underline;cursor:pointer;">call Coach Fin – 07491 950 612</a> prior to booking.
         </p>
-        <input type="text" id="playerName" placeholder="Player's Name" required>
-        <input type="email" id="parentEmail" placeholder="Parent's Email" required>
+  <input type="text" id="playerName" placeholder="Player's Name" required>
+  <input type="number" id="playerAge" placeholder="Player's Age" min="3" max="18" required>
+  <input type="email" id="parentEmail" placeholder="Parent's Email" required>
 
         <select id="bookingLocation" required>
           <option value="">Select Location</option>

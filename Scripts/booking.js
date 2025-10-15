@@ -18,6 +18,7 @@ const elements = {
   bookingForm: document.getElementById("bookingForm"),
   bookingMessage: document.getElementById("bookingMessage"),
   playerName: document.getElementById("playerName"),
+  playerAge: document.getElementById("playerAge"),
   parentEmail: document.getElementById("parentEmail"),
 };
 
@@ -277,11 +278,12 @@ elements.bookingForm.addEventListener("submit", async (e) => {
   elements.bookingMessage.textContent = "";
 
   const playerName = elements.playerName.value;
+  const playerAge = elements.playerAge.value;
   const parentEmail = elements.parentEmail.value;
   const location = elements.bookingLocation.value;
   const date = elements.bookingDate.value;
   const timeValue = elements.bookingTime.value;
-  if (!playerName || !parentEmail || !location || !date || !timeValue) {
+  if (!playerName || !parentEmail || !location || !date || !timeValue || !playerAge) {
     elements.bookingMessage.textContent = "❌ Please complete all booking details.";
     return;
   }
@@ -308,7 +310,7 @@ elements.bookingForm.addEventListener("submit", async (e) => {
 
   try {
     elements.bookingMessage.textContent = "✅ Saving booking... Please wait.";
-    const bookingId = await saveBooking(playerName, parentEmail, sessionName, date, sessionTime, sessionLocation, groupKey);
+    const bookingId = await saveBooking(playerName, playerAge, parentEmail, sessionName, date, sessionTime, sessionLocation, groupKey);
     console.log("✅ Booking saved:", bookingId);
     redirectToPayment(bookingId, groupKey);
   } catch (error) {
@@ -318,7 +320,7 @@ elements.bookingForm.addEventListener("submit", async (e) => {
 });
 
 // Save booking to Firebase and then redirect
-async function saveBooking(playerName, parentEmail, sessionName, sessionDate, sessionTime, sessionLocation, groupKeyOverride) {
+async function saveBooking(playerName, playerAge, parentEmail, sessionName, sessionDate, sessionTime, sessionLocation, groupKeyOverride) {
   // Use the groupKey from the time dropdown if provided, otherwise fallback
   const groupKey = groupKeyOverride || (elements.bookingTime.value ? elements.bookingTime.value.split('|')[0] : null);
   if (!groupKey) throw new Error('No groupKey found for booking');
@@ -327,6 +329,7 @@ async function saveBooking(playerName, parentEmail, sessionName, sessionDate, se
 
   await set(newBookingRef, {
     playerName,
+    playerAge,
     parentEmail,
     sessionName,
     sessionDate,

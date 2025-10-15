@@ -26,12 +26,14 @@ document.addEventListener("DOMContentLoaded", async () => {
           if (snapshot.exists()) {
               const data = snapshot.val();
               const childNameEl = document.getElementById("childName");
+              const childAgeEl = document.getElementById("childAge");
               const parentEmailEl = document.getElementById("parentEmail");
               const sessionNameEl = document.getElementById("sessionName");
               const sessionDateEl = document.getElementById("sessionDate");
               const sessionTimeEl = document.getElementById("sessionTime");
               const sessionLocationEl = document.getElementById("sessionLocation");
               if (childNameEl) childNameEl.textContent = data.playerName || "N/A";
+              if (childAgeEl) childAgeEl.textContent = data.playerAge || "N/A";
               if (parentEmailEl) parentEmailEl.textContent = data.parentEmail || "N/A";
               if (sessionNameEl) sessionNameEl.textContent = data.sessionName || "N/A";
               if (sessionDateEl) sessionDateEl.textContent = data.sessionDate || "N/A";

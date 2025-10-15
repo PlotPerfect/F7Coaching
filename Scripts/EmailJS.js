@@ -28,6 +28,7 @@ window.sendConfirmationEmail = async function(playerName, parentEmail, sessionNa
         console.log("🚀 Sending Confirmation Email with EmailJS...");
         const response = await emailjs.send("service_h0mu3pe", "template_ltcmr9q", {
             player_name: playerName,
+            player_age: playerAge,
             parent_email: parentEmail,
             session_name: sessionName,
             session_date: sessionDate,

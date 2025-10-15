@@ -16,6 +16,7 @@ export async function confirmBooking(bookingId, groupKey, sessionDate) {
                 if (window.sendConfirmationEmail) {
                     window.sendConfirmationEmail(
                         bookingData.playerName,
+                        bookingData.playerAge,
                         bookingData.parentEmail,
                         bookingData.sessionName,
                         bookingData.sessionDate,
