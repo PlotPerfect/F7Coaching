@@ -18,6 +18,8 @@ export async function confirmBooking(bookingId, groupKey, sessionDate) {
                         bookingData.playerName,
                         bookingData.playerAge,
                         bookingData.parentEmail,
+                        bookingData.parentName,
+                        bookingData.parentNumber,
                         bookingData.sessionName,
                         bookingData.sessionDate,
                         bookingData.sessionTime,

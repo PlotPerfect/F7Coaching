@@ -13,36 +13,77 @@
 			</div>
 			<div class="shop-header">F7 Coaching Kit Shop</div>
 		<div class="shop-container">
-							<div class="shop-item">
-								<div class="shop-img-pair">
-									<img src="Images/1.webp" alt="F7 Jacket" class="shop-img" />
-									<img src="Images/2.webp" alt="F7 Joggers" class="shop-img" />
-								</div>
-								<div class="shop-title">F7 Jacket & Joggers</div>
-								<div class="shop-price">£60</div>
-								<a class="shop-buy-btn" href="https://buy.stripe.com/cNi8wP2xtdJM5angOlao808" target="_blank">Buy Now</a>
-							</div>
-							<div class="shop-item">
-								<div class="shop-img-pair">
-									<img src="Images/3.webp" alt="F7 Shorts" class="shop-img" />
-									<img src="Images/4.webp" alt="F7 T-Shirt Front" class="shop-img" />
-								</div>
-								<div class="shop-title">F7 Shorts & T-Shirt</div>
-								<div class="shop-price">£45</div>
-								<a class="shop-buy-btn" href="https://buy.stripe.com/7sYfZhc83fRUauH41zao807" target="_blank">Buy Now</a>
-							</div>
+			<div class="shop-item">
+				<div class="shop-img-pair">
+					<img src="Images/1.webp" alt="F7 Jacket" class="shop-img" />
+					<img src="Images/2.webp" alt="F7 Joggers" class="shop-img" />
+				</div>
+				<div class="shop-title">F7 Jacket & Joggers</div>
+				<div class="shop-price">£60</div>
+				<button class="shop-buy-btn" onclick="openPurchaseForm('F7 Jacket & Joggers', 60, 'https://buy.stripe.com/test_8x2bJ19ZV358eKXapXao801')">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<div class="shop-img-pair">
+					<img src="Images/3.webp" alt="F7 Shorts" class="shop-img" />
+					<img src="Images/4.webp" alt="F7 T-Shirt Front" class="shop-img" />
+				</div>
+				<div class="shop-title">F7 Shorts & T-Shirt</div>
+				<div class="shop-price">£45</div>
+				<button class="shop-buy-btn" onclick="openPurchaseForm('F7 Shorts & T-Shirt', 45, 'https://buy.stripe.com/test_8x2bJ19ZV358eKXapXao801')">Buy Now</button>
+			</div>
+		</div>
 
+		<!-- Purchase Modal -->
+		<div id="purchaseModal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center;">
+			<div style="background:#f5f5f5;padding:32px 24px;border-radius:12px;max-width:370px;margin:auto;box-shadow:0 2px 16px #00b05033; border:2px solid #00b050; color:#222;">
+				<h3 id="modalItemName" style="color:#00b050;font-size:22px;margin-bottom:10px;">Order Item</h3>
+				<form id="purchaseForm" onsubmit="submitPurchaseForm(event)">
+					<div style="font-size:17px;font-weight:600;margin-bottom:10px;color:#222;">Your Details</div>
+					<label for="buyerName" style="font-weight:500;color:#333;">Full Name</label><br>
+					<input type="text" id="buyerName" name="buyerName" required style="width:100%;margin-bottom:14px;padding:8px 10px;border:1px solid #ccc;border-radius:5px;font-size:15px;color:#222;background:#fff;" placeholder="e.g. John Smith"><br>
+					<label for="buyerEmail" style="font-weight:500;color:#333;">Email Address</label><br>
+					<input type="email" id="buyerEmail" name="buyerEmail" required style="width:100%;margin-bottom:14px;padding:8px 10px;border:1px solid #ccc;border-radius:5px;font-size:15px;color:#222;background:#fff;" placeholder="e.g. john@email.com"><br>
+					<div id="modalItemPrice" style="margin-bottom:14px;font-size:16px;color:#00b050;font-weight:600;"></div>
+					<button type="submit" style="width:100%;background:#00b050;color:#fff;padding:12px 0;border:none;border-radius:6px;font-size:17px;font-weight:600;">Proceed to Payment</button>
+					<button type="button" onclick="closePurchaseForm()" style="width:100%;margin-top:10px;background:#eee;color:#333;padding:10px 0;border:none;border-radius:6px;font-size:15px;">Cancel</button>
+				</form>
+				<div style="margin-top:18px;color:#00b050;font-size:14px;font-weight:500;text-align:center;">Orders are to be collected at your next session when available.</div>
+			</div>
 		</div>
 			<script>
-				function showTracksuit(view) {
-					const img = document.getElementById('tracksuit-img');
-					if(view === 'front') {
-						img.src = 'Images/4.webp';
-						img.alt = 'F7 Tracksuit Front';
-					} else {
-						img.src = 'Images/5.webp';
-						img.alt = 'F7 Tracksuit Back';
-					}
+				// Modal logic
+				let currentItem = null;
+				let currentPrice = null;
+				let currentStripeLink = null;
+
+				function openPurchaseForm(item, price, stripeLink) {
+					currentItem = item;
+					currentPrice = price;
+					currentStripeLink = stripeLink;
+					document.getElementById('modalItemName').textContent = item;
+					document.getElementById('modalItemPrice').textContent = 'Price: £' + price;
+					document.getElementById('purchaseModal').style.display = 'flex';
+				}
+				function closePurchaseForm() {
+					document.getElementById('purchaseModal').style.display = 'none';
+					document.getElementById('purchaseForm').reset();
+				}
+				function submitPurchaseForm(e) {
+					e.preventDefault();
+					const name = document.getElementById('buyerName').value.trim();
+					const email = document.getElementById('buyerEmail').value.trim();
+					// Save order details in sessionStorage
+					const orderDetails = {
+						order_id: 'ORDER-' + Date.now(),
+						buyerName: name,
+						buyerEmail: email,
+						item: currentItem,
+						price: currentPrice
+					};
+					sessionStorage.setItem('shopOrder', JSON.stringify(orderDetails));
+					// Redirect to Stripe
+					window.location.href = currentStripeLink;
+					closePurchaseForm();
 				}
 			</script>
 		</body>

@@ -1,11 +1,28 @@
+// Redirect to payment with all necessary parameters
+function redirectToPayment(bookingId, groupKey) {
+  console.log('[Stripe Debug] groupKey used for payment link:', groupKey);
+  const paymentLink = stripePaymentLinks[groupKey];
+  if (paymentLink) {
+    localStorage.setItem("bookingId", bookingId);
+    localStorage.setItem("groupKey", groupKey);
+    localStorage.setItem("sessionDate", elements.bookingDate.value);
+    window.location.href = paymentLink;
+  } else {
+    console.warn('[Stripe Debug] No payment link found for groupKey:', groupKey);
+    elements.bookingMessage.textContent = "❌ No payment link available for this session.";
+  }
+}
 // Stripe payment links for each groupKey (add more as needed)
 const stripePaymentLinks = {
   // Example: 'groupKey': 'https://book.stripe.com/test_14AfZhc804nk8wDaLf3AY0d',
-  'fri_fairlop': 'https://book.stripe.com/8x2aEX2xtgVY0U769Hao806',
-  'sat_wadham': 'https://book.stripe.com/8x2aEX2xtgVY0U769Hao806',
-  'thurs_shooters': 'https://book.stripe.com/8x2aEX2xtgVY0U769Hao806',
-  'tues_fairlop': 'https://book.stripe.com/8x2aEX2xtgVY0U769Hao806', //test link for Tuesday Fairlop
-  'wed_fairlop': 'https://book.stripe.com/8x2aEX2xtgVY0U769Hao806'
+  'Monday': 'https://book.stripe.com/8x2aEX2xtgVY0U769Hao806',
+  'Tuesday': 'https://buy.stripe.com/test_6oU4gz9ZVgVY6ereGdao800',
+  'Wednesday': 'https://book.stripe.com/8x2aEX2xtgVY0U769Hao806',
+  'Thursday': 'https://book.stripe.com/8x2aEX2xtgVY0U769Hao806',
+  'Friday': 'https://book.stripe.com/8x2aEX2xtgVY0U769Hao806',
+  'Saturday': 'https://book.stripe.com/8x2aEX2xtgVY0U769Hao806',
+  'Sunday': 'https://book.stripe.com/8x2aEX2xtgVY0U769Hao806'
+
 };
 
 import { db, ref, onValue, push, set, get } from './auth.js';
@@ -20,6 +37,8 @@ const elements = {
   playerName: document.getElementById("playerName"),
   playerAge: document.getElementById("playerAge"),
   parentEmail: document.getElementById("parentEmail"),
+  parentName: document.getElementById("parentName"),
+  parentNumber: document.getElementById("parentNumber"),
 };
 
 let liveScheduleData = {};
@@ -280,23 +299,19 @@ elements.bookingForm.addEventListener("submit", async (e) => {
   const playerName = elements.playerName.value;
   const playerAge = elements.playerAge.value;
   const parentEmail = elements.parentEmail.value;
+  const parentName = elements.parentName.value;
+  const parentNumber = elements.parentNumber.value;
   const location = elements.bookingLocation.value;
   const date = elements.bookingDate.value;
   const timeValue = elements.bookingTime.value;
-  if (!playerName || !parentEmail || !location || !date || !timeValue || !playerAge) {
+  if (!playerName || !parentEmail || !location || !date || !timeValue || !playerAge || !parentName || !parentNumber) {
     elements.bookingMessage.textContent = "❌ Please complete all booking details.";
     return;
   }
   const [rawGroupKey, sessionTime] = timeValue.split('|');
-  // Fallback mapping for auto-generated keys
-  const keyToStripeKey = {
-    '-OZeuNjDKsAEc_o1jvYs': 'fri_fairlop',
-    '-ObZGSYjrRQDxOzyQwlp': 'sat_wadham',
-    '-ObZIP1mauc_5PWR3W4u': 'fri_fairlop',
-    '-ObZGSYjrRQDxOzyQwlp': 'sat_wadham',
-    // Add more mappings as needed
-  };
-  const groupKey = keyToStripeKey[rawGroupKey] || rawGroupKey;
+  // Always use day name as groupKey
+  // Already declared above, so remove duplicate declarations
+  // ...existing code...
   // Fetch latest session details from Firebase
   const sessionRef = ref(db, `schedule/${rawGroupKey}`);
   const sessionSnap = await get(sessionRef);
@@ -305,12 +320,17 @@ elements.bookingForm.addEventListener("submit", async (e) => {
     elements.bookingMessage.textContent = "❌ Session details not found. Please try again.";
     return;
   }
+  const groupKey = sessionData.dayName || (sessionData.location.match(/(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)/i)?.[0]) || "";
+  if (!groupKey) {
+    elements.bookingMessage.textContent = "❌ Could not determine session day. Please contact admin.";
+    return;
+  }
   const sessionName = sessionData.groupName;
   const sessionLocation = sessionData.location || sessionData.sessionLocation || "";
 
   try {
     elements.bookingMessage.textContent = "✅ Saving booking... Please wait.";
-    const bookingId = await saveBooking(playerName, playerAge, parentEmail, sessionName, date, sessionTime, sessionLocation, groupKey);
+  const bookingId = await saveBooking(playerName, playerAge, parentEmail, parentName, parentNumber, sessionName, date, sessionTime, sessionLocation, groupKey);
     console.log("✅ Booking saved:", bookingId);
     redirectToPayment(bookingId, groupKey);
   } catch (error) {
@@ -320,9 +340,9 @@ elements.bookingForm.addEventListener("submit", async (e) => {
 });
 
 // Save booking to Firebase and then redirect
-async function saveBooking(playerName, playerAge, parentEmail, sessionName, sessionDate, sessionTime, sessionLocation, groupKeyOverride) {
-  // Use the groupKey from the time dropdown if provided, otherwise fallback
-  const groupKey = groupKeyOverride || (elements.bookingTime.value ? elements.bookingTime.value.split('|')[0] : null);
+async function saveBooking(playerName, playerAge, parentEmail, parentName, parentNumber, sessionName, sessionDate, sessionTime, sessionLocation, groupKeyOverride) {
+  // Use the groupKeyOverride (day name) always
+  const groupKey = groupKeyOverride;
   if (!groupKey) throw new Error('No groupKey found for booking');
   const bookingRef = ref(db, `bookings/${groupKey}/${sessionDate}`);
   const newBookingRef = push(bookingRef);
@@ -331,6 +351,8 @@ async function saveBooking(playerName, playerAge, parentEmail, sessionName, sess
     playerName,
     playerAge,
     parentEmail,
+    parentName,
+    parentNumber,
     sessionName,
     sessionDate,
     sessionTime,
@@ -343,21 +365,6 @@ async function saveBooking(playerName, playerAge, parentEmail, sessionName, sess
 }
 
 // Redirect to payment with all necessary parameters
-function redirectToPayment(bookingId, groupKey) {
-  console.log('[Stripe Debug] groupKey used for payment link:', groupKey);
-  const paymentLink = stripePaymentLinks[groupKey];
-  if (paymentLink) {
-    localStorage.setItem("bookingId", bookingId);
-    localStorage.setItem("groupKey", groupKey);
-    localStorage.setItem("sessionDate", elements.bookingDate.value);
-    window.location.href = paymentLink;
-  } else {
-    console.warn('[Stripe Debug] No payment link found for groupKey:', groupKey);
-    elements.bookingMessage.textContent = "❌ No payment link available for this session.";
-  }
-}
-
-
 
 
 document.addEventListener("DOMContentLoaded", loadSchedule);

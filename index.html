@@ -299,8 +299,23 @@
           Please <a href="#sectionCarousel" onclick="closeBookingOverlay();closeAboutUsOverlay();closeServicesOverlay();closeContactOverlay();closeCoachesOverlay();openScheduleOverlay();return false;" style="color:#00ff99;text-decoration:underline;cursor:pointer;">check our schedule</a> or <a href="tel:07491950612" style="color:#00ff99;text-decoration:underline;cursor:pointer;">call Coach Fin – 07491 950 612</a> prior to booking.
         </p>
   <input type="text" id="playerName" placeholder="Player's Name" required>
-  <input type="number" id="playerAge" placeholder="Player's Age" min="3" max="18" required>
+  <select id="playerAge" required>
+    <option value="">Select Player's Age Group</option>
+    <option value="Under 5's">Under 5's</option>
+    <option value="Under 6's">Under 6's</option>
+    <option value="Under 7's">Under 7's</option>
+    <option value="Under 8's">Under 8's</option>
+    <option value="Under 9's">Under 9's</option>
+    <option value="Under 10's">Under 10's</option>
+    <option value="Under 12's">Under 12's</option>
+    <option value="Under 13's">Under 13's</option>
+    <option value="Under 14's">Under 14's</option>
+    <option value="Under 15's">Under 15's</option>
+    <option value="Under 16's">Under 16's</option>
+  </select>
   <input type="email" id="parentEmail" placeholder="Parent's Email" required>
+  <input type="text" id="parentName" placeholder="Parent's Name" required>
+  <input type="tel" id="parentNumber" placeholder="Parent's Phone Number" pattern="[0-9\-\+\s]+" required>
 
         <select id="bookingLocation" required>
           <option value="">Select Location</option>

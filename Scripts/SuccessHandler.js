@@ -28,6 +28,8 @@ document.addEventListener("DOMContentLoaded", async () => {
               const childNameEl = document.getElementById("childName");
               const childAgeEl = document.getElementById("childAge");
               const parentEmailEl = document.getElementById("parentEmail");
+              const parentNameEl = document.getElementById("parentName");
+              const parentNumberEl = document.getElementById("parentNumber");
               const sessionNameEl = document.getElementById("sessionName");
               const sessionDateEl = document.getElementById("sessionDate");
               const sessionTimeEl = document.getElementById("sessionTime");
@@ -35,6 +37,8 @@ document.addEventListener("DOMContentLoaded", async () => {
               if (childNameEl) childNameEl.textContent = data.playerName || "N/A";
               if (childAgeEl) childAgeEl.textContent = data.playerAge || "N/A";
               if (parentEmailEl) parentEmailEl.textContent = data.parentEmail || "N/A";
+              if (parentNameEl) parentNameEl.textContent = data.parentName || "N/A";
+              if (parentNumberEl) parentNumberEl.textContent = data.parentNumber || "N/A";
               if (sessionNameEl) sessionNameEl.textContent = data.sessionName || "N/A";
               if (sessionDateEl) sessionDateEl.textContent = data.sessionDate || "N/A";
               if (sessionTimeEl) sessionTimeEl.textContent = data.sessionTime || "N/A";
@@ -80,7 +84,9 @@ function injectDynamicJSONLD(data) {
     "reservationStatus": "https://schema.org/ReservationConfirmed",
     "underName": {
       "@type": "Person",
-      "name": data.playerName || "N/A"
+      "name": data.playerName || "N/A",
+      "parentName": data.parentName || undefined,
+      "parentNumber": data.parentNumber || undefined
     },
     "provider": {
       "@type": "SportsActivityLocation",
