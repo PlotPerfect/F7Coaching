@@ -16,7 +16,7 @@ function redirectToPayment(bookingId, groupKey) {
 const stripePaymentLinks = {
   // Example: 'groupKey': 'https://book.stripe.com/test_14AfZhc804nk8wDaLf3AY0d',
   'Monday': 'https://book.stripe.com/8x2aEX2xtgVY0U769Hao806',
-  'Tuesday': 'https://buy.stripe.com/test_6oU4gz9ZVgVY6ereGdao800',
+  'Tuesday': 'https://book.stripe.com/8x2aEX2xtgVY0U769Hao806',
   'Wednesday': 'https://book.stripe.com/8x2aEX2xtgVY0U769Hao806',
   'Thursday': 'https://book.stripe.com/8x2aEX2xtgVY0U769Hao806',
   'Friday': 'https://book.stripe.com/8x2aEX2xtgVY0U769Hao806',
