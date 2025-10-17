@@ -15,13 +15,13 @@ function redirectToPayment(bookingId, groupKey) {
 // Stripe payment links for each groupKey (add more as needed)
 const stripePaymentLinks = {
   // Example: 'groupKey': 'https://book.stripe.com/test_14AfZhc804nk8wDaLf3AY0d',
-  'Monday': 'https://book.stripe.com/8x2aEX2xtgVY0U769Hao806',
-  'Tuesday': 'https://book.stripe.com/8x2aEX2xtgVY0U769Hao806',
-  'Wednesday': 'https://book.stripe.com/8x2aEX2xtgVY0U769Hao806',
-  'Thursday': 'https://book.stripe.com/8x2aEX2xtgVY0U769Hao806',
-  'Friday': 'https://book.stripe.com/8x2aEX2xtgVY0U769Hao806',
-  'Saturday': 'https://book.stripe.com/8x2aEX2xtgVY0U769Hao806',
-  'Sunday': 'https://book.stripe.com/8x2aEX2xtgVY0U769Hao806'
+  'Monday': 'https://buy.stripe.com/9B64gzegb5dgbyLeGdao809',
+  'Tuesday': 'https://buy.stripe.com/9B64gzegb5dgbyLeGdao809',
+  'Wednesday': 'https://buy.stripe.com/9B64gzegb5dgbyLeGdao809',
+  'Thursday': 'https://buy.stripe.com/9B64gzegb5dgbyLeGdao809',
+  'Friday': 'https://buy.stripe.com/9B64gzegb5dgbyLeGdao809',
+  'Saturday': 'https://buy.stripe.com/9B64gzegb5dgbyLeGdao809',
+  'Sunday': 'https://buy.stripe.com/9B64gzegb5dgbyLeGdao809'
 
 };
 
